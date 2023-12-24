@@ -6,6 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
+include(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqtutils/CMakeLists.txt)
+include(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqobjectserializer/LQObjectSerializer/CMakeLists.txt)
+
 qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appFlashbackPrism
@@ -29,8 +32,10 @@ set_target_properties(appFlashbackPrism PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(appFlashbackPrism
-    PRIVATE Qt6::Quick
+target_link_libraries(appFlashbackPrism PRIVATE
+    Qt6::Quick
+    lqtutils
+    lqobjectserializer
 )
 
 include(GNUInstallDirs)
