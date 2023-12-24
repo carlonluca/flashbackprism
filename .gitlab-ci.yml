@@ -1,0 +1,16 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - build_linux
+
+BuildLinux:
+  stage: build_linux
+  image:
+    name: "carlonluca/qt-dev:6.6.1"
+    entrypoint: [""]
+  script:
+    - mkdir build
+    - cd build
+    - cmake ../
+    - make
