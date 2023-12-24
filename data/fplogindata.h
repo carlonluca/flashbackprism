@@ -3,13 +3,17 @@
 
 #include <QObject>
 
-class FPLoginData : public QObject
-{
-    Q_OBJECT
-public:
-    explicit FPLoginData(QObject *parent = nullptr);
+#include <lqtutils/lqtutils_prop.h>
 
-signals:
-};
+Q_NAMESPACE
+
+L_BEGIN_CLASS(FPLoginCredentials)
+L_RW_PROP_AS(QString, username)
+L_RW_PROP_AS(QString, password)
+L_END_CLASS
+
+L_BEGIN_CLASS(FPLoginResponse)
+L_RW_PROP_AS(QString, id)
+L_END_CLASS
 
 #endif // FPLOGINDATA_H

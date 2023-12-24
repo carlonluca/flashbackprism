@@ -19,6 +19,7 @@ Item {
         }
 
         TextField {
+            id: urlInput
             width: parent.width
             placeholderText: "https://my.photoprism.server"
         }
@@ -29,6 +30,7 @@ Item {
         }
 
         TextField {
+            id: unameInput
             width: parent.width
         }
 
@@ -38,6 +40,7 @@ Item {
         }
 
         TextField {
+            id: pwdInput
             width: parent.width
         }
 
@@ -49,7 +52,7 @@ Item {
         Button {
             text: qsTr("Login")
             anchors.horizontalCenter: parent.horizontalCenter
-            onPressed: loginRequest.login("abc", "abc")
+            onPressed: loginRequest.login(urlInput.text, unameInput.text, pwdInput.text)
         }
     }
 
