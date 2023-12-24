@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 project(FlashbackPrism VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -8,17 +9,27 @@ find_package(Qt6 REQUIRED COMPONENTS Quick)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqtutils/CMakeLists.txt)
 include(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqobjectserializer/LQObjectSerializer/CMakeLists.txt)
+set(QTAES_ENABLE_INSTALL OFF)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/qtaes)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps)
 
 qt_standard_project_setup(REQUIRES 6.6)
 
 qt_add_executable(appFlashbackPrism
     main.cpp
+    fpphotomonitor.h fpphotomonitor.cpp
+    rest/fploginrequest.h rest/fploginrequest.cpp
+    data/fppersistentsetup.h data/fppersistentsetup.cpp
 )
 
+set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 qt_add_qml_module(appFlashbackPrism
     URI FlashbackPrism
     VERSION 1.0
     QML_FILES Main.qml
+    QML_FILES qml/views/FPLogin.qml
+    QML_FILES qml/Style.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

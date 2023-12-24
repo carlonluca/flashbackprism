@@ -22,22 +22,16 @@
  * Date:    2023.24.13
  */
 
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Controls.Material
-import "qml/views"
+#ifndef FPPHOTOMONITOR_H
+#define FPPHOTOMONITOR_H
 
-ApplicationWindow {
-    width: 640
-    height: 480
-    visible: true
-    title: "FlashbackPrism"
+#include <QObject>
 
-    Material.theme: Material.Dark
-    Material.accent: Material.Purple
+class FPPhotoMonitor : public QObject
+{
+    Q_OBJECT
+public:
+    explicit FPPhotoMonitor(QObject* parent = nullptr);
+};
 
-    StackView {
-        anchors.fill: parent
-        initialItem: FPLogin {}
-    }
-}
+#endif // FPPHOTOMONITOR_H

@@ -22,22 +22,18 @@
  * Date:    2023.24.13
  */
 
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Controls.Material
-import "qml/views"
+#ifndef FPPERSISTENTSETUP_H
+#define FPPERSISTENTSETUP_H
 
-ApplicationWindow {
-    width: 640
-    height: 480
-    visible: true
-    title: "FlashbackPrism"
+#include <QObject>
+#include <QUrl>
 
-    Material.theme: Material.Dark
-    Material.accent: Material.Purple
+#include <lqtutils/lqtutils_settings.h>
+#include <lqtutils/lqtutils_prop.h>
 
-    StackView {
-        anchors.fill: parent
-        initialItem: FPLogin {}
-    }
-}
+L_DECLARE_SETTINGS(FPPersistentSetup, new QSettings)
+L_DEFINE_VALUE(QUrl, photoprismUrl, QUrl())
+L_DEFINE_VALUE(QString, uname, QString())
+L_END_CLASS
+
+#endif // FPPERSISTENTSETUP_H

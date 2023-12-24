@@ -4,3 +4,6 @@
 [submodule "deps/lqobjectserializer"]
 	path = deps/lqobjectserializer
 	url = https://github.com/carlonluca/lqobjectserializer.git
+[submodule "deps/qtaes"]
+	path = deps/qtaes
+	url = https://github.com/bricke/Qt-AES.git

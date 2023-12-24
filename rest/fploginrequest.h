@@ -22,22 +22,22 @@
  * Date:    2023.24.13
  */
 
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Controls.Material
-import "qml/views"
+#ifndef FPLOGINREQUEST_H
+#define FPLOGINREQUEST_H
 
-ApplicationWindow {
-    width: 640
-    height: 480
-    visible: true
-    title: "FlashbackPrism"
+#include <QObject>
 
-    Material.theme: Material.Dark
-    Material.accent: Material.Purple
+class FPLoginRequest : public QObject
+{
+    Q_OBJECT
+public:
+    explicit FPLoginRequest(QObject* parent = nullptr);
 
-    StackView {
-        anchors.fill: parent
-        initialItem: FPLogin {}
-    }
-}
+    void login(const QString& uname, const QString& pwd);
+
+signals:
+    void loginFailed();
+    void loginSucceeded();
+};
+
+#endif // FPLOGINREQUEST_H
