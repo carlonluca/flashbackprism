@@ -25,6 +25,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "rest/fploginrequest.h"
+
 int main(int argc, char** argv)
 {
     QGuiApplication app(argc, argv);
@@ -35,6 +37,8 @@ int main(int argc, char** argv)
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
+
+    qmlRegisterType<FPLoginRequest>("FlashbackPrism", 1, 0, "FPLoginRequest");
     engine.loadFromModule("FlashbackPrism", "Main");
 
     return app.exec();

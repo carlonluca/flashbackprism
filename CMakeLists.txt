@@ -21,6 +21,7 @@ qt_add_executable(appFlashbackPrism
     fpphotomonitor.h fpphotomonitor.cpp
     rest/fploginrequest.h rest/fploginrequest.cpp
     data/fppersistentsetup.h data/fppersistentsetup.cpp
+    data/fplogindata.h data/fplogindata.cpp
 )
 
 set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
@@ -30,6 +31,7 @@ qt_add_qml_module(appFlashbackPrism
     QML_FILES Main.qml
     QML_FILES qml/views/FPLogin.qml
     QML_FILES qml/Style.qml
+    QML_FILES qml/components/FPPopupMessage.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

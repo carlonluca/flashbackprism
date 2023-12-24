@@ -27,12 +27,16 @@
 
 #include <QObject>
 
+#include <lqtutils/lqtutils_prop.h>
+
 class FPLoginRequest : public QObject
 {
     Q_OBJECT
+    L_RW_PROP_AS(bool, working, false)
 public:
     explicit FPLoginRequest(QObject* parent = nullptr);
 
+public slots:
     void login(const QString& uname, const QString& pwd);
 
 signals:

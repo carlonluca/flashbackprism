@@ -30,5 +30,5 @@ FPLoginRequest::FPLoginRequest(QObject *parent)
 
 void FPLoginRequest::login(const QString& uname, const QString& pwd)
 {
-
+    set_working(true);
 }

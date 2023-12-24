@@ -1,8 +1,13 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
 import FlashbackPrism
 
 Item {
+    FPLoginRequest {
+        id: loginRequest
+    }
+
     Column {
         anchors.centerIn: parent
         width: parent.width/2
@@ -43,6 +48,16 @@ Item {
 
         Button {
             text: qsTr("Login")
+            anchors.horizontalCenter: parent.horizontalCenter
+            onPressed: loginRequest.login("abc", "abc")
+        }
+    }
+
+    // Overlay
+    FPPopupMessage {
+        title: qsTr("Logging in. Please wait...")
+        visible: loginRequest.working
+        BusyIndicator {
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
