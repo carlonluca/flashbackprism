@@ -24,8 +24,12 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
+
+#include <lqtutils/lqtutils_qsl.h>
 
 #include "rest/fploginrequest.h"
+#include "data/fppersistentsetup.h"
 
 int main(int argc, char** argv)
 {
@@ -39,6 +43,9 @@ int main(int argc, char** argv)
         Qt::QueuedConnection);
 
     qmlRegisterType<FPLoginRequest>("FlashbackPrism", 1, 0, "FPLoginRequest");
+
+    engine.rootContext()->setContextProperty("settingsNotifier",
+                                             new FPPersistentSetup(qApp));
     engine.loadFromModule("FlashbackPrism", "Main");
 
     return app.exec();

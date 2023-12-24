@@ -1,3 +1,27 @@
+/*
+ * This file is part of mldonket-next.
+ *
+ * Copyright (c) 2023 Luca Carlon
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Author:  Luca Carlon
+ * Company: -
+ * Date:    2023.24.13
+ */
+
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
@@ -6,6 +30,10 @@ import FlashbackPrism
 Item {
     FPLoginRequest {
         id: loginRequest
+        onLoginSucceeded: {
+            settingsNotifier.uname = unameInput.text
+            settingsNotifier.pwd = pwdInput.text
+        }
     }
 
     Column {
@@ -22,6 +50,7 @@ Item {
             id: urlInput
             width: parent.width
             placeholderText: "https://my.photoprism.server"
+            text: settingsNotifier.photoprismUrl
         }
 
         Label {
@@ -32,6 +61,7 @@ Item {
         TextField {
             id: unameInput
             width: parent.width
+            text: settingsNotifier.uname
         }
 
         Label {
@@ -42,6 +72,8 @@ Item {
         TextField {
             id: pwdInput
             width: parent.width
+            text: settingsNotifier.pwd
+            echoMode: TextInput.Password
         }
 
         Item {
@@ -52,7 +84,10 @@ Item {
         Button {
             text: qsTr("Login")
             anchors.horizontalCenter: parent.horizontalCenter
-            onPressed: loginRequest.login(urlInput.text, unameInput.text, pwdInput.text)
+            onPressed: {
+                settingsNotifier.photoprismUrl = urlInput.text
+                loginRequest.login(urlInput.text, unameInput.text, pwdInput.text)
+            }
         }
     }
 
@@ -60,6 +95,7 @@ Item {
     FPPopupMessage {
         title: qsTr("Logging in. Please wait...")
         visible: loginRequest.working
+
         BusyIndicator {
             anchors.horizontalCenter: parent.horizontalCenter
         }
