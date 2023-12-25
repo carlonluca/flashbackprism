@@ -19,35 +19,15 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.24.13
+ * Date:    2023.25.13
  */
 
-#ifndef FPLOGINREQUEST_H
-#define FPLOGINREQUEST_H
 
-#include <QObject>
-#include <QByteArray>
-#include <QBuffer>
-
-#include <lqtutils/lqtutils_prop.h>
+#include <QNetworkAccessManager>
 
 #include "fprequest.h"
 
-class FPLoginRequest : public FPRequest
-{
-    Q_OBJECT
-public:
-    explicit FPLoginRequest(QObject* parent = nullptr);
-
-public slots:
-    void login(const QUrl &url, const QString& uname, const QString& pwd);
-
-signals:
-    void loginFailed();
-    void loginSucceeded(const QString& token, const QString& downloadToken);
-
-private:
-    void handleResponse(const QByteArray& data);
-};
-
-#endif // FPLOGINREQUEST_H
+FPRequest::FPRequest(QObject *parent)
+    : QObject{parent}
+    , m_man(new QNetworkAccessManager(this))
+{}

@@ -19,35 +19,19 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.24.13
+ * Date:    2023.25.13
  */
 
-#ifndef FPLOGINREQUEST_H
-#define FPLOGINREQUEST_H
+#ifndef FPPHOTOSREQUEST_H
+#define FPPHOTOSREQUEST_H
 
 #include <QObject>
-#include <QByteArray>
-#include <QBuffer>
 
-#include <lqtutils/lqtutils_prop.h>
-
-#include "fprequest.h"
-
-class FPLoginRequest : public FPRequest
+class FPPhotosRequest : public QObject
 {
     Q_OBJECT
 public:
-    explicit FPLoginRequest(QObject* parent = nullptr);
-
-public slots:
-    void login(const QUrl &url, const QString& uname, const QString& pwd);
-
-signals:
-    void loginFailed();
-    void loginSucceeded(const QString& token, const QString& downloadToken);
-
-private:
-    void handleResponse(const QByteArray& data);
+    explicit FPPhotosRequest(QObject *parent = nullptr);
 };
 
-#endif // FPLOGINREQUEST_H
+#endif // FPPHOTOSREQUEST_H

@@ -36,8 +36,13 @@ L_RW_PROP_AS(QString, username)
 L_RW_PROP_AS(QString, password)
 L_END_CLASS
 
+L_BEGIN_CLASS(FPLoginResponseConfig)
+L_RW_PROP_AS(QString, downloadToken)
+L_END_CLASS
+
 L_BEGIN_CLASS(FPLoginResponse)
 L_RW_PROP_AS(QString, id)
+L_RW_PROP_AS(FPLoginResponseConfig*, config, nullptr)
 L_END_CLASS
 
 #endif // FPLOGINDATA_H

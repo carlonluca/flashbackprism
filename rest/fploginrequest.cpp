@@ -61,7 +61,7 @@
 // curl -X POST -H "Content-Type: application/json" -d '{"username": "luca", "password": "19419212"}' http://photoprism.pihome.lan/api/v1/session
 
 FPLoginRequest::FPLoginRequest(QObject *parent)
-    : QObject{parent}
+    : FPRequest { parent }
 {}
 
 void FPLoginRequest::login(const QUrl& url, const QString& uname, const QString& pwd)
@@ -80,17 +80,15 @@ void FPLoginRequest::login(const QUrl& url, const QString& uname, const QString&
     Q_ASSERT(!loginInput.isEmpty());
 
     QByteArray inputData = QJsonDocument(loginInput).toJson(QJsonDocument::Compact);
-    QNetworkAccessManager* net = new QNetworkAccessManager(this);
     QNetworkRequest req(_url);
     req.setHeader(QNetworkRequest::ContentTypeHeader, QSL("application/json"));
     req.setHeader(QNetworkRequest::ContentLengthHeader, inputData.length());
 
-    QNetworkReply* reply = net->post(req, inputData);
-    connect(reply, &QNetworkReply::finished, this, [this, reply, net] {
-        lqt::AutoExec exec([reply, net, this] {
+    QNetworkReply* reply = m_man->post(req, inputData);
+    connect(reply, &QNetworkReply::finished, this, [this, reply] {
+        lqt::AutoExec exec([reply, this] {
             set_working(false);
             reply->deleteLater();
-            net->deleteLater();
         });
 
         if (reply->error() != QNetworkReply::NoError) {
@@ -128,5 +126,9 @@ void FPLoginRequest::handleResponse(const QByteArray& data)
     }
 
     qDebug() << "Token received:" << loginData->id();
-    emit loginSucceeded(loginData->id());
+
+    const QString token = loginData->id();
+    const QString downloadToken = loginData->config() ? loginData->config()->downloadToken() : QString();
+
+    emit loginSucceeded(token, downloadToken);
 }

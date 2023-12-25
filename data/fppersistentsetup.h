@@ -38,6 +38,7 @@ L_DEFINE_VALUE(QUrl, photoprismUrl, QUrl())
 L_DEFINE_VALUE(QString, uname, QString())
 L_DEFINE_VALUE(QString, pwd, QString())
 L_DEFINE_VALUE(QString, token, QString())
+L_DEFINE_VALUE(QString, downloadToken, QString())
 L_END_CLASS
 
 #endif // FPPERSISTENTSETUP_H
