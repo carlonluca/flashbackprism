@@ -19,7 +19,7 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.24.13
+ * Date:    2023.12.24
  */
 
 #include <QGuiApplication>
@@ -29,6 +29,7 @@
 #include <lqtutils/lqtutils_qsl.h>
 
 #include "rest/fploginrequest.h"
+#include "rest/fpphotosrequest.h"
 #include "data/fppersistentsetup.h"
 
 int main(int argc, char** argv)
@@ -43,6 +44,7 @@ int main(int argc, char** argv)
         Qt::QueuedConnection);
 
     qmlRegisterType<FPLoginRequest>("FlashbackPrism", 1, 0, "FPLoginRequest");
+    qmlRegisterType<FPPhotosRequest>("FlashbackPrism", 1, 0, "FPPhotosRequest");
 
     engine.rootContext()->setContextProperty("settingsNotifier",
                                              new FPPersistentSetup(qApp));

@@ -19,7 +19,7 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.25.13
+ * Date:    2023.12.25
  */
 
 #ifndef FPPHOTOSREQUEST_H
@@ -27,11 +27,34 @@
 
 #include <QObject>
 
-class FPPhotosRequest : public QObject
+class FPQueryResultItem;
+
+#include "fprequest.h"
+
+class FPPhotosRequest : public FPRequest
 {
     Q_OBJECT
+    L_RW_PROP_AS(QString, url)
+    L_RW_PROP_AS(QString, token)
 public:
-    explicit FPPhotosRequest(QObject *parent = nullptr);
+    explicit FPPhotosRequest(QObject* parent = nullptr);
+
+    void request(std::optional<int> count,
+                 std::optional<int> year,
+                 std::optional<int> month,
+                 std::optional<int> day);
+
+public slots:
+    void request(int count,
+                 int month,
+                 int day);
+
+private:
+    void handleResponse(const QByteArray& data);
+
+signals:
+    void requestFailed();
+    void requestSucceeded(QList<FPQueryResultItem*> items);
 };
 
 #endif // FPPHOTOSREQUEST_H

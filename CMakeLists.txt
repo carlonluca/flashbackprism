@@ -25,6 +25,7 @@ qt_add_executable(appFlashbackPrism
     rest/fprequest.h rest/fprequest.cpp
     data/fppersistentsetup.h data/fppersistentsetup.cpp
     data/fplogindata.h data/fplogindata.cpp
+    data/fpqueryresultitem.h data/fpqueryresultitem.cpp
 )
 
 set_source_files_properties(qml/Style.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)

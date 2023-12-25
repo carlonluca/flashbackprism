@@ -28,6 +28,14 @@ import QtQuick.Dialogs
 import FlashbackPrism
 
 Item {
+    Component.onCompleted: photoRequest.request(100, 12, 25)
+
+    FPPhotosRequest {
+        id: photoRequest
+        url: settingsNotifier.photoprismUrl
+        token: settingsNotifier.token
+    }
+
     // Waiting layer
     FPPopupMessage {
         title: qsTr("Preparing data. Please wait...")
