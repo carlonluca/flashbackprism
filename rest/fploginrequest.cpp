@@ -58,7 +58,7 @@
 
 #include "fploginrequest.h"
 
-// curl -X POST -H "Content-Type: application/json" -d '{"username": "luca", "password": "19419212"}' http://photoprism.pihome.lan/api/v1/session
+// curl -X POST -H "Content-Type: application/json" -d '{"username": "luca", "password": "..."}' http://.../api/v1/session
 
 FPLoginRequest::FPLoginRequest(QObject *parent)
     : FPRequest { parent }
