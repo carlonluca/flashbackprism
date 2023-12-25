@@ -43,7 +43,7 @@ public slots:
 
 signals:
     void loginFailed();
-    void loginSucceeded();
+    void loginSucceeded(const QString& token);
 
 private:
     void handleResponse(const QByteArray& data);

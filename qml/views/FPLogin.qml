@@ -30,9 +30,11 @@ import FlashbackPrism
 Item {
     FPLoginRequest {
         id: loginRequest
-        onLoginSucceeded: {
+        onLoginSucceeded: (token) => {
             settingsNotifier.uname = unameInput.text
             settingsNotifier.pwd = pwdInput.text
+            settingsNotifier.token = token
+            mainStackView.push(albumsTodayComponent)
         }
     }
 

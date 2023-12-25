@@ -128,5 +128,5 @@ void FPLoginRequest::handleResponse(const QByteArray& data)
     }
 
     qDebug() << "Token received:" << loginData->id();
-    emit loginSucceeded();
+    emit loginSucceeded(loginData->id());
 }

@@ -19,29 +19,22 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.24.13
+ * Date:    2023.25.13
  */
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls.Material
-import "qml/views"
+import QtQuick.Dialogs
+import FlashbackPrism
 
-ApplicationWindow {
-    width: 640
-    height: 480
-    visible: true
-    title: "FlashbackPrism"
+Item {
+    // Waiting layer
+    FPPopupMessage {
+        title: qsTr("Preparing data. Please wait...")
+        visible: true
 
-    Material.theme: Material.Dark
-    Material.accent: Material.Purple
-
-    StackView {
-        id: mainStackView
-        anchors.fill: parent
-        initialItem: settingsNotifier.token ? albumsTodayComponent : loginComponent
+        BusyIndicator {
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
     }
-
-    Component { id: loginComponent; FPLogin {} }
-    Component { id: albumsTodayComponent; FPAlbumsToday {} }
 }
