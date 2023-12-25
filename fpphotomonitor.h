@@ -32,6 +32,9 @@ class FPPhotoMonitor : public QObject
     Q_OBJECT
 public:
     explicit FPPhotoMonitor(QObject* parent = nullptr);
+
+    void start();
+    void stop();
 };
 
 #endif // FPPHOTOMONITOR_H

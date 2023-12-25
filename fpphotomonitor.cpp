@@ -27,3 +27,13 @@
 FPPhotoMonitor::FPPhotoMonitor(QObject *parent)
     : QObject { parent }
 {}
+
+void FPPhotoMonitor::start()
+{
+
+}
+
+void FPPhotoMonitor::stop()
+{
+
+}

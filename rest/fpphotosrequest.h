@@ -34,8 +34,6 @@ class FPQueryResultItem;
 class FPPhotosRequest : public FPRequest
 {
     Q_OBJECT
-    L_RW_PROP_AS(QString, url)
-    L_RW_PROP_AS(QString, token)
 public:
     explicit FPPhotosRequest(QObject* parent = nullptr);
 

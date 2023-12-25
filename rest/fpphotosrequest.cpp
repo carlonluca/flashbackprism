@@ -59,22 +59,22 @@ void FPPhotosRequest::request(std::optional<int> count,
     if (day)
         query.addQueryItem(QSL("day"), QString::number(*day));
 
-    if (m_url.isNull()) {
+    if (url().isNull()) {
         qWarning() << "Missing URL";
         return;
     }
 
-    if (m_token.isNull()) {
+    if (token().isNull()) {
         qWarning() << "Missing token";
         return;
     }
 
-    QUrl _url = m_url;
+    QUrl _url = url();
     _url.setPath(QSL("/api/v1/photos"));
     _url.setQuery(query);
 
     QNetworkRequest req(_url);
-    req.setRawHeader("X-Session-ID", m_token.toUtf8());
+    req.setRawHeader("X-Session-ID", token().toUtf8());
 
     QNetworkReply* reply = m_man->get(req);
     connect(reply, &QNetworkReply::finished, this, [this, reply] {

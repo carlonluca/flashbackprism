@@ -35,6 +35,8 @@ class FPRequest : public QObject
 {
     Q_OBJECT
     L_RW_PROP_AS(bool, working, false)
+    L_RW_PROP_AS(QString, url)
+    L_RW_PROP_AS(QString, token)
 public:
     explicit FPRequest(QObject *parent = nullptr);
 
