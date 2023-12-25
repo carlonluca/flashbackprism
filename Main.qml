@@ -1,5 +1,5 @@
 /*
- * This file is part of mldonket-next.
+ * This file is part of FlashbackPrism.
  *
  * Copyright (c) 2023 Luca Carlon
  *
