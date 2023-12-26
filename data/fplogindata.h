@@ -38,6 +38,7 @@ L_END_CLASS
 
 L_BEGIN_CLASS(FPLoginResponseConfig)
 L_RW_PROP_AS(QString, downloadToken)
+L_RW_PROP_AS(QString, previewToken)
 L_END_CLASS
 
 L_BEGIN_CLASS(FPLoginResponse)

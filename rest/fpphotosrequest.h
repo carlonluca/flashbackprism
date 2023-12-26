@@ -42,6 +42,8 @@ public:
                  std::optional<int> month,
                  std::optional<int> day);
 
+    Q_INVOKABLE QUrl thumbnailUrl(FPQueryResultItem* item, int size);
+
 public slots:
     void request(int count,
                  int month,

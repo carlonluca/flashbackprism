@@ -79,8 +79,6 @@ void FPPhotoMonitor::handleResult(const QList<FPQueryResultItem*>& items)
             flashbackYearsMap.insert(year, flashbackYear);
         }
         flashbackYear->items().append(item);
-
-
     }
 
     QList<FPFlashbackYear*> flashbackYears = flashbackYearsMap.values();

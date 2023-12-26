@@ -33,6 +33,7 @@
 #include <lserializer.h>
 
 #include <data/fpqueryresultitem.h>
+#include <data/fppersistentsetup.h>
 
 #include "fpphotosrequest.h"
 
@@ -91,6 +92,19 @@ void FPPhotosRequest::request(std::optional<int> count,
 
         handleResponse(reply->readAll());
     });
+}
+
+QUrl FPPhotosRequest::thumbnailUrl(FPQueryResultItem* item, int size)
+{
+    Q_ASSERT(item);
+    if (!item)
+        return QUrl();
+
+    FPPersistentSetup setup;
+    QUrl baseUrl = setup.photoprismUrl();
+    baseUrl.setPath(QSL("/api/v1/t/%1/%2/tile_500").arg(item->Hash(), setup.previewToken()));
+
+    return baseUrl;
 }
 
 void FPPhotosRequest::request(int count, int month, int day)

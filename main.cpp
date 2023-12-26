@@ -36,6 +36,14 @@
 int main(int argc, char** argv)
 {
     QGuiApplication app(argc, argv);
+    app.setOrganizationName(QSL("Luca Carlon"));
+    app.setOrganizationDomain(QSL("org.duckdns.bugfreeblog"));
+    app.setApplicationName(QSL("FlashbackPrism"));
+    app.setApplicationVersion(APP_VERSION);
+
+    qInfo() << "App version:" << app.applicationVersion();
+    qInfo() << "App config:" << QSettings().fileName();
+
     QQmlApplicationEngine engine;
     QObject::connect(
         &engine,

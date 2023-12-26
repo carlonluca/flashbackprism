@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
-project(FlashbackPrism VERSION 0.1 LANGUAGES CXX)
+project(FlashbackPrism VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -14,6 +14,8 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/qtaes)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqobjectserializer/LQObjectSerializer)
+
+add_compile_definitions(APP_VERSION="${CMAKE_PROJECT_VERSION}")
 
 qt_standard_project_setup(REQUIRES 6.6)
 

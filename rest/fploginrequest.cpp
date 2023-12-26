@@ -105,6 +105,7 @@ void FPLoginRequest::handleResponse(const QByteArray& data)
 
     const QString token = loginData->id();
     const QString downloadToken = loginData->config() ? loginData->config()->downloadToken() : QString();
+    const QString previewToken = loginData->config() ? loginData->config()->previewToken() : QString();
 
-    emit loginSucceeded(token, downloadToken);
+    emit loginSucceeded(token, downloadToken, previewToken);
 }

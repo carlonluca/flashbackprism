@@ -34,12 +34,20 @@ Item {
         id: photoMonitor
     }
 
+    FPPhotosRequest {
+        id: photoRequest
+    }
+
     GridView {
+        id: gridView
         anchors.fill: parent
         model: photoMonitor.flashbackYears
-        delegate: Text {
-            color: "white"
-            text: "" + modelData.year
+        cellWidth: width/3
+        cellHeight: cellWidth
+        delegate: Image {
+            width: gridView.width/3
+            source: photoRequest.thumbnailUrl(modelData.items[0], 1)
+            fillMode: Image.PreserveAspectFit
         }
     }
 
