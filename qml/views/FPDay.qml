@@ -28,13 +28,18 @@ import FlashbackPrism
 Item {
     property var model: []
 
-    FPPhotosRequest {
-        id: photoRequest
+    FPTopBar {
+        id: topBar
     }
 
     GridView {
         id: gridView
-        anchors.fill: parent
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            top: topBar.bottom
+        }
         model: parent.model
         cellWidth: width/3
         cellHeight: cellWidth
@@ -43,5 +48,9 @@ Item {
             height: width
             source: photoRequest.thumbnailUrl(modelData, 1)
         }
+    }
+
+    FPPhotosRequest {
+        id: photoRequest
     }
 }

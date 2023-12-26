@@ -42,6 +42,7 @@ qt_add_qml_module(appFlashbackPrism
     QML_FILES qml/components/FPPopupMessage.qml
     QML_FILES qml/views/FPAlbumsToday.qml
     QML_FILES qml/views/FPDay.qml
+    QML_FILES qml/views/FPTopBar.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

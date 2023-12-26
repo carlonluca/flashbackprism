@@ -28,4 +28,5 @@ import QtQuick
 
 QtObject {
     readonly property real defaultMargin: 5
+    readonly property real topBarHeight: 40
 }
