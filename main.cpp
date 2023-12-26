@@ -33,8 +33,14 @@
 #include "rest/fpphotosrequest.h"
 #include "data/fppersistentsetup.h"
 
+#define COLORING_ENABLED
+#include <lightlogger/lc_logging.h>
+lightlogger::custom_log_func lightlogger::global_log_func = log_to_stdout;
+
 int main(int argc, char** argv)
 {
+    qInstallMessageHandler(lightlogger::log_handler);
+
     QGuiApplication app(argc, argv);
     app.setOrganizationName(QSL("Luca Carlon"));
     app.setOrganizationDomain(QSL("org.duckdns.bugfreeblog"));

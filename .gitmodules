@@ -7,3 +7,6 @@
 [submodule "deps/qtaes"]
 	path = deps/qtaes
 	url = https://github.com/bricke/Qt-AES.git
+[submodule "deps/lightlogger"]
+	path = deps/lightlogger
+	url = https://github.com/carlonluca/LightLogger.git
