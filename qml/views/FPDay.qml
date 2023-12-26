@@ -47,6 +47,12 @@ Item {
             width: gridView.cellWidth
             height: width
             source: photoRequest.thumbnailUrl(modelData, 1)
+            FPPhotoOverlayText {
+                text: "" + modelData.TakenAt
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.margins: Style.defaultMargin
+            }
         }
     }
 

@@ -49,23 +49,11 @@ Item {
             width: gridView.width/3
             source: photoRequest.thumbnailUrl(modelData.items[0], 1)
             fillMode: Image.PreserveAspectFit
-            Text {
-                id: yearElement
+            FPPhotoOverlayText {
+                text: modelData.year
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: Style.defaultMargin
-                text: modelData.year
-                color: "white"
-                font.bold: true
-                font.pointSize: 16
-                visible: false
-            }
-            MultiEffect {
-                source: yearElement
-                anchors.fill: yearElement
-                shadowColor: "black"
-                shadowEnabled: true
-                shadowScale: 1.5
             }
             MouseArea {
                 anchors.fill: parent
