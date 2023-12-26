@@ -56,7 +56,7 @@ void FPPhotosRequest::request(std::optional<int> count,
     if (year)
         query.addQueryItem(QSL("year"), QString::number(*year));
     if (month)
-        query.addQueryItem(QSL("mounth"), QString::number(*month));
+        query.addQueryItem(QSL("month"), QString::number(*month));
     if (day)
         query.addQueryItem(QSL("day"), QString::number(*day));
 
