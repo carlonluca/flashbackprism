@@ -28,6 +28,7 @@
 
 #include <lqtutils/lqtutils_qsl.h>
 
+#include "fpphotomonitor.h"
 #include "rest/fploginrequest.h"
 #include "rest/fpphotosrequest.h"
 #include "data/fppersistentsetup.h"
@@ -45,6 +46,7 @@ int main(int argc, char** argv)
 
     qmlRegisterType<FPLoginRequest>("FlashbackPrism", 1, 0, "FPLoginRequest");
     qmlRegisterType<FPPhotosRequest>("FlashbackPrism", 1, 0, "FPPhotosRequest");
+    qmlRegisterType<FPPhotoMonitor>("FlashbackPrism", 1, 0, "FPPhotoMonitor");
 
     engine.rootContext()->setContextProperty("settingsNotifier",
                                              new FPPersistentSetup(qApp));

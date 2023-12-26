@@ -27,14 +27,33 @@
 
 #include <QObject>
 
+#include <lqtutils_prop.h>
+
+#include "data/fpqueryresultitem.h"
+
+L_BEGIN_CLASS(FPFlashbackYear)
+L_RW_PROP_AS(int, year, 0)
+L_RW_PROP_REF_AS(QList<FPQueryResultItem*>, items)
+public:
+    ~FPFlashbackYear() { qDeleteAll(m_items); }
+L_END_CLASS
+
 class FPPhotoMonitor : public QObject
 {
     Q_OBJECT
+    L_RW_PROP_AS(QList<FPFlashbackYear*>, flashbackYears)
+    L_RW_PROP_AS(bool, working, false)
 public:
     explicit FPPhotoMonitor(QObject* parent = nullptr);
+    ~FPPhotoMonitor();
 
+public slots:
     void start();
     void stop();
+
+private slots:
+    void handleResult(const QList<FPQueryResultItem*>& items);
+    void resetModel(const QList<FPFlashbackYear*>& model);
 };
 
 #endif // FPPHOTOMONITOR_H

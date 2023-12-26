@@ -28,18 +28,25 @@ import QtQuick.Dialogs
 import FlashbackPrism
 
 Item {
-    Component.onCompleted: photoRequest.request(100, 12, 25)
+    Component.onCompleted: photoMonitor.start()
 
-    FPPhotosRequest {
-        id: photoRequest
-        url: settingsNotifier.photoprismUrl
-        token: settingsNotifier.token
+    FPPhotoMonitor {
+        id: photoMonitor
+    }
+
+    GridView {
+        anchors.fill: parent
+        model: photoMonitor.flashbackYears
+        delegate: Text {
+            color: "white"
+            text: "" + modelData.year
+        }
     }
 
     // Waiting layer
     FPPopupMessage {
         title: qsTr("Preparing data. Please wait...")
-        visible: true
+        visible: photoMonitor.working
 
         BusyIndicator {
             anchors.horizontalCenter: parent.horizontalCenter

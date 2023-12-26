@@ -26,6 +26,7 @@
 #define FPREQUEST_H
 
 #include <QObject>
+#include <QUrl>
 
 #include <lqtutils_prop.h>
 
@@ -35,10 +36,15 @@ class FPRequest : public QObject
 {
     Q_OBJECT
     L_RW_PROP_AS(bool, working, false)
-    L_RW_PROP_AS(QString, url)
+    L_RW_PROP_AS(QUrl, url)
     L_RW_PROP_AS(QString, token)
 public:
-    explicit FPRequest(QObject *parent = nullptr);
+    explicit FPRequest(QObject* parent = nullptr);
+
+    FPRequest(const FPRequest &) = default;
+    FPRequest(FPRequest &&) = default;
+    FPRequest &operator=(const FPRequest &) = default;
+    FPRequest &operator=(FPRequest &&) = default;
 
 protected:
     QNetworkAccessManager* m_man;

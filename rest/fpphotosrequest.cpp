@@ -59,7 +59,7 @@ void FPPhotosRequest::request(std::optional<int> count,
     if (day)
         query.addQueryItem(QSL("day"), QString::number(*day));
 
-    if (url().isNull()) {
+    if (url().isEmpty()) {
         qWarning() << "Missing URL";
         return;
     }
@@ -113,5 +113,5 @@ void FPPhotosRequest::handleResponse(const QByteArray& data)
     lqo::Deserializer<FPQueryResultItem> des;
     const QList<FPQueryResultItem*> items = des.deserializeObjectArray(json);
 
-
+    emit requestSucceeded(items);
 }
