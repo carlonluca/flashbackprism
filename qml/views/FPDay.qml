@@ -19,30 +19,29 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.24.13
+ * Date:    2023.12.26
  */
 
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Controls.Material
-import "qml/views"
+import FlashbackPrism
 
-ApplicationWindow {
-    width: 1280
-    height: 720
-    visible: true
-    title: "FlashbackPrism"
+Item {
+    property var model: []
 
-    Material.theme: Material.Dark
-    Material.accent: Material.Purple
-
-    StackView {
-        id: mainStackView
-        anchors.fill: parent
-        initialItem: settingsNotifier.token ? albumsTodayComponent : loginComponent
+    FPPhotosRequest {
+        id: photoRequest
     }
 
-    Component { id: loginComponent; FPLogin {} }
-    Component { id: albumsTodayComponent; FPAlbumsToday {} }
-    Component { id: dayViewComponent; FPDay {} }
+    GridView {
+        id: gridView
+        anchors.fill: parent
+        model: parent.model
+        cellWidth: width/3
+        cellHeight: cellWidth
+        delegate: Image {
+            width: gridView.cellWidth
+            height: width
+            source: photoRequest.thumbnailUrl(modelData, 1)
+        }
+    }
 }

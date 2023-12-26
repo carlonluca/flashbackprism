@@ -67,6 +67,10 @@ Item {
                 shadowEnabled: true
                 shadowScale: 1.5
             }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: mainStackView.push(dayViewComponent, { "model": modelData.items })
+            }
         }
     }
 
