@@ -53,6 +53,12 @@ Item {
                 anchors.right: parent.right
                 anchors.margins: Style.defaultMargin
             }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: mainStackView.push(photoViewComponent, {
+                    "source": photoRequest.photoUrl(modelData)
+                })
+            }
         }
     }
 

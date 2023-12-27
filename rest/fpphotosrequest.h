@@ -43,6 +43,7 @@ public:
                  std::optional<int> day);
 
     Q_INVOKABLE QUrl thumbnailUrl(FPQueryResultItem* item, int size);
+    Q_INVOKABLE QUrl photoUrl(FPQueryResultItem* item);
 
 public slots:
     void request(int count,

@@ -45,4 +45,5 @@ ApplicationWindow {
     Component { id: loginComponent; FPLogin {} }
     Component { id: albumsTodayComponent; FPAlbumsToday {} }
     Component { id: dayViewComponent; FPDay {} }
+    Component { id: photoViewComponent; FPPhotoView {} }
 }

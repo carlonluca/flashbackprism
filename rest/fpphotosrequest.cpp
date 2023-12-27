@@ -107,6 +107,23 @@ QUrl FPPhotosRequest::thumbnailUrl(FPQueryResultItem* item, int size)
     return baseUrl;
 }
 
+QUrl FPPhotosRequest::photoUrl(FPQueryResultItem *item)
+{
+    Q_ASSERT(item);
+    if (!item)
+        return QUrl();
+
+    FPPersistentSetup setup;
+    QUrlQuery query;
+    query.addQueryItem(QSL("t"), setup.downloadToken());
+
+    QUrl baseUrl = setup.photoprismUrl();
+    baseUrl.setPath(QSL("/api/v1/dl/%1").arg(item->Hash()));
+    baseUrl.setQuery(query);
+
+    return baseUrl;
+}
+
 void FPPhotosRequest::request(int count, int month, int day)
 {
     request(count, std::nullopt, month, day);
