@@ -41,7 +41,9 @@ void FPPhotoMonitor::start()
 
     // TODO: handle failure
     FPFlashbackYearsRequest* request = new FPFlashbackYearsRequest(this);
-    connect(request, &FPFlashbackYearsRequest::requestFailed, this, [] {});
+    connect(request, &FPFlashbackYearsRequest::requestFailed, this, [request] {
+
+    });
     connect(request, &FPFlashbackYearsRequest::requestSucceeded,
             this, &FPPhotoMonitor::handleResult);
     request->request();
