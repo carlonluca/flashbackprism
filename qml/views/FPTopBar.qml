@@ -15,7 +15,10 @@ Rectangle {
         anchors.margins: Style.defaultMargin
         anchors.fill: parent
         Button {
-            text: "Back"
+            text: "\uf060"
+            font.family: fontAwesomeFreeSolid.family
+            font.styleName: fontAwesomeFreeSolid.styleName
+            font.weight: fontAwesomeFreeSolid.weight
             anchors.verticalCenter: parent.verticalCenter
             onClicked: mainStackView.pop()
         }

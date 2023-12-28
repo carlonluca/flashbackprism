@@ -25,13 +25,19 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QDirIterator>
+#include <QFileInfo>
 
 #include <lqtutils/lqtutils_qsl.h>
 
 #include "fpphotomonitor.h"
+#include "lqtutils_fa.h"
 #include "rest/fploginrequest.h"
 #include "rest/fpphotosrequest.h"
 #include "data/fppersistentsetup.h"
+
+#include <QtQml/QQmlExtensionPlugin>
+Q_IMPORT_QML_PLUGIN(lqtutilsPlugin)
 
 #define COLORING_ENABLED
 #include <lightlogger/lc_logging.h>
@@ -62,6 +68,7 @@ int main(int argc, char** argv)
     qmlRegisterType<FPPhotosRequest>("FlashbackPrism", 1, 0, "FPPhotosRequest");
     qmlRegisterType<FPPhotoMonitor>("FlashbackPrism", 1, 0, "FPPhotoMonitor");
 
+    lqt::embed_font_awesome(engine.rootContext());
     engine.rootContext()->setContextProperty("settingsNotifier",
                                              new FPPersistentSetup(qApp));
     engine.loadFromModule("FlashbackPrism", "Main");

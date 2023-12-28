@@ -19,7 +19,7 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.24.13
+ * Date:    2023.12.24
  */
 
 pragma Singleton
@@ -29,4 +29,7 @@ import QtQuick
 QtObject {
     readonly property real defaultMargin: 5
     readonly property real topBarHeight: 40
+
+    readonly property color colorText: "white"
+    readonly property color colorWarning: "orange"
 }

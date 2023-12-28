@@ -7,12 +7,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqtutils/CMakeLists.txt)
+set(ENABLE_FONT_AWESOME ON)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqtutils)
 include(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqobjectserializer/LQObjectSerializer/CMakeLists.txt)
 set(QTAES_ENABLE_INSTALL OFF)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/qtaes)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqtutils)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqobjectserializer/LQObjectSerializer)
 
 add_compile_definitions(APP_VERSION="${CMAKE_PROJECT_VERSION}")
@@ -45,6 +47,7 @@ qt_add_qml_module(appFlashbackPrism
     QML_FILES qml/views/FPTopBar.qml
     QML_FILES qml/components/FPPhotoOverlayText.qml
     QML_FILES qml/views/FPPhotoView.qml
+    QML_FILES qml/components/FPText.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -60,7 +63,7 @@ set_target_properties(appFlashbackPrism PROPERTIES
 
 target_link_libraries(appFlashbackPrism PRIVATE
     Qt6::Quick
-    lqtutils
+    lqtutilsplugin
     lqobjectserializer
 )
 
