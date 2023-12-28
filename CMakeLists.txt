@@ -5,7 +5,7 @@ project(FlashbackPrism VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS Quick StateMachine)
 
 set(ENABLE_FONT_AWESOME ON)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqtutils)
@@ -24,6 +24,7 @@ qt_standard_project_setup(REQUIRES 6.6)
 qt_add_executable(appFlashbackPrism
     main.cpp
     fpphotomonitor.h fpphotomonitor.cpp
+    fpqmlutils.h fpqmlutils.cpp
     rest/fploginrequest.h rest/fploginrequest.cpp
     rest/fpphotosrequest.h rest/fpphotosrequest.cpp
     rest/fprequest.h rest/fprequest.cpp
@@ -63,6 +64,7 @@ set_target_properties(appFlashbackPrism PROPERTIES
 
 target_link_libraries(appFlashbackPrism PRIVATE
     Qt6::Quick
+    Qt6::StateMachine
     lqtutilsplugin
     lqobjectserializer
 )
