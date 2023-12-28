@@ -47,7 +47,7 @@ Item {
         cellHeight: cellWidth
         delegate: Image {
             width: gridView.width/3
-            source: photoRequest.thumbnailUrl(modelData.items[0], 1)
+            source: qmlUtils.thumbnailUrl(modelData.items[0], 1)
             fillMode: Image.PreserveAspectFit
             FPPhotoOverlayText {
                 text: modelData.year

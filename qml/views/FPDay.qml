@@ -46,9 +46,9 @@ Item {
         delegate: Image {
             width: gridView.cellWidth
             height: width
-            source: photoRequest.thumbnailUrl(modelData, 1)
+            source: qmlUtils.thumbnailUrl(modelData, 1)
             FPPhotoOverlayText {
-                text: "" + modelData.TakenAt
+                text: qmlUtils.formatDateForPhoto(modelData.TakenAt)
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: Style.defaultMargin
@@ -56,7 +56,7 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: mainStackView.push(photoViewComponent, {
-                    "source": photoRequest.photoUrl(modelData)
+                    "photoItem": modelData
                 })
             }
         }

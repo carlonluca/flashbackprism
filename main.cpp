@@ -31,6 +31,7 @@
 #include <lqtutils/lqtutils_qsl.h>
 
 #include "fpphotomonitor.h"
+#include "fpqmlutils.h"
 #include "lqtutils_fa.h"
 #include "rest/fploginrequest.h"
 #include "rest/fpphotosrequest.h"
@@ -71,6 +72,8 @@ int main(int argc, char** argv)
     lqt::embed_font_awesome(engine.rootContext());
     engine.rootContext()->setContextProperty("settingsNotifier",
                                              new FPPersistentSetup(qApp));
+    engine.rootContext()->setContextProperty("qmlUtils",
+                                             new FPQmlUtils(qApp));
     engine.loadFromModule("FlashbackPrism", "Main");
 
     return app.exec();

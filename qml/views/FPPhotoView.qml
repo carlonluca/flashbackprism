@@ -28,7 +28,7 @@ import FlashbackPrism
 import "qrc:/lqtutils/fontawesome" as FA
 
 Item {
-    property alias source: imageElement.source
+    property var photoItem: null
 
     FPTopBar {
         id: topBar
@@ -42,6 +42,7 @@ Item {
             bottom: parent.bottom
             top: topBar.bottom
         }
+        source: qmlUtils.photoUrl(photoItem)
         fillMode: Image.PreserveAspectFit
         onStatusChanged: function(status) {
             switch (status) {
@@ -58,6 +59,13 @@ Item {
                 loadingDialog.close()
                 break
             }
+        }
+
+        FPPhotoOverlayText {
+            text: qmlUtils.formatDateForPhoto(photoItem.TakenAt)
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.margins: Style.defaultMargin
         }
 
         Column {
