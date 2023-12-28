@@ -29,6 +29,7 @@ qt_add_executable(appFlashbackPrism
     rest/fpphotosrequest.h rest/fpphotosrequest.cpp
     rest/fprequest.h rest/fprequest.cpp
     rest/fpconfigrequest.h rest/fpconfigrequest.cpp
+    rest/fpflashbackyearsrequest.h rest/fpflashbackyearsrequest.cpp
     data/fppersistentsetup.h data/fppersistentsetup.cpp
     data/fplogindata.h data/fplogindata.cpp
     data/fpqueryresultitem.h data/fpqueryresultitem.cpp

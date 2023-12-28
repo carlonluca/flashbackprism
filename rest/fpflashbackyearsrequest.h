@@ -19,34 +19,40 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.12.24
+ * Date:    2023.12.28
  */
 
-#ifndef FPPHOTOMONITOR_H
-#define FPPHOTOMONITOR_H
+#ifndef FPFLASHBACKYEARSREQUEST_H
+#define FPFLASHBACKYEARSREQUEST_H
 
 #include <QObject>
 
 #include <lqtutils_prop.h>
 
-#include "rest/fpflashbackyearsrequest.h"
+#include <data/fpqueryresultitem.h>
+#include <rest/fprequest.h>
 
-class FPPhotoMonitor : public QObject
+L_BEGIN_CLASS(FPFlashbackYear)
+L_RW_PROP_AS(int, year, 0)
+L_RW_PROP_REF_AS(QList<FPQueryResultItem*>, items)
+public:
+    ~FPFlashbackYear() { qDeleteAll(m_items); }
+L_END_CLASS
+
+class FPFlashbackYearsRequest : public FPRequest
 {
     Q_OBJECT
-    L_RW_PROP_AS(QList<FPFlashbackYear*>, flashbackYears)
-    L_RW_PROP_AS(bool, working, false)
 public:
-    explicit FPPhotoMonitor(QObject* parent = nullptr);
-    ~FPPhotoMonitor();
+    explicit FPFlashbackYearsRequest(QObject* parent = nullptr);
 
-public slots:
-    void start();
-    void stop();
+    void request();
 
-private slots:
-    void handleResult(const QList<FPFlashbackYear *> &items);
-    void resetModel(const QList<FPFlashbackYear*>& model);
+signals:
+    void requestFailed();
+    void requestSucceeded(QList<FPFlashbackYear*> years);
+
+private:
+    void handleResult(QList<FPQueryResultItem*> items);
 };
 
-#endif // FPPHOTOMONITOR_H
+#endif // FPFLASHBACKYEARSREQUEST_H
