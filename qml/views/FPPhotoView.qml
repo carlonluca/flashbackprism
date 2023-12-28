@@ -44,6 +44,7 @@ Item {
         }
         source: qmlUtils.photoUrl(photoItem)
         fillMode: Image.PreserveAspectFit
+        autoTransform: true
         onStatusChanged: function(status) {
             switch (status) {
             case Image.Null:
