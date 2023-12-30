@@ -37,10 +37,6 @@ template<typename T>
 class QmlSharedPointerList : public QAbstractListModel
 {
 public:
-    enum Role {
-        R_DATA = Qt::UserRole
-    };
-
     QmlSharedPointerList<T>(const QList<QSharedPointer<T>>& list = QList<QSharedPointer<T>>(), QObject* parent = nullptr) :
         QAbstractListModel(parent), m_list(list) {}
 
@@ -48,8 +44,8 @@ public:
         return static_cast<int>(m_list.count());
     }
 
-    QVariant data(const QModelIndex& index, int role = Role::R_DATA) const override {
-        if (role != Role::R_DATA)
+    QVariant data(const QModelIndex& index, int role = Qt::UserRole) const override {
+        if (role != Qt::UserRole)
             return QVariant();
         if (index.row() < 0 || index.row() >= m_list.size())
             return QVariant();
@@ -59,7 +55,7 @@ public:
 
     QHash<int, QByteArray> roleNames() const override {
         QHash<int, QByteArray> roles;
-        roles.insert(Role::R_DATA, "data");
+        roles.insert(Qt::UserRole, "data");
         return roles;
     }
 
