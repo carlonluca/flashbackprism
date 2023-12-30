@@ -43,7 +43,7 @@ ApplicationWindow {
     }
 
     Component { id: loginComponent; FPLogin {} }
-    Component { id: albumsTodayComponent; FPAlbumsToday {} }
-    Component { id: dayViewComponent; FPDay {} }
+    Component { id: albumsTodayComponent; FPYearListView {} }
+    Component { id: dayViewComponent; FPYearView {} }
     Component { id: photoViewComponent; FPPhotoView {} }
 }

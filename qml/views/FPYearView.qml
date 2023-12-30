@@ -34,6 +34,7 @@ Item {
 
     GridView {
         id: gridView
+        clip: true
         anchors {
             left: parent.left
             right: parent.right
