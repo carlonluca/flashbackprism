@@ -29,14 +29,26 @@ import QtQuick.Effects
 import FlashbackPrism
 
 Item {
-    Component.onCompleted: photoMonitor.start()
+    id: yearListView
 
     FPPhotoMonitor {
         id: photoMonitor
     }
 
-    FPPhotosRequest {
-        id: photoRequest
+    Connections {
+        target: yearListView.StackView
+        function onStatusChanged() {
+            switch (yearListView.StackView.status) {
+            case StackView.Inactive:
+            case StackView.Deactivating:
+            case StackView.Activating:
+                photoMonitor.stop()
+                break
+            case StackView.Active:
+                photoMonitor.start()
+                break
+            }
+        }
     }
 
     GridView {

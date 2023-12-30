@@ -50,25 +50,25 @@ void FPFlashbackYearsRequest::request()
 
 void FPFlashbackYearsRequest::handleResult(QList<FPQueryResultItem*> items)
 {
-    QHash<int, FPFlashbackYear*> flashbackYearsMap;
+    QHash<int, FPFlashbackYearRef> flashbackYearsMap;
     for (FPQueryResultItem* item : items) {
         if (!item)
             continue;
 
         const int year = item->TakenAt().date().year();
-        FPFlashbackYear* flashbackYear = nullptr;
+        QSharedPointer<FPFlashbackYear> flashbackYear;
         if (flashbackYearsMap.contains(year))
             flashbackYear = flashbackYearsMap[year];
         if (!flashbackYear) {
-            flashbackYear = new FPFlashbackYear;
+            flashbackYear.reset(new FPFlashbackYear);
             flashbackYear->set_year(year);
             flashbackYearsMap.insert(year, flashbackYear);
         }
         flashbackYear->items().append(item);
     }
 
-    QList<FPFlashbackYear*> flashbackYears = flashbackYearsMap.values();
-    std::sort(flashbackYears.begin(), flashbackYears.end(), [] (FPFlashbackYear* y1, FPFlashbackYear* y2) {
+    FPFlashbackYearList flashbackYears = flashbackYearsMap.values();
+    std::sort(flashbackYears.begin(), flashbackYears.end(), [] (const FPFlashbackYearRef& y1, FPFlashbackYearRef& y2) {
         return y1->year() > y2->year();
     });
 

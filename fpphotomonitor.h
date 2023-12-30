@@ -26,15 +26,57 @@
 #define FPPHOTOMONITOR_H
 
 #include <QObject>
+#include <QTimer>
+#include <QAbstractListModel>
 
 #include <lqtutils_prop.h>
 
 #include "rest/fpflashbackyearsrequest.h"
 
+template<typename T>
+class QmlSharedPointerList : public QAbstractListModel
+{
+public:
+    enum Role {
+        R_DATA = Qt::UserRole
+    };
+
+    QmlSharedPointerList<T>(const QList<QSharedPointer<T>>& list = QList<QSharedPointer<T>>(), QObject* parent = nullptr) :
+        QAbstractListModel(parent), m_list(list) {}
+
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override {
+        return static_cast<int>(m_list.count());
+    }
+
+    QVariant data(const QModelIndex& index, int role = Role::R_DATA) const override {
+        if (role != Role::R_DATA)
+            return QVariant();
+        if (index.row() < 0 || index.row() >= m_list.size())
+            return QVariant();
+
+        return QVariant::fromValue<T*>(m_list[index.row()].data());
+    }
+
+    QHash<int, QByteArray> roleNames() const override {
+        QHash<int, QByteArray> roles;
+        roles.insert(Role::R_DATA, "data");
+        return roles;
+    }
+
+    void refreshModel(const QList<QSharedPointer<T>>& list) {
+        beginResetModel();
+        m_list = list;
+        endResetModel();
+    }
+
+private:
+    QList<QSharedPointer<T>> m_list;
+};
+
 class FPPhotoMonitor : public QObject
 {
     Q_OBJECT
-    L_RW_PROP_AS(QList<FPFlashbackYear*>, flashbackYears)
+    L_RW_PROP_AS(QmlSharedPointerList<FPFlashbackYear>*, flashbackYears, new QmlSharedPointerList(QList<QSharedPointer<FPFlashbackYear>>(), this))
     L_RW_PROP_AS(bool, working, false)
 public:
     explicit FPPhotoMonitor(QObject* parent = nullptr);
@@ -43,10 +85,14 @@ public:
 public slots:
     void start();
     void stop();
+    void refreshModel();
 
 private slots:
-    void handleResult(const QList<FPFlashbackYear *> &items);
-    void resetModel(const QList<FPFlashbackYear*>& model);
+    void handleResult(const FPFlashbackYearList& items);
+    void resetModel(const FPFlashbackYearList& model);
+
+private:
+    QTimer m_refreshModel;
 };
 
 #endif // FPPHOTOMONITOR_H

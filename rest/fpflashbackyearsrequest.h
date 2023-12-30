@@ -26,6 +26,7 @@
 #define FPFLASHBACKYEARSREQUEST_H
 
 #include <QObject>
+#include <QSharedPointer>
 
 #include <lqtutils_prop.h>
 
@@ -36,8 +37,10 @@ L_BEGIN_CLASS(FPFlashbackYear)
 L_RW_PROP_AS(int, year, 0)
 L_RW_PROP_REF_AS(QList<FPQueryResultItem*>, items)
 public:
-    ~FPFlashbackYear() { qDeleteAll(m_items); }
+    ~FPFlashbackYear() { qDebug() << Q_FUNC_INFO; qDeleteAll(m_items); }
 L_END_CLASS
+typedef QSharedPointer<FPFlashbackYear> FPFlashbackYearRef;
+typedef QList<FPFlashbackYearRef> FPFlashbackYearList;
 
 class FPFlashbackYearsRequest : public FPRequest
 {
@@ -49,7 +52,7 @@ public:
 
 signals:
     void requestFailed();
-    void requestSucceeded(QList<FPFlashbackYear*> years);
+    void requestSucceeded(FPFlashbackYearList years);
 
 private:
     void handleResult(QList<FPQueryResultItem*> items);

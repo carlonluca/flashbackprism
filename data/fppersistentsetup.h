@@ -33,6 +33,11 @@
 
 Q_NAMESPACE
 
+inline qint64 mintomillis(int mins)
+{
+    return (qint64)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::minutes(mins)).count();
+}
+
 L_DECLARE_SETTINGS(FPPersistentSetup, new QSettings)
 L_DEFINE_VALUE(QUrl, photoprismUrl, QUrl())
 L_DEFINE_VALUE(QString, uname, QString())
@@ -40,6 +45,10 @@ L_DEFINE_VALUE(QString, pwd, QString())
 L_DEFINE_VALUE(QString, token, QString())
 L_DEFINE_VALUE(QString, downloadToken, QString())
 L_DEFINE_VALUE(QString, previewToken, QString())
+L_END_CLASS
+
+L_DECLARE_SETTINGS(FPPersistentSetupNot, new QSettings, "NOTIFICATIONS")
+L_DEFINE_VALUE(qint64, modelRefreshInterval, mintomillis(30))
 L_END_CLASS
 
 #endif // FPPERSISTENTSETUP_H

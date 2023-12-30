@@ -62,8 +62,4 @@ Item {
             }
         }
     }
-
-    FPPhotosRequest {
-        id: photoRequest
-    }
 }

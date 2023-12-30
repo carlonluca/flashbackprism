@@ -25,17 +25,33 @@
 #include <QDateTime>
 
 #include "fpphotomonitor.h"
+#include "data/fppersistentsetup.h"
 
 FPPhotoMonitor::FPPhotoMonitor(QObject *parent)
     : QObject { parent }
-{}
-
-FPPhotoMonitor::~FPPhotoMonitor()
 {
-    qDeleteAll(m_flashbackYears);
+    m_refreshModel.setInterval(FPPersistentSetupNot().modelRefreshInterval(true));
+    m_refreshModel.setSingleShot(false);
+    connect(&m_refreshModel, &QTimer::timeout,
+            this, &FPPhotoMonitor::refreshModel);
 }
 
+FPPhotoMonitor::~FPPhotoMonitor() {}
+
 void FPPhotoMonitor::start()
+{
+    qDebug() << Q_FUNC_INFO;
+    m_refreshModel.start();
+    refreshModel();
+}
+
+void FPPhotoMonitor::stop()
+{
+    qDebug() << Q_FUNC_INFO;
+    m_refreshModel.stop();
+}
+
+void FPPhotoMonitor::refreshModel()
 {
     set_working(true);
 
@@ -49,19 +65,15 @@ void FPPhotoMonitor::start()
     request->request();
 }
 
-void FPPhotoMonitor::stop()
+void FPPhotoMonitor::handleResult(const FPFlashbackYearList& items)
 {
-
-}
-
-void FPPhotoMonitor::handleResult(const QList<FPFlashbackYear*>& items)
-{
+    if (!m_refreshModel.isActive())
+        return;
     resetModel(items);
     set_working(false);
 }
 
-void FPPhotoMonitor::resetModel(const QList<FPFlashbackYear*>& model)
+void FPPhotoMonitor::resetModel(const FPFlashbackYearList& model)
 {
-    qDeleteAll(m_flashbackYears);
-    set_flashbackYears(model);
+    m_flashbackYears->refreshModel(model);
 }
