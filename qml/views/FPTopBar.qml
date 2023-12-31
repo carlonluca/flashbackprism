@@ -3,6 +3,8 @@ import QtQuick.Controls
 import FlashbackPrism
 
 Rectangle {
+    default property alias data: actionRow.data
+
     color: "black"
     height: Style.topBarHeight
     anchors {
@@ -22,5 +24,13 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             onClicked: mainStackView.pop()
         }
+    }
+
+    Row {
+        id: actionRow
+        anchors.margins: Style.defaultMargin
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
     }
 }

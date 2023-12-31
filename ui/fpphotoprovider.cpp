@@ -22,6 +22,9 @@
  * Date:    2023.12.31
  */
 
+#include <QGuiApplication>
+#include <QClipboard>
+
 #include <lqtutils_net.h>
 
 #include "fpphotoprovider.h"
@@ -76,4 +79,15 @@ QQuickImageResponse* AsyncImageProvider::requestImageResponse(const QString& id,
     connect(imageResponse, &AsyncImageResponse::imageDownloaded,
             this, &AsyncImageProvider::imageDownloaded);
     return imageResponse;
+}
+
+void FPPhotoViewStore::copyToClipboard()
+{
+    QClipboard* clipboard = QGuiApplication::clipboard();
+    if (!clipboard) {
+        qWarning() << "Failed to get clipboard";
+        return;
+    }
+
+    clipboard->setImage(m_lastPhoto);
 }

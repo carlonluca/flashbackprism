@@ -65,6 +65,8 @@ class FPPhotoViewStore : public QObject
     L_RW_PROP_AS(QImage, lastPhoto)
 public:
     FPPhotoViewStore(QObject* parent = nullptr) : QObject(parent) {}
+
+    Q_INVOKABLE void copyToClipboard();
 };
 
 #endif // FPPHOTOPROVIDER_H

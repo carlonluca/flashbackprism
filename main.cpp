@@ -81,6 +81,8 @@ int main(int argc, char** argv)
 
     lqt::embed_font_awesome(engine.rootContext());
     engine.addImageProvider("photo", photoProvider);
+    engine.rootContext()->setContextProperty("photoViewStore",
+                                             photoStore);
     engine.rootContext()->setContextProperty("photoProvider",
                                              photoProvider);
     engine.rootContext()->setContextProperty("photoMonitor",
