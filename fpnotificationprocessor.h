@@ -19,41 +19,29 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.12.24
+ * Date:    2023.12.30
  */
 
-#ifndef FPPHOTOMONITOR_H
-#define FPPHOTOMONITOR_H
+#ifndef FPNOTIFICATIONPROCESSOR_H
+#define FPNOTIFICATIONPROCESSOR_H
 
+#include "fpphotomonitor.h"
 #include <QObject>
 #include <QTimer>
-#include <QAbstractListModel>
 
-#include <lqtutils_prop.h>
-#include <lqtutils_models.h>
-
-#include "rest/fpflashbackyearsrequest.h"
-
-class FPPhotoMonitor : public QObject
+class FPNotificationProcessor : public QObject
 {
     Q_OBJECT
-    L_RW_PROP_REF_AS(lqt::QmlSharedPointerList<FPFlashbackYear>*, flashbackYears, new lqt::QmlSharedPointerList(QList<QSharedPointer<FPFlashbackYear>>(), this))
-    L_RW_PROP_AS(bool, working, false)
 public:
-    explicit FPPhotoMonitor(QObject* parent = nullptr);
-    ~FPPhotoMonitor();
-
-public slots:
-    void start();
-    void stop();
-    void refreshModel();
+    explicit FPNotificationProcessor(FPPhotoMonitor* photoMonitor, QObject* parent = nullptr);
 
 private slots:
-    void handleResult(const FPFlashbackYearList& items);
-    void resetModel(const FPFlashbackYearList& model);
+    void process();
+    void sendNotificationIfNeeded();
 
 private:
-    QTimer m_refreshModel;
+    QTimer m_timer;
+    FPPhotoMonitor* m_photoMonitor;
 };
 
-#endif // FPPHOTOMONITOR_H
+#endif // FPNOTIFICATIONPROCESSOR_H

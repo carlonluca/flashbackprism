@@ -27,6 +27,7 @@
 
 #include <QObject>
 #include <QUrl>
+#include <QDate>
 
 #include <lqtutils/lqtutils_settings.h>
 #include <lqtutils/lqtutils_prop.h>
@@ -45,6 +46,7 @@ L_DEFINE_VALUE(QString, pwd, QString())
 L_DEFINE_VALUE(QString, token, QString())
 L_DEFINE_VALUE(QString, downloadToken, QString())
 L_DEFINE_VALUE(QString, previewToken, QString())
+L_DEFINE_VALUE(QDate, lastNotification, QDate())
 L_END_CLASS
 
 L_DECLARE_SETTINGS(FPPersistentSetupNot, new QSettings, "NOTIFICATIONS")

@@ -31,10 +31,6 @@ import FlashbackPrism
 Item {
     id: yearListView
 
-    FPPhotoMonitor {
-        id: photoMonitor
-    }
-
     Connections {
         target: yearListView.StackView
         function onStatusChanged() {

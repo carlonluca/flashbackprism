@@ -25,6 +25,7 @@ qt_add_executable(appFlashbackPrism
     main.cpp
     fpphotomonitor.h fpphotomonitor.cpp
     fpqmlutils.h fpqmlutils.cpp
+    fpnotificationprocessor.h fpnotificationprocessor.cpp
     rest/fploginrequest.h rest/fploginrequest.cpp
     rest/fpphotosrequest.h rest/fpphotosrequest.cpp
     rest/fprequest.h rest/fprequest.cpp

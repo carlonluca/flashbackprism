@@ -30,6 +30,7 @@
 
 #include <lqtutils/lqtutils_qsl.h>
 
+#include "fpnotificationprocessor.h"
 #include "fpphotomonitor.h"
 #include "fpqmlutils.h"
 #include "lqtutils_fa.h"
@@ -69,7 +70,12 @@ int main(int argc, char** argv)
     qmlRegisterType<FPPhotosRequest>("FlashbackPrism", 1, 0, "FPPhotosRequest");
     qmlRegisterType<FPPhotoMonitor>("FlashbackPrism", 1, 0, "FPPhotoMonitor");
 
+    FPPhotoMonitor* photoMonitor = new FPPhotoMonitor(qApp);
+    FPNotificationProcessor* notProc = new FPNotificationProcessor(photoMonitor, qApp);
+
     lqt::embed_font_awesome(engine.rootContext());
+    engine.rootContext()->setContextProperty("photoMonitor",
+                                             photoMonitor);
     engine.rootContext()->setContextProperty("settingsNotifier",
                                              new FPPersistentSetup(qApp));
     engine.rootContext()->setContextProperty("qmlUtils",
