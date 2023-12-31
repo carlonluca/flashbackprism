@@ -54,18 +54,23 @@ QUrl FPQmlUtils::thumbnailUrl(FPQueryResultItem* item, int size)
     return baseUrl;
 }
 
-QUrl FPQmlUtils::photoUrl(FPQueryResultItem *item)
+QUrl FPQmlUtils::photoUrl(FPQueryResultItem* item)
 {
     Q_ASSERT(item);
     if (!item)
         return QUrl();
 
+    return photoUrl(item->Hash());
+}
+
+QUrl FPQmlUtils::photoUrl(const QString& hash)
+{
     FPPersistentSetup setup;
     QUrlQuery query;
     query.addQueryItem(QSL("t"), setup.downloadToken());
 
     QUrl baseUrl = setup.photoprismUrl();
-    baseUrl.setPath(QSL("/api/v1/dl/%1").arg(item->Hash()));
+    baseUrl.setPath(QSL("/api/v1/dl/%1").arg(hash));
     baseUrl.setQuery(query);
 
     return baseUrl;

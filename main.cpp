@@ -37,6 +37,7 @@
 #include "rest/fploginrequest.h"
 #include "rest/fpphotosrequest.h"
 #include "data/fppersistentsetup.h"
+#include "ui/fpphotoprovider.h"
 
 #include <QtQml/QQmlExtensionPlugin>
 Q_IMPORT_QML_PLUGIN(lqtutilsPlugin)
@@ -70,10 +71,18 @@ int main(int argc, char** argv)
     qmlRegisterType<FPPhotosRequest>("FlashbackPrism", 1, 0, "FPPhotosRequest");
     qmlRegisterType<FPPhotoMonitor>("FlashbackPrism", 1, 0, "FPPhotoMonitor");
 
-    FPPhotoMonitor* photoMonitor = new FPPhotoMonitor(qApp);
-    FPNotificationProcessor* notProc = new FPNotificationProcessor(photoMonitor, qApp);
+    auto photoMonitor = new FPPhotoMonitor(qApp);
+    auto notProc = new FPNotificationProcessor(photoMonitor, qApp);
+    auto photoProvider = new AsyncImageProvider;
+    auto photoStore = new FPPhotoViewStore(qApp);
+    QObject::connect(photoProvider, &AsyncImageProvider::imageDownloaded, photoStore, [photoStore] (const QImage& photo) {
+        photoStore->set_lastPhoto(photo);
+    });
 
     lqt::embed_font_awesome(engine.rootContext());
+    engine.addImageProvider("photo", photoProvider);
+    engine.rootContext()->setContextProperty("photoProvider",
+                                             photoProvider);
     engine.rootContext()->setContextProperty("photoMonitor",
                                              photoMonitor);
     engine.rootContext()->setContextProperty("settingsNotifier",

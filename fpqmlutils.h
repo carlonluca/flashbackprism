@@ -38,8 +38,9 @@ public:
 
     Q_INVOKABLE QString formatDateForPhoto(const QDateTime& dateTime);
 
-    Q_INVOKABLE QUrl thumbnailUrl(FPQueryResultItem* item, int size);
-    Q_INVOKABLE QUrl photoUrl(FPQueryResultItem* item);
+    Q_INVOKABLE static QUrl thumbnailUrl(FPQueryResultItem* item, int size);
+    Q_INVOKABLE static QUrl photoUrl(FPQueryResultItem* item);
+    Q_INVOKABLE static QUrl photoUrl(const QString& hash);
 };
 
 #endif // FPQMLUTILS_H

@@ -42,7 +42,7 @@ Item {
             bottom: parent.bottom
             top: topBar.bottom
         }
-        source: qmlUtils.photoUrl(photoItem)
+        source: "image://photo/" + photoItem.Hash
         fillMode: Image.PreserveAspectFit
         autoTransform: true
         onStatusChanged: function(status) {
