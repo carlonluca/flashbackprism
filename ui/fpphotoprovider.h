@@ -29,12 +29,12 @@
 #include <QObject>
 #include <QQuickAsyncImageProvider>
 
-class AsyncImageResponse : public QQuickImageResponse
+class FPPhotoResponse : public QQuickImageResponse
 {
     Q_OBJECT
 public:
-    AsyncImageResponse(const QString& hash, const QSize& requestedSize);
-    ~AsyncImageResponse();
+    FPPhotoResponse(const QString& hash, const QSize& requestedSize);
+    ~FPPhotoResponse();
 
     QQuickTextureFactory* textureFactory() const override;
     void cancel() override;
@@ -48,7 +48,7 @@ private:
     QByteArray m_data;
 };
 
-class AsyncImageProvider : public QQuickAsyncImageProvider
+class FPPhotoProvider : public QQuickAsyncImageProvider
 {
     Q_OBJECT
 public:

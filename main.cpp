@@ -73,9 +73,9 @@ int main(int argc, char** argv)
 
     auto photoMonitor = new FPPhotoMonitor(qApp);
     auto notProc = new FPNotificationProcessor(photoMonitor, qApp);
-    auto photoProvider = new AsyncImageProvider;
+    auto photoProvider = new FPPhotoProvider;
     auto photoStore = new FPPhotoViewStore(qApp);
-    QObject::connect(photoProvider, &AsyncImageProvider::imageDownloaded, photoStore, [photoStore] (const QImage& photo) {
+    QObject::connect(photoProvider, &FPPhotoProvider::imageDownloaded, photoStore, [photoStore] (const QImage& photo) {
         photoStore->set_lastPhoto(photo);
     });
 

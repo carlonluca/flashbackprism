@@ -30,7 +30,7 @@
 #include "fpphotoprovider.h"
 #include "fpqmlutils.h"
 
-AsyncImageResponse::AsyncImageResponse(const QString& hash, const QSize& requestedSize) :
+FPPhotoResponse::FPPhotoResponse(const QString& hash, const QSize& requestedSize) :
     QQuickImageResponse()
 {
     m_downloader = new lqt::Downloader(FPQmlUtils::photoUrl(hash), &m_data);
@@ -58,26 +58,26 @@ AsyncImageResponse::AsyncImageResponse(const QString& hash, const QSize& request
     m_downloader->download();
 }
 
-AsyncImageResponse::~AsyncImageResponse()
+FPPhotoResponse::~FPPhotoResponse()
 {
     m_downloader->deleteLater();
 }
 
-QQuickTextureFactory* AsyncImageResponse::textureFactory() const
+QQuickTextureFactory* FPPhotoResponse::textureFactory() const
 {
     return QQuickTextureFactory::textureFactoryForImage(m_image);
 }
 
-void AsyncImageResponse::cancel()
+void FPPhotoResponse::cancel()
 {
     m_downloader->abort();
 }
 
-QQuickImageResponse* AsyncImageProvider::requestImageResponse(const QString& id, const QSize& requestedSize)
+QQuickImageResponse* FPPhotoProvider::requestImageResponse(const QString& id, const QSize& requestedSize)
 {
-    auto imageResponse = new AsyncImageResponse(id, requestedSize);
-    connect(imageResponse, &AsyncImageResponse::imageDownloaded,
-            this, &AsyncImageProvider::imageDownloaded);
+    auto imageResponse = new FPPhotoResponse(id, requestedSize);
+    connect(imageResponse, &FPPhotoResponse::imageDownloaded,
+            this, &FPPhotoProvider::imageDownloaded);
     return imageResponse;
 }
 
