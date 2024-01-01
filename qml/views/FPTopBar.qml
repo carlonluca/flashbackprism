@@ -6,7 +6,7 @@ Rectangle {
     default property alias data: actionRow.data
 
     color: "black"
-    height: Style.topBarHeight
+    height: backButton.height + 2*Style.defaultMargin
     anchors {
         left: parent.left
         right: parent.right
@@ -14,9 +14,10 @@ Rectangle {
     }
 
     Row {
-        anchors.margins: Style.defaultMargin
-        anchors.fill: parent
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
         Button {
+            id: backButton
             text: "\uf060"
             font.family: fontAwesomeFreeSolid.family
             font.styleName: fontAwesomeFreeSolid.styleName
@@ -28,9 +29,7 @@ Rectangle {
 
     Row {
         id: actionRow
-        anchors.margins: Style.defaultMargin
-        anchors.top: parent.top
+        anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
-        anchors.bottom: parent.bottom
     }
 }
