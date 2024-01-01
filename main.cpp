@@ -29,6 +29,7 @@
 #include <QFileInfo>
 
 #include <lqtutils/lqtutils_qsl.h>
+#include <lqtutils/lqtutils_ui.h>
 
 #include "fpnotificationprocessor.h"
 #include "fpphotomonitor.h"

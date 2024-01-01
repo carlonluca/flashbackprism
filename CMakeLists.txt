@@ -6,6 +6,7 @@ project(FlashbackPrism VERSION 0.1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick StateMachine)
+find_package(Qt6 OPTIONAL_COMPONENTS DBus)
 
 set(ENABLE_FONT_AWESOME ON)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqtutils)
@@ -73,6 +74,9 @@ target_link_libraries(appFlashbackPrism PRIVATE
     lqtutilsplugin
     lqobjectserializer
 )
+if (Qt6DBus_FOUND)
+    target_link_libraries(appFlashbackPrism PRIVATE Qt6::DBus)
+endif()
 
 include(GNUInstallDirs)
 install(TARGETS appFlashbackPrism

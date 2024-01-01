@@ -22,7 +22,12 @@
  * Date:    2023.12.30
  */
 
+#include <QGuiApplication>
+
 #include <data/fppersistentsetup.h>
+
+#include <lqtutils_ui.h>
+#include <lqtutils_qsl.h>
 
 #include "fpnotificationprocessor.h"
 
@@ -59,5 +64,8 @@ void FPNotificationProcessor::sendNotificationIfNeeded()
     if (m_photoMonitor->flashbackYears()->rowCount() <= 0)
         return;
 
-    qDebug() << Q_FUNC_INFO;
+    lqt::SystemNotification notification;
+    notification.set_appName(qApp->applicationName());
+    notification.set_message(QSL("Message"));
+    notification.send();
 }
