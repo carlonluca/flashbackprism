@@ -35,9 +35,7 @@ Item {
 
         FPTopBarButton {
             text: "\uf0c5"
-            onClicked: {
-                photoViewStore.copyToClipboard()
-            }
+            onClicked: photoViewStore.copyToClipboard()
         }
     }
 

@@ -54,6 +54,8 @@ void FPNotificationProcessor::process()
 
 void FPNotificationProcessor::sendNotificationIfNeeded()
 {
+    FPPersistentSetup().set_lastNotification(QDateTime::currentDateTime().date());
+
     if (m_photoMonitor->flashbackYears()->rowCount() <= 0)
         return;
 
