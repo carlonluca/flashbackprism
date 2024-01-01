@@ -32,6 +32,7 @@ ApplicationWindow {
     height: 720
     visible: true
     title: "FlashbackPrism"
+    visibility: Qt.platform.os === "android" ? Window.FullScreen : Window.Windowed
 
     Material.theme: Material.Dark
     Material.accent: Material.Purple

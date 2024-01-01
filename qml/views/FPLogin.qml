@@ -42,7 +42,7 @@ Item {
 
     Column {
         anchors.centerIn: parent
-        width: parent.width/2
+        width: Math.min(parent.width - 2*Style.defaultMargin, 400)
         spacing: Style.defaultMargin
 
         Label {

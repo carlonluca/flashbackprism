@@ -44,8 +44,9 @@
 Q_IMPORT_QML_PLUGIN(lqtutilsPlugin)
 
 #define COLORING_ENABLED
+#define LOG_TAG "FlashbackPrism"
 #include <lightlogger/lc_logging.h>
-lightlogger::custom_log_func lightlogger::global_log_func = log_to_stdout;
+lightlogger::custom_log_func lightlogger::global_log_func = log_to_default;
 
 int main(int argc, char** argv)
 {

@@ -51,7 +51,7 @@ void FPNotificationProcessor::process()
     }
 
     const QDateTime now = QDateTime::currentDateTime();
-    if (now.date() > last) {
+    if (now.date() > last && now.time().hour() >= 8) {
         sendNotificationIfNeeded();
         return;
     }
@@ -64,6 +64,7 @@ void FPNotificationProcessor::sendNotificationIfNeeded()
     if (m_photoMonitor->flashbackYears()->rowCount() <= 0)
         return;
 
+    qDebug() << "Send notification";
     lqt::SystemNotification notification;
     notification.set_appName(qApp->applicationName());
     notification.set_message(QSL("Message"));
