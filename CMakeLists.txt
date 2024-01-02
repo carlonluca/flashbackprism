@@ -55,7 +55,8 @@ qt_add_qml_module(appFlashbackPrism
     QML_FILES qml/views/FPPhotoView.qml
     QML_FILES qml/components/FPText.qml
     QML_FILES qml/components/FPTopBarButton.qml
-
+    RESOURCES
+        assets/icon_96.png
 )
 
 # Android

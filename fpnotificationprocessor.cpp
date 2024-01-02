@@ -65,10 +65,15 @@ void FPNotificationProcessor::sendNotificationIfNeeded()
     if (m_photoMonitor->flashbackYears()->rowCount() <= 0)
         return;
 
+
+
     qDebug() << "Send notification";
     lqt::SystemNotification notification;
     notification.set_appName(qApp->applicationName());
     notification.set_message(QSL("Message"));
+#ifdef Q_OS_ANDROID
+    notification.set_icon(QImage(":/qt/qml/FlashbackPrism/assets/icon_96.png"));
+#endif
     notification.send();
 
     FPPersistentSetup().set_lastNotification(QDateTime::currentDateTime().date());
