@@ -24,8 +24,13 @@
 
 #include <QGuiApplication>
 #include <QClipboard>
+#include <QTemporaryFile>
+#include <QDir>
 
 #include <lqtutils_net.h>
+#include <lqtutils_ui.h>
+#include <lqtutils_qsl.h>
+#include <lqtutils_string.h>
 
 #include "fpphotoprovider.h"
 #include "fpqmlutils.h"
@@ -90,4 +95,29 @@ void FPPhotoViewStore::copyToClipboard()
     }
 
     clipboard->setImage(m_lastPhoto);
+}
+
+bool FPPhotoViewStore::share()
+{
+    QTemporaryFile tempFile(lqt::path_combine({
+        QDir::tempPath(),
+        QSL("photo_XXXXXX.png")
+    }));
+    tempFile.setAutoRemove(false);
+    if (!tempFile.open()) {
+        qWarning() << "Failed to open temporary file";
+        return false;
+    }
+
+    if (!m_lastPhoto.save(&tempFile, "png")) {
+        qWarning() << "Failed to save image to temporary location";
+        return false;
+    }
+
+    qDebug() << "File saved" << tempFile.fileName();
+
+    // TODO: cleanup after share is done.
+    return lqt::QmlUtils::shareResource(QUrl::fromLocalFile(tempFile.fileName()),
+                                        QSL("image/png"),
+                                        QSL("luke.flashbackprism.qtprovider"));
 }

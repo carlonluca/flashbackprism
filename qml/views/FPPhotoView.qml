@@ -37,6 +37,10 @@ Item {
             text: "\uf0c5"
             onClicked: photoViewStore.copyToClipboard()
         }
+
+        FPTopBarButton {
+            onClicked: photoViewStore.share()
+        }
     }
 
     Image {

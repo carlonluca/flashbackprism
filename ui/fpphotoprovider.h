@@ -67,6 +67,7 @@ public:
     FPPhotoViewStore(QObject* parent = nullptr) : QObject(parent) {}
 
     Q_INVOKABLE void copyToClipboard();
+    Q_INVOKABLE bool share();
 };
 
 #endif // FPPHOTOPROVIDER_H
