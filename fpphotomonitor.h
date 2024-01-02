@@ -37,7 +37,11 @@
 class FPPhotoMonitor : public QObject
 {
     Q_OBJECT
-    L_RW_PROP_REF_AS(lqt::QmlSharedPointerList<FPFlashbackYear>*, flashbackYears, new lqt::QmlSharedPointerList(QList<QSharedPointer<FPFlashbackYear>>(), this))
+    L_RW_PROP_REF_AS(lqt::QmlSharedPointerList<FPFlashbackYear>*,
+                     flashbackYears,
+                     new lqt::QmlSharedPointerList(QList<QSharedPointer<FPFlashbackYear>>(), this))
+    L_RW_PROP_REF_AS(FPFlashbackYearList,
+                     flashbackYearsBackend)
     L_RW_PROP_AS(bool, working, false)
 public:
     explicit FPPhotoMonitor(QObject* parent = nullptr);

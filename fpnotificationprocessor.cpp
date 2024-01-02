@@ -44,33 +44,38 @@ FPNotificationProcessor::FPNotificationProcessor(FPPhotoMonitor* photoMonitor, Q
 
 void FPNotificationProcessor::process()
 {
+    const QDateTime now = QDateTime::currentDateTime();
     const QDate last = FPPersistentSetup().lastNotification();
+    if (now.time().hour() < 8)
+        return;
+
     if (last.isNull()) {
         sendNotificationIfNeeded();
         return;
     }
 
-    const QDateTime now = QDateTime::currentDateTime();
-    if (now.date() > last && now.time().hour() >= 8) {
+    if (now.date() > last) {
         sendNotificationIfNeeded();
         return;
     }
-
-    qDebug() << "No notification:" << last.toString() << now.date().toString() << m_photoMonitor->flashbackYears()->rowCount();
 }
 
 void FPNotificationProcessor::sendNotificationIfNeeded()
 {
-    qDebug() << "Not:" << m_photoMonitor->flashbackYears()->rowCount();
-    if (m_photoMonitor->flashbackYears()->rowCount() <= 0)
+    const int years = m_photoMonitor->flashbackYears()->rowCount();
+    if (years <= 0)
         return;
 
-
+    int photos = 0;
+    for (const FPFlashbackYearRef& year : m_photoMonitor->flashbackYearsBackend())
+        if (year)
+            photos += year->items().size();
 
     qDebug() << "Send notification";
     lqt::SystemNotification notification;
     notification.set_appName(qApp->applicationName());
-    notification.set_message(QSL("Message"));
+    notification.set_title(tr("Flashbacks available"));
+    notification.set_message(tr("You have %1 memories taken in %2 years for today. Have a look!").arg(photos).arg(years));
 #ifdef Q_OS_ANDROID
     notification.set_icon(QImage(":/qt/qml/FlashbackPrism/assets/icon_96.png"));
 #endif

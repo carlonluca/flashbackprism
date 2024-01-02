@@ -76,4 +76,5 @@ void FPPhotoMonitor::handleResult(const FPFlashbackYearList& items)
 void FPPhotoMonitor::resetModel(const FPFlashbackYearList& model)
 {
     m_flashbackYears->refreshModel(model);
+    m_flashbackYearsBackend = model;
 }
