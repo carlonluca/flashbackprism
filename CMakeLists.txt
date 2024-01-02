@@ -55,7 +55,11 @@ qt_add_qml_module(appFlashbackPrism
     QML_FILES qml/views/FPPhotoView.qml
     QML_FILES qml/components/FPText.qml
     QML_FILES qml/components/FPTopBarButton.qml
+
 )
+
+# Android
+set_property(TARGET appFlashbackPrism PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/android")
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
