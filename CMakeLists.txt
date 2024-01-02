@@ -5,7 +5,7 @@ project(FlashbackPrism VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick StateMachine)
+find_package(Qt6 REQUIRED COMPONENTS Quick StateMachine Svg)
 find_package(Qt6 OPTIONAL_COMPONENTS DBus)
 
 set(ENABLE_FONT_AWESOME ON)
@@ -57,6 +57,7 @@ qt_add_qml_module(appFlashbackPrism
     QML_FILES qml/components/FPTopBarButton.qml
     RESOURCES
         assets/icon_96.png
+        assets/icon.svg
 )
 
 # Android
@@ -77,6 +78,7 @@ target_link_libraries(appFlashbackPrism PRIVATE
     Qt6::Quick
     Qt6::StateMachine
     Qt6::CorePrivate
+    Qt6::Svg
     lqtutilsplugin
     lqobjectserializer
 )

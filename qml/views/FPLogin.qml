@@ -47,6 +47,31 @@ Item {
 
         Label {
             width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: Qt.application.name
+            font.pointSize: 28
+            horizontalAlignment: Text.AlignHCenter
+        }
+
+        Item {
+            width: parent.width
+            height: Style.defaultMargin
+        }
+
+        Image {
+            source: "qrc:/qt/qml/FlashbackPrism/assets/icon.svg"
+            anchors.horizontalCenter: parent.horizontalCenter
+            fillMode: Image.PreserveAspectFit
+            height: 100
+        }
+
+        Item {
+            width: parent.width
+            height: Style.defaultMargin
+        }
+
+        Label {
+            width: parent.width
             text: qsTr("PhotoPrism server URL:")
         }
 
