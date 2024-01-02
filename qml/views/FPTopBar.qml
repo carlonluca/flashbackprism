@@ -4,6 +4,7 @@ import FlashbackPrism
 
 Rectangle {
     default property alias data: actionRow.data
+    property bool backVisible: true
 
     color: "black"
     height: backButton.height + 2*Style.defaultMargin
@@ -24,6 +25,7 @@ Rectangle {
             font.weight: fontAwesomeFreeSolid.weight
             anchors.verticalCenter: parent.verticalCenter
             onClicked: mainStackView.pop()
+            visible: backVisible
         }
     }
 

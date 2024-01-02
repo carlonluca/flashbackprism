@@ -31,6 +31,30 @@ import FlashbackPrism
 Item {
     id: yearListView
 
+    FPTopBar {
+        id: topBar
+        backVisible: false
+        FPTopBarButton {
+            id: menu
+            onClicked: contextMenu.popup()
+            text: "\uf0c9"
+
+            Menu {
+                id: contextMenu
+                MenuItem {
+                    text: qsTr("Logout")
+                    onClicked: {
+                        mainStackView.clear()
+                        mainStackView.push(loginComponent)
+                        settingsNotifier.uname = ""
+                        settingsNotifier.pwd = ""
+                        settingsNotifier.token = ""
+                    }
+                }
+            }
+        }
+    }
+
     Connections {
         target: yearListView.StackView
         function onStatusChanged() {
@@ -49,7 +73,12 @@ Item {
 
     GridView {
         id: gridView
-        anchors.fill: parent
+        anchors {
+            top: topBar.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
         model: photoMonitor.flashbackYears
         cellWidth: width/3
         cellHeight: cellWidth
