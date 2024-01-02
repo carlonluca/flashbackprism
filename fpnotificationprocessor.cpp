@@ -55,12 +55,13 @@ void FPNotificationProcessor::process()
         sendNotificationIfNeeded();
         return;
     }
+
+    qDebug() << "No notification:" << last.toString() << now.date().toString() << m_photoMonitor->flashbackYears()->rowCount();
 }
 
 void FPNotificationProcessor::sendNotificationIfNeeded()
 {
-    FPPersistentSetup().set_lastNotification(QDateTime::currentDateTime().date());
-
+    qDebug() << "Not:" << m_photoMonitor->flashbackYears()->rowCount();
     if (m_photoMonitor->flashbackYears()->rowCount() <= 0)
         return;
 
@@ -69,4 +70,6 @@ void FPNotificationProcessor::sendNotificationIfNeeded()
     notification.set_appName(qApp->applicationName());
     notification.set_message(QSL("Message"));
     notification.send();
+
+    FPPersistentSetup().set_lastNotification(QDateTime::currentDateTime().date());
 }
