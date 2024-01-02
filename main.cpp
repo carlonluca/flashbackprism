@@ -95,7 +95,7 @@ int main(int argc, char** argv)
         });
 
         auto photoMonitor = new FPPhotoMonitor(qApp);
-        auto notProc = new FPNotificationProcessor(photoMonitor, qApp);
+        new FPNotificationProcessor(photoMonitor, qApp);
 
         photoMonitor->start();
 
@@ -127,7 +127,7 @@ int main(int argc, char** argv)
 
     auto photoMonitor = new FPPhotoMonitor(qApp);
 #ifndef Q_OS_ANDROID
-    auto notProc = new FPNotificationProcessor(photoMonitor, qApp);
+    new FPNotificationProcessor(photoMonitor, qApp);
 #endif
     auto photoProvider = new FPPhotoProvider;
     auto photoStore = new FPPhotoViewStore(qApp);
