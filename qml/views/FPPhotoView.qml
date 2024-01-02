@@ -33,12 +33,14 @@ Item {
     FPTopBar {
         id: topBar
 
+        // Copy button
         FPTopBarButton {
             text: "\uf0c5"
             onClicked: photoViewStore.copyToClipboard()
             visible: !lqtQmlUtils.isMobile()
         }
 
+        // Share button
         FPTopBarButton {
             text: "\uf1e0"
             onClicked: photoViewStore.share()
