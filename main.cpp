@@ -147,6 +147,8 @@ int main(int argc, char** argv)
                                              new FPPersistentSetup(qApp));
     engine.rootContext()->setContextProperty("qmlUtils",
                                              new FPQmlUtils(qApp));
+    engine.rootContext()->setContextProperty("lqtQmlUtils",
+                                             new lqt::QmlUtils(qApp));
     engine.loadFromModule("FlashbackPrism", "Main");
 
 #ifdef Q_OS_ANDROID
