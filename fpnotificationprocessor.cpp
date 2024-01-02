@@ -46,8 +46,10 @@ void FPNotificationProcessor::process()
 {
     const QDateTime now = QDateTime::currentDateTime();
     const QDate last = FPPersistentSetup().lastNotification();
-    if (now.time().hour() < 8)
+    if (now.time().hour() < 8) {
+        qDebug() << "Won't send a notification at" << now.time();
         return;
+    }
 
     if (last.isNull()) {
         sendNotificationIfNeeded();
@@ -63,8 +65,10 @@ void FPNotificationProcessor::process()
 void FPNotificationProcessor::sendNotificationIfNeeded()
 {
     const int years = m_photoMonitor->flashbackYears()->rowCount();
-    if (years <= 0)
+    if (years <= 0) {
+        qDebug() << "Won't send a notification, no memories for today";
         return;
+    }
 
     int photos = 0;
     for (const FPFlashbackYearRef& year : m_photoMonitor->flashbackYearsBackend())

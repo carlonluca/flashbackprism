@@ -77,4 +77,5 @@ void FPPhotoMonitor::resetModel(const FPFlashbackYearList& model)
 {
     m_flashbackYears->refreshModel(model);
     m_flashbackYearsBackend = model;
+    qDebug() << "Model size:" << m_flashbackYearsBackend.size();
 }

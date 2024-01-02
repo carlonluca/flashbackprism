@@ -86,17 +86,18 @@ int main(int argc, char** argv)
 #ifdef Q_OS_ANDROID
     if (argc > 1 && strcmp(argv[1], "-service") == 0) {
         QAndroidService app(argc, argv);
+        app.setOrganizationName(QSL("Luca Carlon"));
+        app.setOrganizationDomain(QSL("org.duckdns.bugfreeblog"));
+        app.setApplicationName(QSL("FlashbackPrism"));
+        app.setApplicationVersion(APP_VERSION);
         QObject::connect(&app, &QAndroidService::aboutToQuit, [] {
             qInfo() << "Service stopped";
         });
 
-        QTimer timer;
-        QObject::connect(&timer, &QTimer::timeout, &app, [] {
-            qInfo() << "Thinking...";
-        });
-        timer.setSingleShot(false);
-        timer.setInterval(1000);
-        timer.start();
+        auto photoMonitor = new FPPhotoMonitor(qApp);
+        auto notProc = new FPNotificationProcessor(photoMonitor, qApp);
+
+        photoMonitor->start();
 
         qInfo() << "Service is starting...";
         return app.exec();
@@ -125,7 +126,9 @@ int main(int argc, char** argv)
     qmlRegisterType<FPPhotoMonitor>("FlashbackPrism", 1, 0, "FPPhotoMonitor");
 
     auto photoMonitor = new FPPhotoMonitor(qApp);
+#ifndef Q_OS_ANDROID
     auto notProc = new FPNotificationProcessor(photoMonitor, qApp);
+#endif
     auto photoProvider = new FPPhotoProvider;
     auto photoStore = new FPPhotoViewStore(qApp);
     QObject::connect(photoProvider, &FPPhotoProvider::imageDownloaded, photoStore, [photoStore] (const QImage& photo) {
