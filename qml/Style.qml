@@ -29,6 +29,7 @@ import QtQuick
 QtObject {
     readonly property real defaultMargin: 5
     readonly property real topBarHeight: 60
+    readonly property int defaultToolTipDelay: 1000
 
     readonly property color colorText: "white"
     readonly property color colorWarning: "orange"

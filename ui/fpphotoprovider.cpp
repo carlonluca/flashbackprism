@@ -26,6 +26,7 @@
 #include <QClipboard>
 #include <QTemporaryFile>
 #include <QDir>
+#include <QDesktopServices>
 
 #include <lqtutils_net.h>
 #include <lqtutils_ui.h>
@@ -99,6 +100,27 @@ void FPPhotoViewStore::copyToClipboard()
 
 bool FPPhotoViewStore::share()
 {
+    const QString filePath = saveToTempFile();
+    if (filePath.isNull())
+        return false;
+
+    return lqt::QmlUtils::shareResource(QUrl::fromLocalFile(filePath),
+                                        QSL("image/png"),
+                                        QSL("luke.flashbackprism.qtprovider"));
+}
+
+bool FPPhotoViewStore::open()
+{
+    const QString filePath = saveToTempFile();
+    if (filePath.isNull())
+        return false;
+
+    return QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+}
+
+QString FPPhotoViewStore::saveToTempFile()
+{
+    // TODO: cleanup after share is done.
     QTemporaryFile tempFile(lqt::path_combine({
         QDir::tempPath(),
         QSL("photo_XXXXXX.png")
@@ -106,18 +128,14 @@ bool FPPhotoViewStore::share()
     tempFile.setAutoRemove(false);
     if (!tempFile.open()) {
         qWarning() << "Failed to open temporary file";
-        return false;
+        return QString();
     }
 
     if (!m_lastPhoto.save(&tempFile, "png")) {
         qWarning() << "Failed to save image to temporary location";
-        return false;
+        return QString();
     }
 
     qDebug() << "File saved" << tempFile.fileName();
-
-    // TODO: cleanup after share is done.
-    return lqt::QmlUtils::shareResource(QUrl::fromLocalFile(tempFile.fileName()),
-                                        QSL("image/png"),
-                                        QSL("luke.flashbackprism.qtprovider"));
+    return QFileInfo(tempFile).absoluteFilePath();
 }

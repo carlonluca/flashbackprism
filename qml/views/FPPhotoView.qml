@@ -38,6 +38,7 @@ Item {
             text: "\uf0c5"
             onClicked: photoViewStore.copyToClipboard()
             visible: !lqtQmlUtils.isMobile()
+            ToolTip.text: qsTr("Copy")
         }
 
         // Share button
@@ -45,6 +46,14 @@ Item {
             text: "\uf1e0"
             onClicked: photoViewStore.share()
             visible: lqtQmlUtils.isMobile()
+            ToolTip.text: qsTr("Share")
+        }
+
+        // Open button
+        FPTopBarButton {
+            text: "\uf08e"
+            onClicked: photoViewStore.open()
+            ToolTip.text: qsTr("Open with system app")
         }
     }
 

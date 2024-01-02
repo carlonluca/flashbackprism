@@ -62,7 +62,7 @@ Item {
             source: "qrc:/qt/qml/FlashbackPrism/assets/icon.svg"
             anchors.horizontalCenter: parent.horizontalCenter
             fillMode: Image.PreserveAspectFit
-            height: 100
+            height: 140
         }
 
         Item {

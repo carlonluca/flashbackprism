@@ -17,7 +17,9 @@ Rectangle {
     Row {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        Button {
+        anchors.margins: Style.defaultMargin
+        spacing: Style.defaultMargin
+        FPTopBarButton {
             id: backButton
             text: "\uf060"
             font.family: fontAwesomeFreeSolid.family
@@ -26,6 +28,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             onClicked: mainStackView.pop()
             visible: backVisible
+            ToolTip.text: qsTr("Copy")
         }
     }
 
@@ -33,5 +36,7 @@ Rectangle {
         id: actionRow
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
+        anchors.margins: Style.defaultMargin
+        spacing: Style.defaultMargin
     }
 }

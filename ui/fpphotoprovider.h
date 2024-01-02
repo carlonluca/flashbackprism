@@ -68,6 +68,10 @@ public:
 
     Q_INVOKABLE void copyToClipboard();
     Q_INVOKABLE bool share();
+    Q_INVOKABLE bool open();
+
+private:
+    QString saveToTempFile();
 };
 
 #endif // FPPHOTOPROVIDER_H
