@@ -76,6 +76,7 @@ set_target_properties(appFlashbackPrism PROPERTIES
 target_link_libraries(appFlashbackPrism PRIVATE
     Qt6::Quick
     Qt6::StateMachine
+    Qt6::CorePrivate
     lqtutilsplugin
     lqobjectserializer
 )

@@ -4,8 +4,11 @@
     android:installLocation="auto"
     android:versionCode="100"
     android:versionName="0.1.0">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <!-- %%INSERT_PERMISSIONS -->
     <!-- %%INSERT_FEATURES -->
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -17,9 +20,11 @@
         android:label="FlashbackPrism"
         android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
-        android:fullBackupOnly="false">
+        android:fullBackupOnly="false"
+        android:icon="@drawable/icon_24dp">
         <activity
             android:name="org.qtproject.qt.android.bindings.QtActivity"
+            android:process=":mainActivity"
             android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density"
             android:label="FlashbackPrism"
             android:launchMode="singleTop"
@@ -43,7 +48,21 @@
                 android:name="android.app.extract_android_style"
                 android:value="minimal" />
         </activity>
-
+        <service android:name="luke.flashbackprism.FlashbackPrismMonitor" android:process=":flashbackPrismService">
+            <!-- Deploy Qt libs as part of package -->
+            <meta-data android:name="android.app.bundle_local_qt_libs" android:value="-- %%BUNDLE_LOCAL_QT_LIBS%% --"/>
+            <!-- Deploy Qt libs as part of package -->
+            <!-- Run with local libs -->
+            <meta-data android:name="android.app.use_local_qt_libs" android:value="-- %%USE_LOCAL_QT_LIBS%% --"/>
+            <meta-data android:name="android.app.libs_prefix" android:value="/data/local/tmp/qt/"/>
+            <meta-data android:name="android.app.load_local_libs" android:value="-- %%INSERT_LOCAL_LIBS%% --"/>
+            <meta-data android:name="android.app.load_local_jars" android:value="-- %%INSERT_LOCAL_JARS%% --"/>
+            <meta-data android:name="android.app.static_init_classes" android:value="-- %%INSERT_INIT_CLASSES%% --"/>
+            <!-- Run with local libs -->
+            <meta-data android:name="android.app.background_running" android:value="true"/>
+            <meta-data android:name="android.app.arguments" android:value="-service"/>
+            <meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
+        </service>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.qtprovider"

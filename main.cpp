@@ -27,6 +27,10 @@
 #include <QQmlContext>
 #include <QDirIterator>
 #include <QFileInfo>
+#ifdef Q_OS_ANDROID
+#include <QtCore/private/qandroidextras_p.h>
+#include <QJniObject>
+#endif
 
 #include <lqtutils/lqtutils_qsl.h>
 #include <lqtutils/lqtutils_ui.h>
@@ -48,9 +52,56 @@ Q_IMPORT_QML_PLUGIN(lqtutilsPlugin)
 #include <lightlogger/lc_logging.h>
 lightlogger::custom_log_func lightlogger::global_log_func = log_to_default;
 
+#ifdef Q_OS_ANDROID
+void start_service()
+{
+    QJniObject ctx = QNativeInterface::QAndroidApplication::context();
+    if (!ctx.isValid()) {
+        qWarning() << "Could not get the app context";
+        return;
+    }
+
+    const jclass clazz = QJniEnvironment().findClass("luke/flashbackprism/FlashbackPrismMonitor");
+    QJniObject intent("android/content/Intent",
+                      "(Landroid/content/Context;Ljava/lang/Class;)V",
+                      ctx.object(),
+                      clazz);
+    if (!intent.isValid()) {
+        qWarning() << "Failed to create intent";
+        return;
+    }
+
+    intent.callObjectMethod("addFlags", "(I)Landroid/content/Intent;",
+                            QJniObject::getStaticField<jint>("android/content/Intent", "FLAG_ACTIVITY_NEW_TASK"));
+    ctx.callObjectMethod("startService",
+                         "(Landroid/content/Intent;)Landroid/content/ComponentName;",
+                         intent.object());
+}
+#endif
+
 int main(int argc, char** argv)
 {
     qInstallMessageHandler(lightlogger::log_handler);
+
+#ifdef Q_OS_ANDROID
+    if (argc > 1 && strcmp(argv[1], "-service") == 0) {
+        QAndroidService app(argc, argv);
+        QObject::connect(&app, &QAndroidService::aboutToQuit, [] {
+            qInfo() << "Service stopped";
+        });
+
+        QTimer timer;
+        QObject::connect(&timer, &QTimer::timeout, &app, [] {
+            qInfo() << "Thinking...";
+        });
+        timer.setSingleShot(false);
+        timer.setInterval(1000);
+        timer.start();
+
+        qInfo() << "Service is starting...";
+        return app.exec();
+    }
+#endif
 
     QGuiApplication app(argc, argv);
     app.setOrganizationName(QSL("Luca Carlon"));
@@ -94,6 +145,10 @@ int main(int argc, char** argv)
     engine.rootContext()->setContextProperty("qmlUtils",
                                              new FPQmlUtils(qApp));
     engine.loadFromModule("FlashbackPrism", "Main");
+
+#ifdef Q_OS_ANDROID
+    start_service();
+#endif
 
     return app.exec();
 }
