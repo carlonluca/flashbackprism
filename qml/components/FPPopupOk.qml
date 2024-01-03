@@ -24,10 +24,16 @@
 
 import QtQuick
 import QtQuick.Controls
+import FlashbackPrism
 
-Dialog {
-    anchors.centerIn: parent
+FPPopupBase {
+    property alias text: messageElement.text
+
     standardButtons: Dialog.Ok
-    modal: true
-    closePolicy: Popup.NoAutoClose
+    width: Style.contentAreaInLargeScreens(parent.width)
+
+    FPText {
+        id: messageElement
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+    }
 }

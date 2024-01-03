@@ -19,12 +19,16 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.12.24
+ * Date:    2023.01.03
  */
 
 import QtQuick
 import QtQuick.Controls
+import FlashbackPrism
 
-FPPopupBase {
-    standardButtons: Dialog.NoButton
+Dialog {
+    anchors.centerIn: parent
+    modal: true
+    closePolicy: Popup.NoAutoClose
+    width: Style.contentAreaInLargeScreens(parent.width)
 }

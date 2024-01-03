@@ -61,12 +61,14 @@ Item {
             text: "\uf0ed"
             onClicked: photoViewStore.download(photoItem, function(filePath) {
                 if (filePath) {
-                    okDialog.title = qsTr("Photo downloaded to:") + " " + filePath
+                    okDialog.title = qsTr("Photo downloaded")
+                    okDialog.text = qsTr("Photo downloaded to:") + " " + filePath
                     okDialog.open()
                     return
                 }
 
-                okDialog.title = qsTr("Failed to download photo")
+                okDialog.title = qsTr("Failure")
+                okDialog.text = qsTr("Failed to download photo")
                 okDialog.open()
             })
             ToolTip.text: qsTr("Download")

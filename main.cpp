@@ -27,6 +27,7 @@
 #include <QQmlContext>
 #include <QDirIterator>
 #include <QFileInfo>
+#include <QQuickStyle>
 #ifdef Q_OS_ANDROID
 #include <QtCore/private/qandroidextras_p.h>
 #include <QJniObject>
@@ -109,6 +110,8 @@ int main(int argc, char** argv)
     app.setOrganizationDomain(QSL("org.duckdns.bugfreeblog"));
     app.setApplicationName(QSL("FlashbackPrism"));
     app.setApplicationVersion(APP_VERSION);
+
+    QQuickStyle::setStyle("Material");
 
     qInfo() << "App version:" << app.applicationVersion();
     qInfo() << "App config:" << QSettings().fileName();

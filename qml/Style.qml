@@ -33,4 +33,8 @@ QtObject {
 
     readonly property color colorText: "white"
     readonly property color colorWarning: "orange"
+
+    readonly property var contentAreaInLargeScreens: function(parentWidth) {
+        return Math.min(parentWidth - 2*Style.defaultMargin, 500)
+    }
 }
