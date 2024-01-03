@@ -54,14 +54,14 @@ FPPhotoResponse::FPPhotoResponse(const QString& hash, const QSize& requestedSize
             if (m_image.isNull())
                 qWarning() << "Failed to decode image";
             emit finished();
-            emit imageDownloaded(m_image);
+            emit imageDownloaded(m_image, m_data);
             return;
         case LQTDownloaderState::S_NETWORK_FAILURE:
         case LQTDownloaderState::S_IO_FAILURE:
         case LQTDownloaderState::S_ABORTED:
             qWarning() << "Failed to download photo:" << m_downloader->state();
             emit finished();
-            emit imageDownloaded(QImage());
+            emit imageDownloaded(QImage(), QByteArray());
             return;
         }
     });
@@ -102,9 +102,9 @@ void FPPhotoViewStore::copyToClipboard()
     clipboard->setImage(m_lastPhoto);
 }
 
-bool FPPhotoViewStore::share()
+bool FPPhotoViewStore::share(FPQueryResultItem* item)
 {
-    const QString filePath = saveToTempFile();
+    const QString filePath = saveToTempFile(item);
     if (filePath.isNull())
         return false;
 
@@ -113,9 +113,9 @@ bool FPPhotoViewStore::share()
                                         QSL("luke.flashbackprism.qtprovider"));
 }
 
-bool FPPhotoViewStore::open()
+bool FPPhotoViewStore::open(FPQueryResultItem* item)
 {
-    const QString filePath = saveToTempFile();
+    const QString filePath = saveToTempFile(item);
     if (filePath.isNull())
         return false;
 
@@ -137,28 +137,42 @@ void FPPhotoViewStore::download(FPQueryResultItem* item, QJSValue callback)
         }
 #endif
 
+        const QFileInfo fileInfo(item->FileName());
+        const QString fileBaseName = fileInfo.completeBaseName();
+        const QString fileExt = fileInfo.completeSuffix();
         const QString filePath = lqt::path_combine({
             QStandardPaths::writableLocation(QStandardPaths::DownloadLocation),
-            item->Name()
-        }) + ".png";
+            fileBaseName + "." + fileExt
+        });
 
         qDebug() << "Write to file:" << filePath;
-        if (m_lastPhoto.save(filePath))
-            callback.call({ filePath });
-        else
+
+        QFile f(filePath);
+        if (!f.open(QIODevice::WriteOnly)) {
+            qWarning() << "Cannot open file" << filePath << "for writing";
             callback.call(QJSValueList());
+            return;
+        }
+
+        if (f.write(m_lastPhotoData) != m_lastPhotoData.size()) {
+            qWarning() << "Incomplete write to file" << filePath;
+            callback.call(QJSValueList());
+            return;
+        }
+
+        callback.call({ filePath });
 
 #ifdef Q_OS_ANDROID
     });
 #endif
 }
 
-QString FPPhotoViewStore::saveToTempFile()
+QString FPPhotoViewStore::saveToTempFile(FPQueryResultItem* item)
 {
     // TODO: cleanup after share is done.
     QTemporaryFile tempFile(lqt::path_combine({
         QDir::tempPath(),
-        QSL("photo_XXXXXX.png")
+        QSL("photo_XXXXXX.%1").arg(QFileInfo(item->FileName()).completeSuffix())
     }));
     tempFile.setAutoRemove(false);
     if (!tempFile.open()) {
@@ -166,7 +180,7 @@ QString FPPhotoViewStore::saveToTempFile()
         return QString();
     }
 
-    if (!m_lastPhoto.save(&tempFile, "png")) {
+    if (tempFile.write(m_lastPhotoData) != m_lastPhotoData.size()) {
         qWarning() << "Failed to save image to temporary location";
         return QString();
     }

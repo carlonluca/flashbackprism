@@ -134,8 +134,10 @@ int main(int argc, char** argv)
 #endif
     auto photoProvider = new FPPhotoProvider;
     auto photoStore = new FPPhotoViewStore(qApp);
-    QObject::connect(photoProvider, &FPPhotoProvider::imageDownloaded, photoStore, [photoStore] (const QImage& photo) {
+    QObject::connect(photoProvider, &FPPhotoProvider::imageDownloaded,
+                     photoStore, [photoStore] (const QImage& photo, const QByteArray& photoData) {
         photoStore->set_lastPhoto(photo);
+        photoStore->set_lastPhotoData(photoData);
     });
 
     lqt::embed_font_awesome(engine.rootContext());

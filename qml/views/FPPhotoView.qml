@@ -44,7 +44,7 @@ Item {
         // Share button
         FPTopBarButton {
             text: "\uf1e0"
-            onClicked: photoViewStore.share()
+            onClicked: photoViewStore.share(photoItem)
             visible: lqtQmlUtils.isMobile()
             ToolTip.text: qsTr("Share")
         }
@@ -52,7 +52,7 @@ Item {
         // Open button
         FPTopBarButton {
             text: "\uf08e"
-            onClicked: photoViewStore.open()
+            onClicked: photoViewStore.open(photoItem)
             ToolTip.text: qsTr("Open with system app")
         }
 

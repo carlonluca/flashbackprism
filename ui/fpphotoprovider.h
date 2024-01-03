@@ -43,7 +43,7 @@ public:
     void cancel() override;
 
 signals:
-    void imageDownloaded(const QImage& image);
+    void imageDownloaded(const QImage& image, const QByteArray& data);
 
 private:
     lqt::Downloader* m_downloader;
@@ -59,23 +59,24 @@ public:
                                               const QSize& requestedSize) override;
 
 signals:
-    void imageDownloaded(const QImage& image);
+    void imageDownloaded(const QImage& image, const QByteArray& data);
 };
 
 class FPPhotoViewStore : public QObject
 {
     Q_OBJECT
     L_RW_PROP_AS(QImage, lastPhoto)
+    L_RW_PROP_AS(QByteArray, lastPhotoData)
 public:
     FPPhotoViewStore(QObject* parent = nullptr) : QObject(parent) {}
 
     Q_INVOKABLE void copyToClipboard();
-    Q_INVOKABLE bool share();
-    Q_INVOKABLE bool open();
+    Q_INVOKABLE bool share(FPQueryResultItem* item);
+    Q_INVOKABLE bool open(FPQueryResultItem* item);
     Q_INVOKABLE void download(FPQueryResultItem* item, QJSValue callback);
 
 private:
-    QString saveToTempFile();
+    QString saveToTempFile(FPQueryResultItem* item);
 };
 
 #endif // FPPHOTOPROVIDER_H
