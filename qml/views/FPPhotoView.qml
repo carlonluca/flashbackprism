@@ -30,7 +30,11 @@ import "qrc:/lqtutils/fontawesome" as FA
 Item {
     property var photoItem: null
 
-    Component.onDestruction: photoViewStore.cleanTempFile(photoItem)
+    FPPhotoViewStore {
+        id: photoViewStore
+        item: photoItem
+        provider: photoProvider
+    }
 
     FPTopBar {
         id: topBar
@@ -46,7 +50,7 @@ Item {
         // Share button
         FPTopBarButton {
             text: "\uf1e0"
-            onClicked: photoViewStore.share(photoItem)
+            onClicked: photoViewStore.share()
             visible: lqtQmlUtils.isMobile()
             ToolTip.text: qsTr("Share")
         }
@@ -54,14 +58,14 @@ Item {
         // Open button
         FPTopBarButton {
             text: "\uf08e"
-            onClicked: photoViewStore.open(photoItem)
+            onClicked: photoViewStore.open()
             ToolTip.text: qsTr("Open with system app")
         }
 
         // Download
         FPTopBarButton {
             text: "\uf0ed"
-            onClicked: photoViewStore.download(photoItem, function(filePath) {
+            onClicked: photoViewStore.download(function(filePath) {
                 if (filePath) {
                     okDialog.title = qsTr("Photo downloaded")
                     okDialog.text = qsTr("Photo downloaded to:") + " " + filePath

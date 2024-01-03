@@ -44,7 +44,7 @@ FPPhotoResponse::FPPhotoResponse(const QString& hash, const QSize& requestedSize
     QQuickImageResponse()
 {
     m_downloader = new lqt::Downloader(FPQmlUtils::photoUrl(hash), &m_data);
-    connect(m_downloader, &lqt::Downloader::stateChanged, this, [this] {
+    connect(m_downloader, &lqt::Downloader::stateChanged, this, [this, hash] {
         switch (m_downloader->state()) {
         case LQTDownloaderState::S_IDLE:
         case LQTDownloaderState::S_DOWNLOADING:
@@ -54,14 +54,14 @@ FPPhotoResponse::FPPhotoResponse(const QString& hash, const QSize& requestedSize
             if (m_image.isNull())
                 qWarning() << "Failed to decode image";
             emit finished();
-            emit imageDownloaded(m_image, m_data);
+            emit imageDownloaded(hash, m_image, m_data);
             return;
         case LQTDownloaderState::S_NETWORK_FAILURE:
         case LQTDownloaderState::S_IO_FAILURE:
         case LQTDownloaderState::S_ABORTED:
             qWarning() << "Failed to download photo:" << m_downloader->state();
             emit finished();
-            emit imageDownloaded(QImage(), QByteArray());
+            emit imageDownloaded(hash, QImage(), QByteArray());
             return;
         }
     });
@@ -102,9 +102,9 @@ void FPPhotoViewStore::copyToClipboard()
     clipboard->setImage(m_lastPhoto);
 }
 
-bool FPPhotoViewStore::share(FPQueryResultItem* item)
+bool FPPhotoViewStore::share()
 {
-    const QString filePath = saveToTempFile(item);
+    const QString filePath = saveToTempFile();
     if (filePath.isNull())
         return false;
 
@@ -113,16 +113,16 @@ bool FPPhotoViewStore::share(FPQueryResultItem* item)
                                         QSL("luke.flashbackprism.qtprovider"));
 }
 
-bool FPPhotoViewStore::open(FPQueryResultItem* item)
+bool FPPhotoViewStore::open()
 {
-    const QString filePath = saveToTempFile(item);
+    const QString filePath = saveToTempFile();
     if (filePath.isNull())
         return false;
 
     return QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
 }
 
-void FPPhotoViewStore::download(FPQueryResultItem* item, QJSValue callback)
+void FPPhotoViewStore::download(QJSValue callback)
 {
 #ifdef Q_OS_ANDROID
     auto future = QtAndroidPrivate::requestPermission("android.permission.WRITE_EXTERNAL_STORAGE");
@@ -137,7 +137,7 @@ void FPPhotoViewStore::download(FPQueryResultItem* item, QJSValue callback)
         }
 #endif
 
-        const QString fileName = getFileName(item);
+        const QString fileName = getFileName();
         if (fileName.isEmpty()) {
             qWarning() << "PhotoPrism does not seem to have provided a file name";
             callback.call(QJSValueList());
@@ -171,9 +171,9 @@ void FPPhotoViewStore::download(FPQueryResultItem* item, QJSValue callback)
 #endif
 }
 
-bool FPPhotoViewStore::cleanTempFile(FPQueryResultItem* item)
+bool FPPhotoViewStore::cleanTempFile()
 {
-    const QString filePath = getTempFilePath(item);
+    const QString filePath = getTempFilePath();
     if (filePath.isEmpty()) {
         qWarning() << "PhotoPrism does not seem to have provided a file name";
         return false;
@@ -182,9 +182,18 @@ bool FPPhotoViewStore::cleanTempFile(FPQueryResultItem* item)
     return QFile(filePath).remove();
 }
 
-QString FPPhotoViewStore::saveToTempFile(FPQueryResultItem* item)
+void FPPhotoViewStore::onImageReceived(const QString& hash, const QImage& image, const QByteArray& data)
 {
-    const QString filePath = getTempFilePath(item);
+    if (!m_item || m_item->Hash() != hash)
+        return;
+
+    set_lastPhoto(image);
+    set_lastPhotoData(data);
+}
+
+QString FPPhotoViewStore::saveToTempFile()
+{
+    const QString filePath = getTempFilePath();
     if (filePath.isEmpty()) {
         qWarning() << "PhotoPrism does not seem to have provided a file name";
         return QString();
@@ -205,21 +214,21 @@ QString FPPhotoViewStore::saveToTempFile(FPQueryResultItem* item)
     return QFileInfo(tempFile).absoluteFilePath();
 }
 
-QString FPPhotoViewStore::getFileName(FPQueryResultItem* item)
+QString FPPhotoViewStore::getFileName()
 {
-    if (!item)
+    if (!m_item)
         return QString();
 
-    const QFileInfo fileInfo(item->FileName());
+    const QFileInfo fileInfo(m_item->FileName());
     const QString fileBaseName = fileInfo.completeBaseName();
     const QString fileExt = fileInfo.completeSuffix();
 
     return fileBaseName + "." + fileExt;
 }
 
-QString FPPhotoViewStore::getTempFilePath(FPQueryResultItem *item)
+QString FPPhotoViewStore::getTempFilePath()
 {
-    const QString fileName = getFileName(item);
+    const QString fileName = getFileName();
     if (fileName.isEmpty()) {
         qWarning() << "PhotoPrism does not seem to have provided a file name";
         return QString();

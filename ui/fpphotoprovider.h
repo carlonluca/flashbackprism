@@ -43,7 +43,7 @@ public:
     void cancel() override;
 
 signals:
-    void imageDownloaded(const QImage& image, const QByteArray& data);
+    void imageDownloaded(const QString& hash, const QImage& image, const QByteArray& data);
 
 private:
     lqt::Downloader* m_downloader;
@@ -51,6 +51,7 @@ private:
     QByteArray m_data;
 };
 
+class FPPhotoViewStore;
 class FPPhotoProvider : public QQuickAsyncImageProvider
 {
     Q_OBJECT
@@ -59,27 +60,44 @@ public:
                                               const QSize& requestedSize) override;
 
 signals:
-    void imageDownloaded(const QImage& image, const QByteArray& data);
+    void imageDownloaded(const QString& hash, const QImage& image, const QByteArray& data);
 };
 
 class FPPhotoViewStore : public QObject
 {
     Q_OBJECT
+    L_RW_PROP_AS(FPQueryResultItem*, item, nullptr)
+    L_RW_PROP_AS(FPPhotoProvider*, provider, nullptr)
     L_RW_PROP_AS(QImage, lastPhoto)
     L_RW_PROP_AS(QByteArray, lastPhotoData)
 public:
-    FPPhotoViewStore(QObject* parent = nullptr) : QObject(parent) {}
+    FPPhotoViewStore(QObject* parent = nullptr) : QObject(parent) {
+        connect(this, &FPPhotoViewStore::providerChanged, this, [this] {
+            if (m_provider) {
+                this->disconnect();
+                connect(m_provider, &FPPhotoProvider::imageDownloaded,
+                        this, &FPPhotoViewStore::onImageReceived);
+            }
+        });
+    }
+
+    ~FPPhotoViewStore() {
+        cleanTempFile();
+    }
 
     Q_INVOKABLE void copyToClipboard();
-    Q_INVOKABLE bool share(FPQueryResultItem* item);
-    Q_INVOKABLE bool open(FPQueryResultItem* item);
-    Q_INVOKABLE void download(FPQueryResultItem* item, QJSValue callback);
-    Q_INVOKABLE bool cleanTempFile(FPQueryResultItem* item);
+    Q_INVOKABLE bool share();
+    Q_INVOKABLE bool open();
+    Q_INVOKABLE void download(QJSValue callback);
+    Q_INVOKABLE bool cleanTempFile();
+
+public slots:
+    void onImageReceived(const QString& hash, const QImage& image, const QByteArray& data);
 
 private:
-    QString saveToTempFile(FPQueryResultItem* item);
-    QString getFileName(FPQueryResultItem* item);
-    QString getTempFilePath(FPQueryResultItem* item);
+    QString saveToTempFile();
+    QString getFileName();
+    QString getTempFilePath();
 };
 
 #endif // FPPHOTOPROVIDER_H

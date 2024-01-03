@@ -127,23 +127,16 @@ int main(int argc, char** argv)
     qmlRegisterType<FPLoginRequest>("FlashbackPrism", 1, 0, "FPLoginRequest");
     qmlRegisterType<FPPhotosRequest>("FlashbackPrism", 1, 0, "FPPhotosRequest");
     qmlRegisterType<FPPhotoMonitor>("FlashbackPrism", 1, 0, "FPPhotoMonitor");
+    qmlRegisterType<FPPhotoViewStore>("FlashbackPrism", 1, 0, "FPPhotoViewStore");
 
     auto photoMonitor = new FPPhotoMonitor(qApp);
 #ifndef Q_OS_ANDROID
     new FPNotificationProcessor(photoMonitor, qApp);
 #endif
     auto photoProvider = new FPPhotoProvider;
-    auto photoStore = new FPPhotoViewStore(qApp);
-    QObject::connect(photoProvider, &FPPhotoProvider::imageDownloaded,
-                     photoStore, [photoStore] (const QImage& photo, const QByteArray& photoData) {
-        photoStore->set_lastPhoto(photo);
-        photoStore->set_lastPhotoData(photoData);
-    });
 
     lqt::embed_font_awesome(engine.rootContext());
     engine.addImageProvider("photo", photoProvider);
-    engine.rootContext()->setContextProperty("photoViewStore",
-                                             photoStore);
     engine.rootContext()->setContextProperty("photoProvider",
                                              photoProvider);
     engine.rootContext()->setContextProperty("photoMonitor",
