@@ -48,6 +48,7 @@ qt_add_qml_module(appFlashbackPrism
     QML_FILES qml/views/FPLogin.qml
     QML_FILES qml/Style.qml
     QML_FILES qml/components/FPPopupMessage.qml
+    QML_FILES qml/components/FPPopupOk.qml
     QML_FILES qml/views/FPYearListView.qml
     QML_FILES qml/views/FPYearView.qml
     QML_FILES qml/views/FPTopBar.qml

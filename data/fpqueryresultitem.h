@@ -16,6 +16,8 @@ L_RW_PROP_AS(int, Year, -1)
 L_RW_PROP_AS(int, Month, -1)
 L_RW_PROP_AS(int, Day, -1)
 L_RW_PROP_AS(QString, FileName)
+L_RW_PROP_AS(QString, Name)
+L_RW_PROP_AS(QString, Path)
 L_RW_PROP_AS(QString, Hash)
 L_END_CLASS
 

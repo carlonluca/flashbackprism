@@ -25,9 +25,12 @@
 #ifndef FPPHOTOPROVIDER_H
 #define FPPHOTOPROVIDER_H
 
-#include "lqtutils_net.h"
 #include <QObject>
 #include <QQuickAsyncImageProvider>
+
+#include <lqtutils_net.h>
+
+#include <data/fpqueryresultitem.h>
 
 class FPPhotoResponse : public QQuickImageResponse
 {
@@ -69,6 +72,7 @@ public:
     Q_INVOKABLE void copyToClipboard();
     Q_INVOKABLE bool share();
     Q_INVOKABLE bool open();
+    Q_INVOKABLE void download(FPQueryResultItem* item, QJSValue callback);
 
 private:
     QString saveToTempFile();

@@ -27,6 +27,10 @@
 #include <QTemporaryFile>
 #include <QDir>
 #include <QDesktopServices>
+#include <QStandardPaths>
+#ifdef Q_OS_ANDROID
+#include <QtCore/private/qandroidextras_p.h>
+#endif
 
 #include <lqtutils_net.h>
 #include <lqtutils_ui.h>
@@ -116,6 +120,36 @@ bool FPPhotoViewStore::open()
         return false;
 
     return QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+}
+
+void FPPhotoViewStore::download(FPQueryResultItem* item, QJSValue callback)
+{
+#if Q_OS_ANDROID
+    auto future = QtAndroidPrivate::requestPermission("android.permission.WRITE_EXTERNAL_STORAGE");
+    future.then([&] (QtAndroidPrivate::PermissionResult result) {
+        if (result != QtAndroidPrivate::PermissionResult::Authorized) {
+            if (!callback.isNull() && callback.isCallable()) {
+                callback.call(QJSValueList());
+                return;
+            }
+
+            return;
+        }
+#endif
+
+        const QString filePath = lqt::path_combine({
+            QStandardPaths::writableLocation(QStandardPaths::DownloadLocation),
+            item->Name()
+        }) + ".png";
+
+        qDebug() << "Write to file:" << filePath;
+        if (m_lastPhoto.save(filePath))
+            callback.call({ filePath });
+        else
+            callback.call(QJSValueList());
+#ifdef Q_OS_ANDROID
+    });
+#endif
 }
 
 QString FPPhotoViewStore::saveToTempFile()

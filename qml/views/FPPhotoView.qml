@@ -55,6 +55,21 @@ Item {
             onClicked: photoViewStore.open()
             ToolTip.text: qsTr("Open with system app")
         }
+
+        // Download
+        FPTopBarButton {
+            onClicked: photoViewStore.download(photoItem, function(filePath) {
+                if (filePath) {
+                    okDialog.title = qsTr("Photo downloaded to:") + " " + filePath
+                    okDialog.open()
+                    return
+                }
+
+                okDialog.title = qsTr("Failed to download photo")
+                okDialog.open()
+            })
+            ToolTip.text: qsTr("Download")
+        }
     }
 
     Image {
@@ -126,5 +141,10 @@ Item {
         BusyIndicator {
             anchors.horizontalCenter: parent.horizontalCenter
         }
+    }
+
+    // File saved
+    FPPopupOk {
+        id: okDialog
     }
 }
