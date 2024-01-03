@@ -58,6 +58,7 @@ Item {
 
         // Download
         FPTopBarButton {
+            text: "\uf0ed"
             onClicked: photoViewStore.download(photoItem, function(filePath) {
                 if (filePath) {
                     okDialog.title = qsTr("Photo downloaded to:") + " " + filePath
