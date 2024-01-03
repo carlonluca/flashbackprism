@@ -54,6 +54,7 @@ qt_add_qml_module(appFlashbackPrism
     QML_FILES qml/views/FPTopBar.qml
     QML_FILES qml/components/FPPhotoOverlayText.qml
     QML_FILES qml/views/FPPhotoView.qml
+    QML_FILES qml/views/FPZoomableImage.qml
     QML_FILES qml/components/FPText.qml
     QML_FILES qml/components/FPTopBarButton.qml
     QML_FILES qml/components/FPPopupBase.qml

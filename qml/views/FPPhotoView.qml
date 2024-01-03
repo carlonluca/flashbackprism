@@ -75,7 +75,7 @@ Item {
         }
     }
 
-    Image {
+    FPZoomableImage {
         id: imageElement
         anchors {
             left: parent.left
