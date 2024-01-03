@@ -137,12 +137,16 @@ void FPPhotoViewStore::download(FPQueryResultItem* item, QJSValue callback)
         }
 #endif
 
-        const QFileInfo fileInfo(item->FileName());
-        const QString fileBaseName = fileInfo.completeBaseName();
-        const QString fileExt = fileInfo.completeSuffix();
+        const QString fileName = getFileName(item);
+        if (fileName.isEmpty()) {
+            qWarning() << "PhotoPrism does not seem to have provided a file name";
+            callback.call(QJSValueList());
+            return;
+        }
+
         const QString filePath = lqt::path_combine({
             QStandardPaths::writableLocation(QStandardPaths::DownloadLocation),
-            fileBaseName + "." + fileExt
+            fileName
         });
 
         qDebug() << "Write to file:" << filePath;
@@ -167,15 +171,27 @@ void FPPhotoViewStore::download(FPQueryResultItem* item, QJSValue callback)
 #endif
 }
 
+bool FPPhotoViewStore::cleanTempFile(FPQueryResultItem* item)
+{
+    const QString filePath = getTempFilePath(item);
+    if (filePath.isEmpty()) {
+        qWarning() << "PhotoPrism does not seem to have provided a file name";
+        return false;
+    }
+
+    return QFile(filePath).remove();
+}
+
 QString FPPhotoViewStore::saveToTempFile(FPQueryResultItem* item)
 {
-    // TODO: cleanup after share is done.
-    QTemporaryFile tempFile(lqt::path_combine({
-        QDir::tempPath(),
-        QSL("photo_XXXXXX.%1").arg(QFileInfo(item->FileName()).completeSuffix())
-    }));
-    tempFile.setAutoRemove(false);
-    if (!tempFile.open()) {
+    const QString filePath = getTempFilePath(item);
+    if (filePath.isEmpty()) {
+        qWarning() << "PhotoPrism does not seem to have provided a file name";
+        return QString();
+    }
+
+    QFile tempFile(filePath);
+    if (!tempFile.open(QIODevice::WriteOnly)) {
         qWarning() << "Failed to open temporary file";
         return QString();
     }
@@ -187,4 +203,30 @@ QString FPPhotoViewStore::saveToTempFile(FPQueryResultItem* item)
 
     qDebug() << "File saved" << tempFile.fileName();
     return QFileInfo(tempFile).absoluteFilePath();
+}
+
+QString FPPhotoViewStore::getFileName(FPQueryResultItem* item)
+{
+    if (!item)
+        return QString();
+
+    const QFileInfo fileInfo(item->FileName());
+    const QString fileBaseName = fileInfo.completeBaseName();
+    const QString fileExt = fileInfo.completeSuffix();
+
+    return fileBaseName + "." + fileExt;
+}
+
+QString FPPhotoViewStore::getTempFilePath(FPQueryResultItem *item)
+{
+    const QString fileName = getFileName(item);
+    if (fileName.isEmpty()) {
+        qWarning() << "PhotoPrism does not seem to have provided a file name";
+        return QString();
+    }
+
+    return lqt::path_combine({
+        QDir::tempPath(),
+        fileName
+    });
 }

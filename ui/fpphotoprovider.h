@@ -74,9 +74,12 @@ public:
     Q_INVOKABLE bool share(FPQueryResultItem* item);
     Q_INVOKABLE bool open(FPQueryResultItem* item);
     Q_INVOKABLE void download(FPQueryResultItem* item, QJSValue callback);
+    Q_INVOKABLE bool cleanTempFile(FPQueryResultItem* item);
 
 private:
     QString saveToTempFile(FPQueryResultItem* item);
+    QString getFileName(FPQueryResultItem* item);
+    QString getTempFilePath(FPQueryResultItem* item);
 };
 
 #endif // FPPHOTOPROVIDER_H

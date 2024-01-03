@@ -30,6 +30,8 @@ import "qrc:/lqtutils/fontawesome" as FA
 Item {
     property var photoItem: null
 
+    Component.onDestruction: photoViewStore.cleanTempFile(photoItem)
+
     FPTopBar {
         id: topBar
 
