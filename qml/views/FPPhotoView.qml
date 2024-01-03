@@ -73,66 +73,79 @@ Item {
             })
             ToolTip.text: qsTr("Download")
         }
+
+        FPTopBarButton {
+            text: "\uf2f9"
+            onClicked: imageElement.imageRotation += 90
+            ToolTip.text: qsTr("Rotate 90° clockwise")
+        }
     }
 
-    FPZoomableImage {
-        id: imageElement
+    Item {
+        id: imageContainer
         anchors {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
             top: topBar.bottom
         }
-        source: "image://photo/" + photoItem.Hash
-        fillMode: Image.PreserveAspectFit
-        autoTransform: true
-        onStatusChanged: function(status) {
-            switch (status) {
-            case Image.Null:
-                loadingDialog.close()
-                break
-            case Image.Ready:
-                loadingDialog.close()
-                break
-            case Image.Loading:
-                loadingDialog.open()
-                break
-            case Image.Error:
-                loadingDialog.close()
-                break
-            }
-        }
 
-        FPPhotoOverlayText {
-            text: qmlUtils.formatDateForPhoto(photoItem.TakenAt)
-            anchors.top: parent.top
-            anchors.right: parent.right
-            anchors.margins: Style.defaultMargin
-        }
+        FPZoomableImage {
+            id: imageElement
+            width: rotation === 0 || rotation === 180 ? parent.width : parent.height
+            height: rotation === 0 || rotation === 180 ? parent.height : parent.width
+            anchors.centerIn: parent
+            source: "image://photo/" + photoItem.Hash
+            fillMode: Image.PreserveAspectFit
+            autoTransform: true
+            onStatusChanged: function(status) {
+                switch (status) {
+                case Image.Null:
+                    loadingDialog.close()
+                    break
+                case Image.Ready:
+                    loadingDialog.close()
+                    break
+                case Image.Loading:
+                    loadingDialog.open()
+                    break
+                case Image.Error:
+                    loadingDialog.close()
+                    break
+                }
+            }
 
-        Column {
-            anchors {
-                centerIn: parent
-                margins: Style.defaultMargin
+            FPPhotoOverlayText {
+                text: qmlUtils.formatDateForPhoto(photoItem.TakenAt)
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.margins: Style.defaultMargin
             }
-            visible: imageElement.status === Image.Error
-            spacing: Style.defaultMargin
-            FA.LQTFontAwesomeFreeSolid {
-                anchors.horizontalCenter: parent.horizontalCenter
-                iconUtf8: "\uf06a"
-                iconColor: Style.colorWarning
-                width: imageElement.width/8
-                height: width
-            }
-            Item {
-                width: parent.width
-                height: Style.defaultMargin
-            }
-            FPText {
-                width: parent.width
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Failed to download image from the server")
+
+            Column {
+                anchors {
+                    centerIn: parent
+                    margins: Style.defaultMargin
+                }
+                visible: imageElement.status === Image.Error
+                spacing: Style.defaultMargin
+                FA.LQTFontAwesomeFreeSolid {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    iconUtf8: "\uf06a"
+                    iconColor: Style.colorWarning
+                    width: imageElement.width/8
+                    height: width
+                }
+                Item {
+                    width: parent.width
+                    height: Style.defaultMargin
+                }
+                FPText {
+                    width: parent.width
+                    horizontalAlignment: Text.AlignHCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: qsTr("Failed to download image from the server")
+                }
             }
         }
     }

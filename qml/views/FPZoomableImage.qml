@@ -30,6 +30,7 @@ Item {
     property alias source: photoSurfaceImage.source
     property alias fillMode: photoSurfaceImage.fillMode
     property alias autoTransform: photoSurfaceImage.autoTransform
+    property alias imageRotation: photoSurfaceImage.rotation
 
     id: photoSurface
     visible: source !== ""
