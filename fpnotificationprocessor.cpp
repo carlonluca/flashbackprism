@@ -36,7 +36,7 @@ FPNotificationProcessor::FPNotificationProcessor(FPPhotoMonitor* photoMonitor, Q
     , m_photoMonitor(photoMonitor)
 {
     m_timer.setSingleShot(false);
-    m_timer.setInterval(10000);
+    m_timer.setInterval(std::chrono::milliseconds(std::chrono::minutes(30)).count());
     connect(&m_timer, &QTimer::timeout,
             this, &FPNotificationProcessor::process);
     m_timer.start();
