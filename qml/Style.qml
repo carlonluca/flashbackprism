@@ -27,7 +27,7 @@ pragma Singleton
 import QtQuick
 
 QtObject {
-    readonly property real defaultMargin: 5
+    readonly property real defaultMargin: 7
     readonly property real topBarHeight: 60
     readonly property int defaultToolTipDelay: 1000
 

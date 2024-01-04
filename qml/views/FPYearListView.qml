@@ -37,6 +37,8 @@ Item {
     FPTopBar {
         id: topBar
         backVisible: false
+        iconVisible: true
+        appNameVisible: false
 
         FPText {
             text: "v" + Qt.application.version
@@ -132,17 +134,17 @@ Item {
     FPPopupBase {
         id: aboutDialog
         title: qsTr("About")
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        standardButtons: Dialog.Ok
 
         RowLayout {
             width: parent.width
             spacing: 30
             Image {
-                Layout.preferredWidth: 128
-                Layout.preferredHeight: 128
+                Layout.preferredWidth: 92
+                Layout.preferredHeight: 192
                 source: "qrc:/qt/qml/FlashbackPrism/assets/icon.svg"
                 fillMode: Image.PreserveAspectFit
-                smooth: true
-                antialiasing: true
             }
             Column {
                 Layout.fillWidth: true
