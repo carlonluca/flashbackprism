@@ -30,7 +30,10 @@ import "qml/views"
 ApplicationWindow {
     readonly property rect visibleArea: {
         Screen.orientation
-        return lqtQmlUtils.visibleDisplayFrame()
+        const visibleArea_ = lqtQmlUtils.visibleDisplayFrame()
+        if  (visibleArea_.width === 0)
+            return Qt.rect(0, 0, width, height)
+        return visibleArea_
     }
 
     width: 1280

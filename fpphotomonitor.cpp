@@ -40,14 +40,11 @@ FPPhotoMonitor::~FPPhotoMonitor() {}
 
 void FPPhotoMonitor::start()
 {
-    qDebug() << Q_FUNC_INFO;
     m_refreshModel.start();
-    refreshModel();
 }
 
 void FPPhotoMonitor::stop()
 {
-    qDebug() << Q_FUNC_INFO;
     m_refreshModel.stop();
 }
 

@@ -31,6 +31,8 @@ import FlashbackPrism
 Item {
     id: yearListView
 
+    Component.onCompleted: photoMonitor.refreshModel()
+
     FPTopBar {
         id: topBar
         backVisible: false
