@@ -82,6 +82,7 @@ Item {
         model: photoMonitor.flashbackYears
         cellWidth: width/3
         cellHeight: cellWidth
+        clip: true
         delegate: Image {
             width: gridView.width/3
             source: qmlUtils.thumbnailUrl(modelData.items[0], 1)
