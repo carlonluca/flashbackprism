@@ -1,14 +1,37 @@
 <?xml version="1.0"?>
+<!--
+  This file is part of FlashbackPrism.
+
+  Copyright (c) 2023 Luca Carlon
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, version 3.
+
+  This program is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+<!--
+  Author:  Luca Carlon
+  Company: -
+  Date:    2023.01.02
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="luke.flashbackprism" android:installLocation="auto" android:versionCode="100" android:versionName="0.1.0">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <!-- %%INSERT_PERMISSIONS -->
     <!-- %%INSERT_FEATURES -->
 
     <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:smallScreens="true"/>
-    <application android:name="org.qtproject.qt.android.bindings.QtApplication" android:hardwareAccelerated="true" android:label="FlashbackPrism" android:requestLegacyExternalStorage="true" android:allowBackup="true" android:fullBackupOnly="false" android:icon="@drawable/icon_24dp">
+    <application android:name="org.qtproject.qt.android.bindings.QtApplication" android:theme="@style/AppTheme" android:hardwareAccelerated="true" android:label="FlashbackPrism" android:requestLegacyExternalStorage="true" android:allowBackup="true" android:fullBackupOnly="false" android:icon="@drawable/icon_24dp">
         <activity android:name="org.qtproject.qt.android.bindings.QtActivity" android:process=":mainActivity" android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:label="FlashbackPrism" android:launchMode="singleTop" android:screenOrientation="unspecified" android:exported="true" android:icon="@drawable/icon_24dp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -36,5 +59,11 @@
         <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.qtprovider" android:exported="false" android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/qtprovider_paths"/>
         </provider>
+        <receiver android:name="luke.flashbackprism.FlashbackBootReceiver" android:enabled="true" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>
