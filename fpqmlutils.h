@@ -37,6 +37,10 @@ public:
     explicit FPQmlUtils(QObject* parent = nullptr);
 
     Q_INVOKABLE QString formatDateForPhoto(const QDateTime& dateTime);
+    Q_INVOKABLE QString sslRuntimeVersion();
+    Q_INVOKABLE QString sslBuildVersion();
+    Q_INVOKABLE QString qtVersion();
+    Q_INVOKABLE bool sslSupported();
 
     Q_INVOKABLE static QUrl thumbnailUrl(FPQueryResultItem* item, int size);
     Q_INVOKABLE static QUrl photoUrl(FPQueryResultItem* item);

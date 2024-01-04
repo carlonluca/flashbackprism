@@ -10,3 +10,6 @@
 [submodule "deps/lightlogger"]
 	path = deps/lightlogger
 	url = https://github.com/carlonluca/LightLogger.git
+[submodule "deps/android_openssl"]
+	path = deps/android_openssl
+	url = https://github.com/KDAB/android_openssl.git

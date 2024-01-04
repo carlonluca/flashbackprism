@@ -37,6 +37,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/deps/qtaes)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqtutils)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/deps/lqobjectserializer/LQObjectSerializer)
+include(${CMAKE_CURRENT_SOURCE_DIR}/deps/android_openssl/android_openssl.cmake)
 
 add_compile_definitions(APP_VERSION="${CMAKE_PROJECT_VERSION}")
 
@@ -85,6 +86,9 @@ qt_add_qml_module(appFlashbackPrism
 
 # Android
 set_property(TARGET appFlashbackPrism PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/android")
+if (ANDROID)
+    add_android_openssl_libraries(appFlashbackPrism)
+endif()
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

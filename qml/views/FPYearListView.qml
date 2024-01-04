@@ -36,9 +36,24 @@ Item {
     FPTopBar {
         id: topBar
         backVisible: false
+
+        FPText {
+            text: "v" + Qt.application.version
+            color: "white"
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        FPTopBarButton {
+            id: about
+            onClicked: aboutDialog.open()
+            anchors.verticalCenter: parent.verticalCenter
+            text: "\u003f"
+        }
+
         FPTopBarButton {
             id: menu
             onClicked: contextMenu.popup()
+            anchors.verticalCenter: parent.verticalCenter
             text: "\uf0c9"
 
             Menu {
@@ -109,6 +124,22 @@ Item {
 
         BusyIndicator {
             anchors.horizontalCenter: parent.horizontalCenter
+        }
+    }
+
+    // About dialog
+    FPPopupOk {
+        id: aboutDialog
+        title: qsTr("About")
+        text: "<b>" + qsTr("Author") + "</b>: " + "Luca Carlon" +
+              buildLine(qsTr("Application version"), Qt.application.version) +
+              buildLine(qsTr("SSL supported"), (qmlUtils.sslSupported() ? qsTr("yes") : qsTr("no"))) +
+              buildLine(qsTr("SSL build version"), (qmlUtils.sslSupported() ? qmlUtils.sslBuildVersion() : "-")) +
+              buildLine(qsTr("SSL runtime version"), (qmlUtils.sslSupported() ? qmlUtils.sslRuntimeVersion() : "-")) +
+              buildLine(qsTr("Qt version"), qmlUtils.qtVersion())
+
+        function buildLine(key, value) {
+            return "<br/><b>" + key + "</b>" + ": " + value
         }
     }
 }

@@ -24,6 +24,7 @@
 
 #include <QUrl>
 #include <QUrlQuery>
+#include <QSslSocket>
 
 #include <lqtutils_qsl.h>
 
@@ -39,6 +40,26 @@ QString FPQmlUtils::formatDateForPhoto(const QDateTime& dateTime)
     if (dateTime.isNull())
         return QSL("-");
     return dateTime.toString("yyyy/MM/dd");
+}
+
+QString FPQmlUtils::sslRuntimeVersion()
+{
+    return QSslSocket::sslLibraryVersionString();
+}
+
+QString FPQmlUtils::sslBuildVersion()
+{
+    return QSslSocket::sslLibraryBuildVersionString();
+}
+
+QString FPQmlUtils::qtVersion()
+{
+    return qVersion();
+}
+
+bool FPQmlUtils::sslSupported()
+{
+    return QSslSocket::supportsSsl();
 }
 
 QUrl FPQmlUtils::thumbnailUrl(FPQueryResultItem* item, int size)

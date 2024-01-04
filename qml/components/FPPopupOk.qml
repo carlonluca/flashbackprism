@@ -35,5 +35,7 @@ FPPopupBase {
     FPText {
         id: messageElement
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        lineHeight: 1.5
+        lineHeightMode: Text.ProportionalHeight
     }
 }
