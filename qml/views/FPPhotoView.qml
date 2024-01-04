@@ -82,7 +82,7 @@ Item {
 
         FPTopBarButton {
             text: "\uf2f9"
-            onClicked: imageElement.rotation += 90
+            onClicked: imageElement.rotation = (imageElement.rotation + 90)%360
             ToolTip.text: qsTr("Rotate 90° clockwise")
         }
     }
