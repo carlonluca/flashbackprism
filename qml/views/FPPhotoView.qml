@@ -82,7 +82,7 @@ Item {
 
         FPTopBarButton {
             text: "\uf2f9"
-            onClicked: imageElement.imageRotation += 90
+            onClicked: imageElement.rotation += 90
             ToolTip.text: qsTr("Rotate 90° clockwise")
         }
     }
@@ -121,13 +121,6 @@ Item {
                 }
             }
 
-            FPPhotoOverlayText {
-                text: qmlUtils.formatDateForPhoto(photoItem.TakenAt)
-                anchors.top: parent.top
-                anchors.right: parent.right
-                anchors.margins: Style.defaultMargin
-            }
-
             Column {
                 anchors {
                     centerIn: parent
@@ -153,6 +146,13 @@ Item {
                     text: qsTr("Failed to download image from the server")
                 }
             }
+        }
+
+        FPPhotoOverlayText {
+            text: qmlUtils.formatDateForPhoto(photoItem.TakenAt)
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.margins: Style.defaultMargin
         }
     }
 
