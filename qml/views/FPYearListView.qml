@@ -147,12 +147,24 @@ Item {
             Column {
                 Layout.fillWidth: true
                 spacing: Style.defaultMargin
-                KeyValueLabel { text: buildLine(qsTr("Author"), "Luca Carlon") }
-                KeyValueLabel { text: buildLine(qsTr("Application version"), Qt.application.version) }
-                KeyValueLabel { text: buildLine(qsTr("SSL supported"), (qmlUtils.sslSupported() ? qsTr("yes") : qsTr("no"))) }
-                KeyValueLabel { text: buildLine(qsTr("SSL build version"), (qmlUtils.sslSupported() ? qmlUtils.sslBuildVersion() : "-")) }
-                KeyValueLabel { text: buildLine(qsTr("SSL runtime version"), (qmlUtils.sslSupported() ? qmlUtils.sslRuntimeVersion() : "-")) }
-                KeyValueLabel { text: buildLine(qsTr("Qt version"), qmlUtils.qtVersion()) }
+                KeyValueLabel {
+                    text: buildLine(qsTr("Author"), "Luca Carlon")
+                }
+                KeyValueLabel {
+                    text: buildLine(qsTr("Application version"), Qt.application.version)
+                }
+                KeyValueLabel {
+                    text: buildLine(qsTr("SSL supported"), (qmlUtils.sslSupported() ? qsTr("yes") : qsTr("no")))
+                }
+                KeyValueLabel {
+                    text: buildLine(qsTr("SSL build version"), (qmlUtils.sslSupported() ? qmlUtils.sslBuildVersion() : "-"))
+                }
+                KeyValueLabel {
+                    text: buildLine(qsTr("SSL runtime version"), (qmlUtils.sslSupported() ? qmlUtils.sslRuntimeVersion() : "-"))
+                }
+                KeyValueLabel {
+                    text: buildLine(qsTr("Qt version"), qmlUtils.qtVersion())
+                }
             }
         }
 
