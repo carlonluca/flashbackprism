@@ -28,18 +28,47 @@ import QtQuick.Controls.Material
 import "qml/views"
 
 ApplicationWindow {
+    readonly property rect visibleArea: {
+        Screen.orientation
+        return lqtQmlUtils.visibleDisplayFrame()
+    }
+
     width: 1280
     height: 720
     visible: true
     title: "FlashbackPrism"
-    visibility: Qt.platform.os === "android" ? Window.FullScreen : Window.Windowed
+    //flags: lqtQmlUtils.isMobile() ? Qt.MaximizeUsingFullscreenGeometryHint : Qt.Window
 
     Material.theme: Material.Dark
     Material.accent: Material.Purple
 
+    Component.onCompleted: {
+        lqtQmlUtils.setBarColorLight(false, true)
+        lqtQmlUtils.setStatusBarColor(Qt.rgba(0, 0, 0, 0))
+        lqtQmlUtils.setNavBarColor(Qt.rgba(0, 0, 0, 0))
+    }
+
     StackView {
         id: mainStackView
         anchors.fill: parent
+        anchors.topMargin: {
+            Screen.orientation
+            return Math.max(lqtQmlUtils.safeAreaTopInset(), visibleArea.y)
+        }
+        anchors.leftMargin: {
+            Screen.orientation
+            return Math.max(lqtQmlUtils.safeAreaLeftInset(), visibleArea.x)
+        }
+        anchors.rightMargin: {
+            Screen.orientation
+            return Math.max(lqtQmlUtils.safeAreaRightInset(),
+                            parent.width - visibleArea.x - visibleArea.width)
+        }
+        anchors.bottomMargin: {
+            Screen.orientation
+            return Math.max(lqtQmlUtils.safeAreaBottomInset(),
+                            parent.height - visibleArea.y - visibleArea.height)
+        }
         initialItem: settingsNotifier.token ? albumsTodayComponent : loginComponent
     }
 

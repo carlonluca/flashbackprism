@@ -43,7 +43,7 @@ public class FlashbackPrismMonitor extends QtService {
         createNotificationChannel();
         final Intent openIntent = new Intent(this, QtActivity.class);
         openIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, openIntent, 0);
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, openIntent, PendingIntent.FLAG_IMMUTABLE);
         final Notification notification = new Notification.Builder(this, CHANNEL_ID)
             .setContentText("FlashbackPrism service is active")
             .setSmallIcon(R.drawable.icon_24dp)

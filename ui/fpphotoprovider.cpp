@@ -126,7 +126,7 @@ void FPPhotoViewStore::download(QJSValue callback)
 {
 #ifdef Q_OS_ANDROID
     auto future = QtAndroidPrivate::requestPermission("android.permission.WRITE_EXTERNAL_STORAGE");
-    future.then(this, [item, callback, this] (QtAndroidPrivate::PermissionResult result) {
+    future.then(this, [callback, this] (QtAndroidPrivate::PermissionResult result) {
         if (result != QtAndroidPrivate::PermissionResult::Authorized) {
             if (!callback.isNull() && callback.isCallable()) {
                 callback.call(QJSValueList());
