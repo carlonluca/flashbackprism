@@ -50,6 +50,7 @@ ApplicationWindow {
 
     StackView {
         id: mainStackView
+        focus: true
         anchors.fill: parent
         anchors.topMargin: {
             Screen.orientation
@@ -70,6 +71,17 @@ ApplicationWindow {
                             parent.height - visibleArea.y - visibleArea.height)
         }
         initialItem: settingsNotifier.token ? albumsTodayComponent : loginComponent
+
+        Keys.onReleased: (event) => {
+            if (event.key === Qt.Key_Back) {
+                if (mainStackView.depth === 1) {
+                    Qt.quit()
+                    return
+                }
+                mainStackView.pop()
+                event.accepted = true
+            }
+        }
     }
 
     Component { id: loginComponent; FPLogin {} }

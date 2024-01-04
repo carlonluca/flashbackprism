@@ -121,7 +121,13 @@ int main(int argc, char** argv)
         &engine,
         &QQmlApplicationEngine::objectCreationFailed,
         &app,
-        []() { QCoreApplication::exit(-1); },
+        [] { QCoreApplication::exit(-1); },
+        Qt::QueuedConnection);
+    QObject::connect(
+        &engine,
+        &QQmlApplicationEngine::quit,
+        &app,
+        [] { QCoreApplication::quit(); },
         Qt::QueuedConnection);
 
     qmlRegisterType<FPLoginRequest>("FlashbackPrism", 1, 0, "FPLoginRequest");
