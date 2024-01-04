@@ -26,6 +26,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Effects
+import QtQuick.Layouts
 import FlashbackPrism
 
 Item {
@@ -128,18 +129,42 @@ Item {
     }
 
     // About dialog
-    FPPopupOk {
+    FPPopupBase {
         id: aboutDialog
         title: qsTr("About")
-        text: "<b>" + qsTr("Author") + "</b>: " + "Luca Carlon" +
-              buildLine(qsTr("Application version"), Qt.application.version) +
-              buildLine(qsTr("SSL supported"), (qmlUtils.sslSupported() ? qsTr("yes") : qsTr("no"))) +
-              buildLine(qsTr("SSL build version"), (qmlUtils.sslSupported() ? qmlUtils.sslBuildVersion() : "-")) +
-              buildLine(qsTr("SSL runtime version"), (qmlUtils.sslSupported() ? qmlUtils.sslRuntimeVersion() : "-")) +
-              buildLine(qsTr("Qt version"), qmlUtils.qtVersion())
 
-        function buildLine(key, value) {
-            return "<br/><b>" + key + "</b>" + ": " + value
+        RowLayout {
+            width: parent.width
+            spacing: 30
+            Image {
+                Layout.preferredWidth: 128
+                Layout.preferredHeight: 128
+                source: "qrc:/qt/qml/FlashbackPrism/assets/icon.svg"
+                fillMode: Image.PreserveAspectFit
+                smooth: true
+                antialiasing: true
+            }
+            Column {
+                Layout.fillWidth: true
+                spacing: Style.defaultMargin
+                KeyValueLabel { text: buildLine(qsTr("Author"), "Luca Carlon") }
+                KeyValueLabel { text: buildLine(qsTr("Application version"), Qt.application.version) }
+                KeyValueLabel { text: buildLine(qsTr("SSL supported"), (qmlUtils.sslSupported() ? qsTr("yes") : qsTr("no"))) }
+                KeyValueLabel { text: buildLine(qsTr("SSL build version"), (qmlUtils.sslSupported() ? qmlUtils.sslBuildVersion() : "-")) }
+                KeyValueLabel { text: buildLine(qsTr("SSL runtime version"), (qmlUtils.sslSupported() ? qmlUtils.sslRuntimeVersion() : "-")) }
+                KeyValueLabel { text: buildLine(qsTr("Qt version"), qmlUtils.qtVersion()) }
+            }
+        }
+
+        component KeyValueLabel: FPText {
+            width: parent.width
+            lineHeight: 1.5
+            lineHeightMode: Text.ProportionalHeight
+            elide: Text.ElideRight
+
+            function buildLine(key, value) {
+                return "<b>" + key + "</b>" + ": " + value
+            }
         }
     }
 }
