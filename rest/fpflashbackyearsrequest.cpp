@@ -37,14 +37,17 @@ void FPFlashbackYearsRequest::request()
     const int month = now.date().month();
     const int day = now.date().day();
 
-    // TODO: handle failure here.
     FPPhotosRequest* request = new FPPhotosRequest(this);
     request->set_url(FPPersistentSetup().photoprismUrl());
     request->set_token(FPPersistentSetup().token());
     request->request(count, month, day);
     connect(request, &FPPhotosRequest::requestSucceeded,
             this, &FPFlashbackYearsRequest::handleResult);
+    connect(request, &FPPhotosRequest::requestFailed,
+            this, &FPFlashbackYearsRequest::requestFailed);
     connect(request, &FPPhotosRequest::requestSucceeded,
+            request, &FPPhotosRequest::deleteLater);
+    connect(request, &FPPhotosRequest::requestFailed,
             request, &FPPhotosRequest::deleteLater);
 }
 

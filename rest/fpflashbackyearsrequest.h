@@ -27,6 +27,7 @@
 
 #include <QObject>
 #include <QSharedPointer>
+#include <QNetworkReply>
 
 #include <lqtutils_prop.h>
 
@@ -51,7 +52,7 @@ public:
     void request();
 
 signals:
-    void requestFailed();
+    void requestFailed(QNetworkReply::NetworkError error);
     void requestSucceeded(FPFlashbackYearList years);
 
 private:

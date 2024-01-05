@@ -36,6 +36,7 @@ Item {
             settingsNotifier.token = token
             settingsNotifier.downloadToken = downloadToken
             settingsNotifier.previewToken = previewToken
+            photoMonitor.refreshModel()
             mainStackView.push(albumsTodayComponent)
         }
     }

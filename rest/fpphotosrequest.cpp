@@ -85,8 +85,8 @@ void FPPhotosRequest::request(std::optional<int> count,
         });
 
         if (reply->error() != QNetworkReply::NoError) {
-            qWarning() << "Photos request failed:" << reply->errorString();
-            emit requestFailed();
+            qWarning() << "Photos request failed:" << reply->error() << reply->errorString();
+            emit requestFailed(reply->error());
             return;
         }
 

@@ -52,8 +52,12 @@ public slots:
     void stop();
     void refreshModel();
 
+signals:
+    void errorOccurred(QNetworkReply::NetworkError error);
+
 private slots:
     void handleResult(const FPFlashbackYearList& items);
+    void handleFailure(QNetworkReply::NetworkError error);
     void resetModel(const FPFlashbackYearList& model);
 
 private:

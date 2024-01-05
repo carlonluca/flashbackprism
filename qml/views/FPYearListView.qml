@@ -32,7 +32,10 @@ import FlashbackPrism
 Item {
     id: yearListView
 
-    Component.onCompleted: photoMonitor.refreshModel()
+    Component.onCompleted: {
+        photoMonitor.start()
+        photoMonitor.refreshModel()
+    }
 
     FPTopBar {
         id: topBar
@@ -63,13 +66,7 @@ Item {
                 id: contextMenu
                 MenuItem {
                     text: qsTr("Logout")
-                    onClicked: {
-                        mainStackView.clear()
-                        mainStackView.push(loginComponent)
-                        settingsNotifier.uname = ""
-                        settingsNotifier.pwd = ""
-                        settingsNotifier.token = ""
-                    }
+                    onClicked: logout()
                 }
             }
         }
@@ -88,6 +85,13 @@ Item {
                 photoMonitor.start()
                 break
             }
+        }
+    }
+
+    Connections {
+        target: photoMonitor
+        function onErrorOccurred(error) {
+            unauthorizedDialog.open()
         }
     }
 
@@ -118,6 +122,14 @@ Item {
                 onClicked: mainStackView.push(dayViewComponent, { "model": modelData.items })
             }
         }
+    }
+
+    // Relogin
+    FPPopupOk {
+        id: unauthorizedDialog
+        title: qsTr("Error occurred")
+        text: qsTr("Token is expired or missing. Please login again to renew your authentication.")
+        onAccepted: logout()
     }
 
     // Waiting layer
@@ -180,5 +192,13 @@ Item {
                 return "<b>" + key + "</b>" + ": " + value
             }
         }
+    }
+
+    function logout() {
+        mainStackView.clear()
+        mainStackView.push(loginComponent)
+        settingsNotifier.uname = ""
+        settingsNotifier.pwd = ""
+        settingsNotifier.token = ""
     }
 }

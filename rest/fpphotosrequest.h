@@ -26,10 +26,11 @@
 #define FPPHOTOSREQUEST_H
 
 #include <QObject>
-
-class FPQueryResultItem;
+#include <QNetworkReply>
 
 #include "fprequest.h"
+
+class FPQueryResultItem;
 
 class FPPhotosRequest : public FPRequest
 {
@@ -51,7 +52,7 @@ private:
     void handleResponse(const QByteArray& data);
 
 signals:
-    void requestFailed();
+    void requestFailed(QNetworkReply::NetworkError error);
     void requestSucceeded(QList<FPQueryResultItem*> items);
 };
 

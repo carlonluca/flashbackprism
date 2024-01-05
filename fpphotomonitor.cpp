@@ -52,22 +52,32 @@ void FPPhotoMonitor::refreshModel()
 {
     set_working(true);
 
-    // TODO: handle failure
     FPFlashbackYearsRequest* request = new FPFlashbackYearsRequest(this);
-    connect(request, &FPFlashbackYearsRequest::requestFailed, this, [request] {
-
-    });
+    connect(request, &FPFlashbackYearsRequest::requestFailed,
+            this, &FPPhotoMonitor::errorOccurred);
     connect(request, &FPFlashbackYearsRequest::requestSucceeded,
             this, &FPPhotoMonitor::handleResult);
+    connect(request, &FPFlashbackYearsRequest::requestFailed,
+            request, &FPFlashbackYearsRequest::deleteLater);
+    connect(request, &FPFlashbackYearsRequest::requestSucceeded,
+            request, &FPFlashbackYearsRequest::deleteLater);
     request->request();
 }
 
 void FPPhotoMonitor::handleResult(const FPFlashbackYearList& items)
 {
+    set_working(false);
     if (!m_refreshModel.isActive())
         return;
     resetModel(items);
+}
+
+void FPPhotoMonitor::handleFailure(QNetworkReply::NetworkError /* error */)
+{
     set_working(false);
+    if (!m_refreshModel.isActive())
+        return;
+    resetModel(FPFlashbackYearList());
 }
 
 void FPPhotoMonitor::resetModel(const FPFlashbackYearList& model)
