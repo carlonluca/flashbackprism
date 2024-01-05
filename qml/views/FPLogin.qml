@@ -31,14 +31,14 @@ Item {
     FPLoginRequest {
         id: loginRequest
         onLoginSucceeded: (token, downloadToken, previewToken) => {
-            settingsNotifier.uname = unameInput.text
-            settingsNotifier.pwd = pwdInput.text
             settingsNotifier.token = token
             settingsNotifier.downloadToken = downloadToken
             settingsNotifier.previewToken = previewToken
             photoMonitor.refreshModel()
+            mainStackView.clear()
             mainStackView.push(albumsTodayComponent)
         }
+        onLoginFailed: loginFailedDialog.open()
     }
 
     Column {
@@ -91,7 +91,6 @@ Item {
         TextField {
             id: unameInput
             width: parent.width
-            text: settingsNotifier.uname
         }
 
         Label {
@@ -102,8 +101,8 @@ Item {
         TextField {
             id: pwdInput
             width: parent.width
-            text: settingsNotifier.pwd
             echoMode: TextInput.Password
+            passwordCharacter: "*"
         }
 
         Item {
@@ -114,10 +113,7 @@ Item {
         Button {
             text: qsTr("Login")
             anchors.horizontalCenter: parent.horizontalCenter
-            onPressed: {
-                settingsNotifier.photoprismUrl = urlInput.text
-                loginRequest.login(urlInput.text, unameInput.text, pwdInput.text)
-            }
+            onPressed: login()
         }
     }
 
@@ -129,5 +125,19 @@ Item {
         BusyIndicator {
             anchors.horizontalCenter: parent.horizontalCenter
         }
+    }
+
+    // Failure
+    FPPopupOk {
+        id: loginFailedDialog
+        title: qsTr("Error occurred")
+        text: qsTr("Login attempt failed. Please try again.")
+    }
+
+    Keys.onReturnPressed: login()
+
+    function login() {
+        settingsNotifier.photoprismUrl = urlInput.text
+        loginRequest.login(urlInput.text, unameInput.text, pwdInput.text)
     }
 }

@@ -53,7 +53,6 @@ ApplicationWindow {
 
     StackView {
         id: mainStackView
-        focus: true
         anchors.fill: parent
         anchors.topMargin: {
             Screen.orientation
@@ -75,15 +74,20 @@ ApplicationWindow {
         }
         initialItem: settingsNotifier.token ? albumsTodayComponent : loginComponent
 
-        Keys.onReleased: (event) => {
-            if (event.key === Qt.Key_Back) {
-                if (mainStackView.depth === 1) {
-                    Qt.quit()
-                    return
-                }
-                mainStackView.pop()
-                event.accepted = true
+        Component.onCompleted: forceActiveFocus()
+
+        Keys.onPressed: function(event) {
+            if (event.key === Qt.Key_Back || event.key === Qt.Key_Escape)
+                handleBackKey(event)
+        }
+
+        function handleBackKey(event) {
+            if (mainStackView.depth === 1) {
+                Qt.quit()
+                return
             }
+            mainStackView.pop()
+            event.accepted = true
         }
     }
 

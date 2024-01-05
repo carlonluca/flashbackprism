@@ -197,8 +197,6 @@ Item {
     function logout() {
         mainStackView.clear()
         mainStackView.push(loginComponent)
-        settingsNotifier.uname = ""
-        settingsNotifier.pwd = ""
         settingsNotifier.token = ""
     }
 }

@@ -57,6 +57,7 @@ void FPLoginRequest::login(const QUrl& url, const QString& uname, const QString&
 
     QByteArray inputData = QJsonDocument(loginInput).toJson(QJsonDocument::Compact);
     QNetworkRequest req(_url);
+    req.setTransferTimeout(10*1000);
     req.setHeader(QNetworkRequest::ContentTypeHeader, QSL("application/json"));
     req.setHeader(QNetworkRequest::ContentLengthHeader, inputData.length());
 
