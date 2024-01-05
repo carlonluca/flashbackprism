@@ -30,7 +30,7 @@
 FPPhotoMonitor::FPPhotoMonitor(QObject *parent)
     : QObject { parent }
 {
-    m_refreshModel.setInterval(10000);
+    m_refreshModel.setInterval(FPPersistentSetupNot().modelRefreshInterval(true));
     m_refreshModel.setSingleShot(false);
     connect(&m_refreshModel, &QTimer::timeout,
             this, &FPPhotoMonitor::refreshModel);
