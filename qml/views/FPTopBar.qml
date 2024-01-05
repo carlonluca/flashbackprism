@@ -44,7 +44,7 @@ Rectangle {
         FPText {
             id: appName
             text: Qt.application.name
-            font.pixelSize: iconButton.height*0.5
+            font.pixelSize: iconButton.height*0.4
             anchors.verticalCenter: parent.verticalCenter
             font.bold: true
             visible: appNameVisible

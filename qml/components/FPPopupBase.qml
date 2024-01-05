@@ -31,4 +31,8 @@ Dialog {
     modal: true
     closePolicy: Popup.NoAutoClose
     width: Style.contentAreaInLargeScreens(parent.width)
+
+    Overlay.modal: Rectangle {
+        color: "#bb000000"
+    }
 }

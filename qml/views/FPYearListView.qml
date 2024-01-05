@@ -41,14 +41,8 @@ Item {
     FPTopBar {
         id: topBar
         backVisible: false
-        iconVisible: true
-        appNameVisible: false
-
-        FPText {
-            text: "v" + Qt.application.version
-            color: "white"
-            anchors.verticalCenter: parent.verticalCenter
-        }
+        iconVisible: false
+        appNameVisible: true
 
         FPTopBarButton {
             id: about
