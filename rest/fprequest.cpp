@@ -27,7 +27,7 @@
 
 #include "fprequest.h"
 
-FPRequest::FPRequest(QObject *parent)
+FPRequest::FPRequest(QObject* parent)
     : QObject{parent}
     , m_man(new QNetworkAccessManager(this))
 {}

@@ -41,11 +41,6 @@ class FPRequest : public QObject
 public:
     explicit FPRequest(QObject* parent = nullptr);
 
-    FPRequest(const FPRequest &) = default;
-    FPRequest(FPRequest &&) = default;
-    FPRequest &operator=(const FPRequest &) = default;
-    FPRequest &operator=(FPRequest &&) = default;
-
 protected:
     QNetworkAccessManager* m_man;
 };
