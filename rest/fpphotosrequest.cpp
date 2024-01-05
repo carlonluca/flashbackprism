@@ -43,7 +43,8 @@ FPPhotosRequest::FPPhotosRequest(QObject* parent)
     : FPRequest{parent}
 {}
 
-void FPPhotosRequest::request(std::optional<int> count,
+[[nodiscard]]
+bool FPPhotosRequest::request(std::optional<int> count,
                               std::optional<int> year,
                               std::optional<int> month,
                               std::optional<int> day)
@@ -62,12 +63,12 @@ void FPPhotosRequest::request(std::optional<int> count,
 
     if (url().isEmpty()) {
         qWarning() << "Missing URL";
-        return;
+        return false;
     }
 
     if (token().isNull()) {
         qWarning() << "Missing token";
-        return;
+        return false;
     }
 
     QUrl _url = url();
@@ -92,11 +93,14 @@ void FPPhotosRequest::request(std::optional<int> count,
 
         handleResponse(reply->readAll());
     });
+
+    return true;
 }
 
-void FPPhotosRequest::request(int count, int month, int day)
+[[nodiscard]]
+bool FPPhotosRequest::request(int count, int month, int day)
 {
-    request(count, std::nullopt, month, day);
+    return request(count, std::nullopt, month, day);
 }
 
 void FPPhotosRequest::handleResponse(const QByteArray& data)

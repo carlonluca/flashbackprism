@@ -92,7 +92,8 @@ Item {
     Connections {
         target: photoMonitor
         function onErrorOccurred(error) {
-            unauthorizedDialog.open()
+            if (QNetworkReply.AuthenticationRequiredError)
+                unauthorizedDialog.open()
         }
     }
 

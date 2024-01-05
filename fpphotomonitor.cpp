@@ -30,7 +30,7 @@
 FPPhotoMonitor::FPPhotoMonitor(QObject *parent)
     : QObject { parent }
 {
-    m_refreshModel.setInterval(FPPersistentSetupNot().modelRefreshInterval(true));
+    m_refreshModel.setInterval(10000);
     m_refreshModel.setSingleShot(false);
     connect(&m_refreshModel, &QTimer::timeout,
             this, &FPPhotoMonitor::refreshModel);
@@ -55,6 +55,8 @@ void FPPhotoMonitor::refreshModel()
     FPFlashbackYearsRequest* request = new FPFlashbackYearsRequest(this);
     connect(request, &FPFlashbackYearsRequest::requestFailed,
             this, &FPPhotoMonitor::errorOccurred);
+    connect(request, &FPFlashbackYearsRequest::requestFailed,
+            this, &FPPhotoMonitor::handleFailure);
     connect(request, &FPFlashbackYearsRequest::requestSucceeded,
             this, &FPPhotoMonitor::handleResult);
     connect(request, &FPFlashbackYearsRequest::requestFailed,
@@ -72,12 +74,13 @@ void FPPhotoMonitor::handleResult(const FPFlashbackYearList& items)
     resetModel(items);
 }
 
-void FPPhotoMonitor::handleFailure(QNetworkReply::NetworkError /* error */)
+void FPPhotoMonitor::handleFailure(QNetworkReply::NetworkError error)
 {
     set_working(false);
     if (!m_refreshModel.isActive())
         return;
-    resetModel(FPFlashbackYearList());
+    if (error == QNetworkReply::AuthenticationRequiredError)
+        resetModel(FPFlashbackYearList());
 }
 
 void FPPhotoMonitor::resetModel(const FPFlashbackYearList& model)

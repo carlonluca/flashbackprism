@@ -38,13 +38,13 @@ class FPPhotosRequest : public FPRequest
 public:
     explicit FPPhotosRequest(QObject* parent = nullptr);
 
-    void request(std::optional<int> count,
+    bool request(std::optional<int> count,
                  std::optional<int> year,
                  std::optional<int> month,
                  std::optional<int> day);
 
 public slots:
-    void request(int count,
+    bool request(int count,
                  int month,
                  int day);
 
