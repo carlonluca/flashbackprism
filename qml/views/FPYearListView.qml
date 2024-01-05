@@ -31,6 +31,7 @@ import FlashbackPrism
 
 Item {
     id: yearListView
+    StackView.onActivated: mainWindow.statusBarColor = topBar.color
 
     Component.onCompleted: {
         photoMonitor.start()
@@ -165,27 +166,25 @@ Item {
                     text: buildLine(qsTr("Author"), "Luca Carlon")
                 }
                 KeyValueLabel {
-                    text: buildLine(qsTr("Application version"), Qt.application.version)
+                    text: buildLine(qsTr("Application"), Qt.application.version)
                 }
                 KeyValueLabel {
                     text: buildLine(qsTr("SSL supported"), (qmlUtils.sslSupported() ? qsTr("yes") : qsTr("no")))
                 }
                 KeyValueLabel {
-                    text: buildLine(qsTr("SSL build version"), (qmlUtils.sslSupported() ? qmlUtils.sslBuildVersion() : "-"))
+                    text: buildLine(qsTr("SSL build"), (qmlUtils.sslSupported() ? qmlUtils.sslBuildVersion() : "-"))
                 }
                 KeyValueLabel {
-                    text: buildLine(qsTr("SSL runtime version"), (qmlUtils.sslSupported() ? qmlUtils.sslRuntimeVersion() : "-"))
+                    text: buildLine(qsTr("SSL runtime"), (qmlUtils.sslSupported() ? qmlUtils.sslRuntimeVersion() : "-"))
                 }
                 KeyValueLabel {
-                    text: buildLine(qsTr("Qt version"), qmlUtils.qtVersion())
+                    text: buildLine(qsTr("Qt"), qmlUtils.qtVersion())
                 }
             }
         }
 
         component KeyValueLabel: FPText {
             width: parent.width
-            lineHeight: 1.5
-            lineHeightMode: Text.ProportionalHeight
             elide: Text.ElideRight
 
             function buildLine(key, value) {

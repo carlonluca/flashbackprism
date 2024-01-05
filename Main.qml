@@ -28,6 +28,7 @@ import QtQuick.Controls.Material
 import "qml/views"
 
 ApplicationWindow {
+    property color statusBarColor: Material.background
     readonly property rect visibleArea: {
         Screen.orientation
         const visibleArea_ = lqtQmlUtils.visibleDisplayFrame()
@@ -36,6 +37,7 @@ ApplicationWindow {
         return visibleArea_
     }
 
+    id: mainWindow
     width: 1280
     height: 720
     visible: true
@@ -49,6 +51,14 @@ ApplicationWindow {
         lqtQmlUtils.setBarColorLight(false, true)
         lqtQmlUtils.setStatusBarColor(Qt.rgba(0, 0, 0, 0))
         lqtQmlUtils.setNavBarColor(Qt.rgba(0, 0, 0, 0))
+    }
+
+    Rectangle {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: mainStackView.top
+        color: statusBarColor
     }
 
     StackView {

@@ -28,6 +28,9 @@ import QtQuick.Dialogs
 import FlashbackPrism
 
 Item {
+    id: loginView
+    StackView.onActivated: mainWindow.statusBarColor = Material.background
+
     FPLoginRequest {
         id: loginRequest
         onLoginSucceeded: (token, downloadToken, previewToken) => {
