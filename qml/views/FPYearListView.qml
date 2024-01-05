@@ -106,6 +106,7 @@ Item {
             bottom: parent.bottom
         }
         model: photoMonitor.flashbackYears
+        visible: count > 0
         cellWidth: width/3
         cellHeight: cellWidth
         clip: true
@@ -124,6 +125,15 @@ Item {
                 onClicked: mainStackView.push(dayViewComponent, { "model": modelData.items })
             }
         }
+    }
+
+    FPText {
+        id: emptyGridLabel
+        anchors.fill: gridView
+        visible: gridView.count <= 0
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        text: qsTr("No flashbacks for today!")
     }
 
     // Relogin
