@@ -29,5 +29,6 @@ The tool is built around my need and is **not tested**, so I expect many bugs to
 - [ ] Improve the orientation detection (apparently Qt does not always set the proper orientation, but PhotoPrism provdes the info)
 - [ ] Handle videos
 - [ ] Handle heic format (Qt has a patch for this, so probably waiting is sufficient)
+- [ ] HTTPS is untested. It may work, but I never tested it in any way.
 
 [...]
