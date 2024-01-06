@@ -6,9 +6,10 @@ This is a small client for [PhotoPrism](https://github.com/photoprism/photoprism
 
 The application includes a GUI to browse the photos in previous years, open them and share. It also includes code monitoring the PhotoPrism server for changes and sending a notification approximately at 8am if new photos are available. In Linux, the notification only arrives when the app is running. In Android, the application includes a service, so it should work even after the application is closed.
 
-<div align="center">
-<image src="docs/shot.webp">
-</div>
+<p align="center">
+  <img src="docs/shot.webp" width="30%" />
+  <img src="docs/notifications.png" width="30%" />
+</p>
 
 ## Supported Systems
 
