@@ -76,14 +76,17 @@ void FPNotificationProcessor::sendNotificationIfNeeded()
             photos += year->items().size();
 
     qDebug() << "Send notification";
+#ifdef Q_OS_ANDROID
+    lqt::AndroidSystemNotification notification;
+    notification.set_icon(QImage(":/qt/qml/FlashbackPrism/assets/icon_96.png"));
+    notification.set_activityClass(QSL("org.qtproject.qt.android.bindings.QtActivity"));
+#else
     lqt::SystemNotification notification;
+#endif
     notification.set_appName(qApp->applicationName());
     notification.set_title(tr("Flashbacks available"));
     notification.set_message(tr("You have %1 memories taken in %2 years for today. Have a look!").arg(photos).arg(years));
     notification.set_openApp(true);
-#ifdef Q_OS_ANDROID
-    notification.set_icon(QImage(":/qt/qml/FlashbackPrism/assets/icon_96.png"));
-#endif
     notification.send();
 
     FPPersistentSetup().set_lastNotification(QDateTime::currentDateTime().date());
