@@ -28,6 +28,8 @@
 #include <QDir>
 #include <QDesktopServices>
 #include <QStandardPaths>
+#include <QImageReader>
+#include <QBuffer>
 #ifdef Q_OS_ANDROID
 #include <QtCore/private/qandroidextras_p.h>
 #endif
@@ -40,6 +42,17 @@
 #include "fpphotoprovider.h"
 #include "fpqmlutils.h"
 
+inline QImage load_data_with_proper_orientation(QByteArray& data)
+{
+    QBuffer buffer(&data);
+    if (!buffer.open(QIODevice::ReadWrite))
+        return QImage();
+
+    QImageReader imgReader(&buffer);
+    imgReader.setAutoTransform(true);
+    return imgReader.read();
+}
+
 FPPhotoResponse::FPPhotoResponse(const QString& hash, const QSize& requestedSize) :
     QQuickImageResponse()
 {
@@ -50,7 +63,7 @@ FPPhotoResponse::FPPhotoResponse(const QString& hash, const QSize& requestedSize
         case LQTDownloaderState::S_DOWNLOADING:
             return;
         case LQTDownloaderState::S_DONE:
-            m_image = QImage::fromData(m_data);
+            m_image = load_data_with_proper_orientation(m_data);
             if (m_image.isNull())
                 qWarning() << "Failed to decode image";
             emit finished();
