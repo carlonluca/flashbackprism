@@ -29,7 +29,7 @@ The tool is built around my need and is **not tested**, so I expect many bugs to
 - [ ] Replace the Android service with AlarmManager to save battery
 - [ ] Create a settings page and let the user tune the parameters
 - [ ] Improve the UI a bit
-- [ ] Improve the orientation detection (apparently Qt does not always set the proper orientation, but PhotoPrism provdes the info)
+- [x] Improve the orientation detection
 - [ ] Handle videos
 - [ ] Handle heic format (Qt has a patch for this, so probably waiting is sufficient)
 - [ ] HTTPS is untested. It may work, but I never tested it in any way.
