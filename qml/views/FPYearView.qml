@@ -28,6 +28,8 @@ import FlashbackPrism
 Item {
     property var model: []
 
+    id: yearView
+
     FPTopBar {
         id: topBar
     }
@@ -57,7 +59,8 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onClicked: mainStackView.push(photoViewComponent, {
-                    "photoItem": modelData
+                    "photoModel": yearView.model,
+                    "currentIndex": index
                 })
             }
         }

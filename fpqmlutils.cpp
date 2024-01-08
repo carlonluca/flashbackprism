@@ -42,6 +42,13 @@ QString FPQmlUtils::formatDateForPhoto(const QDateTime& dateTime)
     return dateTime.toString("yyyy/MM/dd");
 }
 
+QString FPQmlUtils::formatDateTimeForPhoto(const QDateTime &dateTime)
+{
+    if (dateTime.isNull())
+        return QSL("-");
+    return dateTime.toString("yyyy/MM/dd hh:mm");
+}
+
 QString FPQmlUtils::sslRuntimeVersion()
 {
     return QSslSocket::sslLibraryVersionString();

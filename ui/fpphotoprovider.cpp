@@ -91,6 +91,13 @@ QQuickTextureFactory* FPPhotoResponse::textureFactory() const
     return QQuickTextureFactory::textureFactoryForImage(m_image);
 }
 
+QString FPPhotoResponse::errorString() const
+{
+    if (m_image.isNull())
+        return QObject::tr("Failed to download or decode image.");
+    return QString();
+}
+
 void FPPhotoResponse::cancel()
 {
     m_downloader->abort();

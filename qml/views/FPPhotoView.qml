@@ -28,13 +28,16 @@ import FlashbackPrism
 import "qrc:/lqtutils/fontawesome" as FA
 
 Item {
+    property var photoModel: []
     property var photoItem: null
+    property alias currentIndex: swipeView.currentIndex
 
-    FPPhotoViewStore {
-        id: photoViewStore
-        item: photoItem
-        provider: photoProvider
-    }
+    /* private */ readonly property var currentImageDelegate:
+        swipeView.currentItem?.item ?? null
+    /* private */ readonly property FPPhotoViewStore currentViewStore:
+        currentImageDelegate?.photoStore ?? null
+
+    id: photoView
 
     FPTopBar {
         id: topBar
@@ -42,7 +45,7 @@ Item {
         // Copy button
         FPTopBarButton {
             text: "\uf0c5"
-            onClicked: photoViewStore.copyToClipboard()
+            onClicked: currentViewStore?.copyToClipboard()
             visible: !lqtQmlUtils.isMobile()
             ToolTip.text: qsTr("Copy")
         }
@@ -50,7 +53,7 @@ Item {
         // Share button
         FPTopBarButton {
             text: "\uf1e0"
-            onClicked: photoViewStore.share()
+            onClicked: currentViewStore?.share()
             visible: lqtQmlUtils.isMobile()
             ToolTip.text: qsTr("Share")
         }
@@ -58,14 +61,14 @@ Item {
         // Open button
         FPTopBarButton {
             text: "\uf08e"
-            onClicked: photoViewStore.open()
+            onClicked: currentViewStore?.open()
             ToolTip.text: qsTr("Open with system app")
         }
 
         // Download
         FPTopBarButton {
             text: "\uf0ed"
-            onClicked: photoViewStore.download(function(filePath) {
+            onClicked: currentViewStore?.download(function(filePath) {
                 if (filePath) {
                     okDialog.title = qsTr("Photo downloaded")
                     okDialog.text = qsTr("Photo downloaded to:") + " " + filePath
@@ -82,86 +85,106 @@ Item {
 
         FPTopBarButton {
             text: "\uf2f9"
-            onClicked: imageElement.rotation = (imageElement.rotation + 90)%360
             ToolTip.text: qsTr("Rotate 90° clockwise")
+            onClicked: {
+                if (currentImageDelegate)
+                    currentImageDelegate.imageElementRotation = (currentImageDelegate.imageElementRotation + 90)%360
+            }
         }
     }
 
-    Item {
-        id: imageContainer
+    SwipeView {
+        id: swipeView
         anchors {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
             top: topBar.bottom
         }
+        currentIndex: photoView.currentIndex
+        Repeater {
+            model: photoModel
+            Loader {
+                active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+                sourceComponent: Item {
+                    property FPQueryResultItem photoItem: modelData
+                    property FPPhotoViewStore photoStore: photoViewStore
+                    property real imageElementRotation: 0
 
-        FPZoomableImage {
-            id: imageElement
-            width: rotation === 0 || rotation === 180 ? parent.width : parent.height
-            height: rotation === 0 || rotation === 180 ? parent.height : parent.width
-            anchors.centerIn: parent
-            source: "image://photo/" + photoItem.Hash
-            fillMode: Image.PreserveAspectFit
-            autoTransform: true
-            onStatusChanged: function(status) {
-                switch (status) {
-                case Image.Null:
-                    loadingDialog.close()
-                    break
-                case Image.Ready:
-                    loadingDialog.close()
-                    break
-                case Image.Loading:
-                    loadingDialog.open()
-                    break
-                case Image.Error:
-                    loadingDialog.close()
-                    break
+                    id: photoDelegate
+
+                    FPPhotoViewStore {
+                        id: photoViewStore
+                        item: photoItem
+                        provider: photoProvider
+                    }
+                    FPZoomableImage {
+                        id: imageElement
+                        width: photoDelegate.imageElementRotation === 0 || photoDelegate.imageElementRotation === 180 ? parent.width : parent.height
+                        height: photoDelegate.imageElementRotation === 0 || photoDelegate.imageElementRotation === 180 ? parent.height : parent.width
+                        rotation: photoDelegate.imageElementRotation
+                        anchors.centerIn: parent
+                        source: "image://photo/" + photoItem.Hash
+                        fillMode: Image.PreserveAspectFit
+                        autoTransform: true
+                    }
+                    // Error message
+                    ImageStatusView {
+                        sourceImageElement: imageElement
+                        visible: imageElement.imageStatus === Image.Error
+                        iconUtf8: "\uf06a"
+                        text: qsTr("Failed to download image from the server")
+                    }
+
+                    // Waiting
+                    ImageStatusView {
+                        iconUtf8: "\uf251"
+                        sourceImageElement: imageElement
+                        visible: imageElement.imageStatus === Image.Loading
+                        text: qsTr("Loading image. Please wait...")
+                    }
+
+                    FPPhotoOverlayText {
+                        text: qmlUtils.formatDateTimeForPhoto(photoItem.TakenAt)
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+                        anchors.margins: Style.defaultMargin
+                    }
                 }
             }
-
-            Column {
-                anchors {
-                    centerIn: parent
-                    margins: Style.defaultMargin
-                }
-                visible: imageElement.status === Image.Error
-                spacing: Style.defaultMargin
-                FA.LQTFontAwesomeFreeSolid {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    iconUtf8: "\uf06a"
-                    iconColor: Style.colorWarning
-                    width: imageElement.width/8
-                    height: width
-                }
-                Item {
-                    width: parent.width
-                    height: Style.defaultMargin
-                }
-                FPText {
-                    width: parent.width
-                    horizontalAlignment: Text.AlignHCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    text: qsTr("Failed to download image from the server")
-                }
-            }
-        }
-
-        FPPhotoOverlayText {
-            text: qmlUtils.formatDateForPhoto(photoItem.TakenAt)
-            anchors.top: parent.top
-            anchors.right: parent.right
-            anchors.margins: Style.defaultMargin
         }
     }
 
-    // Waiting layer
-    FPPopupMessage {
-        id: loadingDialog
-        title: qsTr("Preparing data. Please wait...")
-        BusyIndicator {
+    component ImageStatusView: Column {
+        property var sourceImageElement: null
+        property alias iconUtf8: iconElement.iconUtf8
+        property alias text: messageElement.text
+
+        spacing: Style.defaultMargin
+        width: parent.width
+        anchors {
+            centerIn: parent
+            margins: Style.defaultMargin
+        }
+
+        FA.LQTFontAwesomeFreeSolid {
+            id: iconElement
             anchors.horizontalCenter: parent.horizontalCenter
+            iconColor: Style.colorWarning
+            width: sourceImageElement.width/8
+            height: width
+        }
+        Item {
+            width: parent.width
+            height: Style.defaultMargin
+        }
+        FPText {
+            id: messageElement
+            width: parent.width
+            horizontalAlignment: Text.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+
         }
     }
 

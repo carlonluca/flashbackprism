@@ -25,12 +25,11 @@
 import QtQuick
 
 Item {
-    signal statusChanged(var status)
-
     property alias source: photoSurfaceImage.source
     property alias fillMode: photoSurfaceImage.fillMode
     property alias autoTransform: photoSurfaceImage.autoTransform
     property alias imageRotation: photoSurfaceImage.rotation
+    property int imageStatus: photoSurfaceImage.status
 
     id: photoSurface
     visible: source !== ""
@@ -89,7 +88,6 @@ Item {
 
                 onR1Changed: refreshSize()
                 onR2Changed: refreshSize()
-                onStatusChanged: (status) => photoSurface.statusChanged(status)
 
                 function refreshSize() {
                     const s = fitSize()

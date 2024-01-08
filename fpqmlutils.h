@@ -37,6 +37,7 @@ public:
     explicit FPQmlUtils(QObject* parent = nullptr);
 
     Q_INVOKABLE QString formatDateForPhoto(const QDateTime& dateTime);
+    Q_INVOKABLE QString formatDateTimeForPhoto(const QDateTime& dateTime);
     Q_INVOKABLE QString sslRuntimeVersion();
     Q_INVOKABLE QString sslBuildVersion();
     Q_INVOKABLE QString qtVersion();

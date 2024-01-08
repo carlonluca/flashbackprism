@@ -40,6 +40,7 @@ public:
     ~FPPhotoResponse();
 
     QQuickTextureFactory* textureFactory() const override;
+    QString errorString() const override;
     void cancel() override;
 
 signals:

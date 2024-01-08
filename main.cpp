@@ -135,6 +135,7 @@ int main(int argc, char** argv)
     qmlRegisterType<FPPhotosRequest>("FlashbackPrism", 1, 0, "FPPhotosRequest");
     qmlRegisterType<FPPhotoMonitor>("FlashbackPrism", 1, 0, "FPPhotoMonitor");
     qmlRegisterType<FPPhotoViewStore>("FlashbackPrism", 1, 0, "FPPhotoViewStore");
+    qmlRegisterType<FPQueryResultItem>("FlashbackPrism", 1, 0, "FPQueryResultItem");
     qmlRegisterUncreatableMetaObject(QNetworkReply::staticMetaObject, "FlashbackPrism", 1, 0, "NetworkError", "");
 
     auto photoMonitor = new FPPhotoMonitor(qApp);
