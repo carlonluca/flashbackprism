@@ -29,23 +29,24 @@ import "qrc:/lqtutils/fontawesome" as FA
 
 Item {
     property var photoModel: []
-    property var photoItem: null
-    property alias currentIndex: swipeView.currentIndex
-
-    /* private */ readonly property var currentImageDelegate:
-        swipeView.currentItem?.item ?? null
-    /* private */ readonly property FPPhotoViewStore currentViewStore:
-        currentImageDelegate?.photoStore ?? null
+    /* private */ property alias currentIndex:
+        swipeView.currentIndex
+    /* private */ property bool topBarVisible:
+        false
 
     id: photoView
 
     FPTopBar {
         id: topBar
+        height: topBarVisible ? implicitHeight : 0
+        clip: true
+
+        Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
 
         // Copy button
         FPTopBarButton {
             text: "\uf0c5"
-            onClicked: currentViewStore?.copyToClipboard()
+            onClicked: swipeView.currentItem?.item?.photoStore?.copyToClipboard()
             visible: !lqtQmlUtils.isMobile()
             ToolTip.text: qsTr("Copy")
         }
@@ -53,7 +54,7 @@ Item {
         // Share button
         FPTopBarButton {
             text: "\uf1e0"
-            onClicked: currentViewStore?.share()
+            onClicked: swipeView.currentItem?.item?.photoStore?.share()
             visible: lqtQmlUtils.isMobile()
             ToolTip.text: qsTr("Share")
         }
@@ -61,14 +62,14 @@ Item {
         // Open button
         FPTopBarButton {
             text: "\uf08e"
-            onClicked: currentViewStore?.open()
+            onClicked: swipeView.currentItem?.item?.photoStore?.open()
             ToolTip.text: qsTr("Open with system app")
         }
 
         // Download
         FPTopBarButton {
             text: "\uf0ed"
-            onClicked: currentViewStore?.download(function(filePath) {
+            onClicked: swipeView.currentItem?.item?.photoStore?.download(function(filePath) {
                 if (filePath) {
                     okDialog.title = qsTr("Photo downloaded")
                     okDialog.text = qsTr("Photo downloaded to:") + " " + filePath
@@ -87,8 +88,9 @@ Item {
             text: "\uf2f9"
             ToolTip.text: qsTr("Rotate 90° clockwise")
             onClicked: {
-                if (currentImageDelegate)
-                    currentImageDelegate.imageElementRotation = (currentImageDelegate.imageElementRotation + 90)%360
+                const item = swipeView.currentItem?.item
+                if (item)
+                    item.imageElementRotation = (item.imageElementRotation + 90)%360
             }
         }
     }
@@ -150,6 +152,15 @@ Item {
                         anchors.right: parent.right
                         anchors.margins: Style.defaultMargin
                     }
+                    MouseArea {
+                        propagateComposedEvents: true
+                        anchors.fill: parent
+                        onClicked: {
+                            topBarVisible = !topBarVisible
+                            if (topBarVisible)
+                                hideTopBarTimer.start()
+                        }
+                    }
                 }
             }
         }
@@ -191,5 +202,13 @@ Item {
     // File saved
     FPPopupOk {
         id: okDialog
+    }
+
+    Timer {
+        id: hideTopBarTimer
+        running: false
+        repeat: false
+        interval: 4000
+        onTriggered: topBarVisible = false
     }
 }

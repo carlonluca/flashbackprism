@@ -9,7 +9,7 @@ Rectangle {
     property bool appNameVisible: false
 
     color: "black"
-    height: backButton.height + 2*Style.defaultMargin
+    implicitHeight: backButton.height + 2*Style.defaultMargin
     anchors {
         left: parent.left
         right: parent.right
