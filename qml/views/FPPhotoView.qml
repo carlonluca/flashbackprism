@@ -194,7 +194,7 @@ Item {
 
         // Error message
         ImageStatusView {
-            sourceImageElement: imageElement
+            sourceMediaElement: imageElement
             visible: imageElement.imageStatus === Image.Error
             iconUtf8: "\uf06a"
             text: qsTr("Failed to download image from the server")
@@ -203,7 +203,7 @@ Item {
         // Waiting
         ImageStatusView {
             iconUtf8: "\uf251"
-            sourceImageElement: imageElement
+            sourceMediaElement: imageElement
             visible: imageElement.imageStatus === Image.Loading
             text: qsTr("Loading image. Please wait...")
         }
@@ -216,6 +216,7 @@ Item {
             anchors.fill: parent
             source: qmlUtils.photoUrl(modelData)
             fillMode: VideoOutput.PreserveAspectFit
+            visible: error === MediaPlayer.NoError
             onShouldBePlayingChanged: {
                 if (shouldBePlaying)
                     play()
@@ -223,10 +224,18 @@ Item {
                     stop()
             }
         }
+
+        // Error message
+        ImageStatusView {
+            visible: videoElement.error !== MediaPlayer.NoError
+            sourceMediaElement: videoElement
+            iconUtf8: "\uf06a"
+            text: qsTr("Error occurred:", videoElement.errorString)
+        }
     }
 
     component ImageStatusView: Column {
-        property var sourceImageElement: null
+        property Item sourceMediaElement: null
         property alias iconUtf8: iconElement.iconUtf8
         property alias text: messageElement.text
 
@@ -241,7 +250,7 @@ Item {
             id: iconElement
             anchors.horizontalCenter: parent.horizontalCenter
             iconColor: Style.colorWarning
-            width: sourceImageElement.width/8
+            width: sourceMediaElement.width/8
             height: width
         }
         Item {
@@ -254,7 +263,6 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-
         }
     }
 
