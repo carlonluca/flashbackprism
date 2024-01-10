@@ -24,6 +24,7 @@
 
 import QtQuick
 import FlashbackPrism
+import "qrc:/lqtutils/fontawesome" as FA
 
 Item {
     property var model: []
@@ -51,10 +52,20 @@ Item {
             height: width
             source: qmlUtils.thumbnailUrl(modelData, 1)
             FPPhotoOverlayText {
+                id: dateElement
                 text: qmlUtils.formatDateForPhoto(modelData.TakenAt)
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: Style.defaultMargin
+            }
+            FA.LQTFontAwesomeFreeSolid {
+                iconUtf8: modelData.Type === "video" ? "\uf008" : "\uf03e"
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.margins: Style.defaultMargin
+                height: dateElement.height
+                width: height
+                iconColor: "white"
             }
             MouseArea {
                 anchors.fill: parent

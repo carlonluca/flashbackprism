@@ -19,6 +19,7 @@ L_RW_PROP_AS(QString, FileName)
 L_RW_PROP_AS(QString, Name)
 L_RW_PROP_AS(QString, Path)
 L_RW_PROP_AS(QString, Hash)
+L_RW_PROP_AS(QString, Type)
 L_END_CLASS
 
 #endif // FPQUERYRESULTITEM_H
