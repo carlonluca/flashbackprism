@@ -24,13 +24,22 @@
 
 import QtQuick
 import QtQuick.Controls
+import QtMultimedia
 import FlashbackPrism
 import "qrc:/lqtutils/fontawesome" as FA
 
 Item {
-    property var photoModel: []
-    /* private */ property alias currentIndex:
+    property alias photoModel:
+        swipeViewRepeater.model
+    property alias currentIndex:
         swipeView.currentIndex
+
+    /* private */ property Item currentItem:
+        swipeView.currentItem
+    /* private */ property FPQueryResultItem currentResultItem:
+        currentItem?.photoItem ?? null
+    /* private */ property FPPhotoViewStore currentPhotoStore:
+        currentItem?.photoStore ?? null
     /* private */ property bool topBarVisible:
         false
 
@@ -46,30 +55,31 @@ Item {
         // Copy button
         FPTopBarButton {
             text: "\uf0c5"
-            onClicked: swipeView.currentItem?.item?.photoStore?.copyToClipboard()
-            visible: !lqtQmlUtils.isMobile()
+            onClicked: currentPhotoStore?.copyToClipboard()
+            visible: !lqtQmlUtils.isMobile() && (currentResultItem?.isImage() ?? false)
             ToolTip.text: qsTr("Copy")
         }
 
         // Share button
         FPTopBarButton {
             text: "\uf1e0"
-            onClicked: swipeView.currentItem?.item?.photoStore?.share()
-            visible: lqtQmlUtils.isMobile()
+            onClicked: currentPhotoStore?.share()
+            visible: lqtQmlUtils.isMobile() && (currentResultItem?.isImage() ?? false)
             ToolTip.text: qsTr("Share")
         }
 
         // Open button
         FPTopBarButton {
             text: "\uf08e"
-            onClicked: swipeView.currentItem?.item?.photoStore?.open()
+            onClicked: currentPhotoStore?.open()
+            visible: currentResultItem?.isImage() ?? false
             ToolTip.text: qsTr("Open with system app")
         }
 
         // Download
         FPTopBarButton {
             text: "\uf0ed"
-            onClicked: swipeView.currentItem?.item?.photoStore?.download(function(filePath) {
+            onClicked: currentPhotoStore?.download(function(filePath) {
                 if (filePath) {
                     okDialog.title = qsTr("Photo downloaded")
                     okDialog.text = qsTr("Photo downloaded to:") + " " + filePath
@@ -81,6 +91,7 @@ Item {
                 okDialog.text = qsTr("Failed to download photo")
                 okDialog.open()
             })
+            visible: currentResultItem?.isImage() ?? false
             ToolTip.text: qsTr("Download")
         }
 
@@ -88,9 +99,8 @@ Item {
             text: "\uf2f9"
             ToolTip.text: qsTr("Rotate 90° clockwise")
             onClicked: {
-                const item = swipeView.currentItem?.item
-                if (item)
-                    item.imageElementRotation = (item.imageElementRotation + 90)%360
+                if (currentItem)
+                    currentItem.imageElementRotation = (currentItem.imageElementRotation + 90)%360
             }
         }
     }
@@ -103,9 +113,8 @@ Item {
             bottom: parent.bottom
             top: topBar.bottom
         }
-        currentIndex: photoView.currentIndex
         Repeater {
-            model: photoModel
+            id: swipeViewRepeater
             Loader {
                 active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
                 sourceComponent: Item {
@@ -115,35 +124,43 @@ Item {
 
                     id: photoDelegate
 
+                    // This portion of code is a workaround to a possible Qt bug: the first item
+                    // is not set in swipeView.currentItem, it remains null until the item is changed.
+                    Component.onCompleted: photoDelegate.refreshCurrentItem()
+                    Connections {
+                        target: swipeView
+                        function onCurrentIndexChanged() {
+                            photoDelegate.refreshCurrentItem()
+                        }
+                    }
+
+                    function refreshCurrentItem() {
+                        if (index === swipeView.currentIndex)
+                            photoView.currentItem = photoDelegate
+                    }
+
                     FPPhotoViewStore {
                         id: photoViewStore
                         item: photoItem
                         provider: photoProvider
                     }
-                    FPZoomableImage {
-                        id: imageElement
+                    Loader {
+                        id: imageLoader
                         width: photoDelegate.imageElementRotation === 0 || photoDelegate.imageElementRotation === 180 ? parent.width : parent.height
                         height: photoDelegate.imageElementRotation === 0 || photoDelegate.imageElementRotation === 180 ? parent.height : parent.width
                         rotation: photoDelegate.imageElementRotation
                         anchors.centerIn: parent
-                        source: "image://photo/" + photoItem.Hash
-                        fillMode: Image.PreserveAspectFit
-                        autoTransform: true
+                        active: photoItem?.isImage() ?? false
+                        sourceComponent: ImageView {}
                     }
-                    // Error message
-                    ImageStatusView {
-                        sourceImageElement: imageElement
-                        visible: imageElement.imageStatus === Image.Error
-                        iconUtf8: "\uf06a"
-                        text: qsTr("Failed to download image from the server")
-                    }
-
-                    // Waiting
-                    ImageStatusView {
-                        iconUtf8: "\uf251"
-                        sourceImageElement: imageElement
-                        visible: imageElement.imageStatus === Image.Loading
-                        text: qsTr("Loading image. Please wait...")
+                    Loader {
+                        id: videoLoader
+                        width: photoDelegate.imageElementRotation === 0 || photoDelegate.imageElementRotation === 180 ? parent.width : parent.height
+                        height: photoDelegate.imageElementRotation === 0 || photoDelegate.imageElementRotation === 180 ? parent.height : parent.width
+                        rotation: photoDelegate.imageElementRotation
+                        anchors.centerIn: parent
+                        active: photoItem?.isVideo() ?? false
+                        sourceComponent: VideoView {}
                     }
 
                     FPPhotoOverlayText {
@@ -162,6 +179,48 @@ Item {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    component ImageView: Item {
+        FPZoomableImage {
+            id: imageElement
+            anchors.fill: parent
+            source: "image://photo/" + photoItem.Hash
+            fillMode: Image.PreserveAspectFit
+            autoTransform: true
+        }
+
+        // Error message
+        ImageStatusView {
+            sourceImageElement: imageElement
+            visible: imageElement.imageStatus === Image.Error
+            iconUtf8: "\uf06a"
+            text: qsTr("Failed to download image from the server")
+        }
+
+        // Waiting
+        ImageStatusView {
+            iconUtf8: "\uf251"
+            sourceImageElement: imageElement
+            visible: imageElement.imageStatus === Image.Loading
+            text: qsTr("Loading image. Please wait...")
+        }
+    }
+
+    component VideoView: Item {
+        Video {
+            property bool shouldBePlaying: (photoItem?.isVideo() ?? false) && swipeView.currentIndex === index
+            id: videoElement
+            anchors.fill: parent
+            source: qmlUtils.photoUrl(modelData)
+            fillMode: VideoOutput.PreserveAspectFit
+            onShouldBePlayingChanged: {
+                if (shouldBePlaying)
+                    play()
+                else
+                    stop()
             }
         }
     }

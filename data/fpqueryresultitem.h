@@ -20,6 +20,9 @@ L_RW_PROP_AS(QString, Name)
 L_RW_PROP_AS(QString, Path)
 L_RW_PROP_AS(QString, Hash)
 L_RW_PROP_AS(QString, Type)
+public:
+    Q_INVOKABLE bool isVideo() { return m_Type.toLower() == QStringLiteral("video"); }
+    Q_INVOKABLE bool isImage() { return m_Type.toLower() == QStringLiteral("image"); }
 L_END_CLASS
 
 #endif // FPQUERYRESULTITEM_H

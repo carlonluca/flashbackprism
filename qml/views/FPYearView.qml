@@ -60,9 +60,9 @@ Item {
             }
             FA.LQTFontAwesomeFreeSolid {
                 iconUtf8: {
-                    if (modelData.Type.toLowerCase() === "image")
+                    if (modelData.isImage())
                         return "\uf03e"
-                    if (modelData.Type.toLowerCase() === "video")
+                    if (modelData.isVideo())
                         return "\uf008"
                     console.warn("Unknown media type:", modelData.Type)
                     return "\u003f"
