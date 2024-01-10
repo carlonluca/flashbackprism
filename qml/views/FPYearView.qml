@@ -59,7 +59,14 @@ Item {
                 anchors.margins: Style.defaultMargin
             }
             FA.LQTFontAwesomeFreeSolid {
-                iconUtf8: modelData.Type === "video" ? "\uf008" : "\uf03e"
+                iconUtf8: {
+                    if (modelData.Type.toLowerCase() === "image")
+                        return "\uf03e"
+                    if (modelData.Type.toLowerCase() === "video")
+                        return "\uf008"
+                    console.warn("Unknown media type:", modelData.Type)
+                    return "\u003f"
+                }
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.margins: Style.defaultMargin
