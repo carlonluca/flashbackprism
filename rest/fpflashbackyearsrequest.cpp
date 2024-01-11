@@ -32,7 +32,9 @@ FPFlashbackYearsRequest::FPFlashbackYearsRequest(QObject *parent)
 
 void FPFlashbackYearsRequest::request()
 {
-    const QDateTime now = QDateTime::currentDateTime();
+    QDateTime now = QDateTime::currentDateTime();
+    if (qEnvironmentVariableIsSet("FP_FORCE_DAY"))
+        now = QDateTime::fromString(qgetenv("FP_FORCE_DAY"), "yyyy/MM/dd");
     const int count = std::numeric_limits<int>::max();
     const int month = now.date().month();
     const int day = now.date().day();
