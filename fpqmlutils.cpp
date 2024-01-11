@@ -39,7 +39,7 @@ QString FPQmlUtils::formatDateForPhoto(const QDateTime& dateTime)
 {
     if (dateTime.isNull())
         return QSL("-");
-    return dateTime.toString("yyyy/MM/dd");
+    return dateTime.toString("MM/dd");
 }
 
 QString FPQmlUtils::formatDateTimeForPhoto(const QDateTime &dateTime)

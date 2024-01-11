@@ -214,6 +214,7 @@ Item {
             property bool shouldBePlaying: (photoItem?.isVideo() ?? false)
                                            && swipeView.currentIndex === index
                                            && Qt.application.state === Qt.ApplicationActive
+                                           && error === MediaPlayer.NoError
             id: videoElement
             anchors.fill: parent
             source: qmlUtils.photoUrl(modelData)
@@ -225,7 +226,6 @@ Item {
                 else
                     stop()
             }
-            onErrorOccurred: stop()
         }
 
         // Error message
@@ -235,16 +235,6 @@ Item {
             iconUtf8: "\uf06a"
             text: qsTr("Playback failed. Multimedia backed returned the following error:\n%1")
                 .arg(videoElement.errorString)
-        }
-
-        Connections {
-            target: Qt.application;
-            function onStateChanged(inState) {
-                if (inState !== Qt.ApplicationActive)
-                    videoElement.stop()
-                else
-                    videoElement.play()
-            }
         }
     }
 

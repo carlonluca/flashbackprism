@@ -12,7 +12,6 @@ Item {
         id: yearElement
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.margins: Style.defaultMargin
         color: "white"
         font.bold: true
         font.pointSize: 16
