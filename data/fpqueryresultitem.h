@@ -16,13 +16,15 @@ L_RW_PROP_AS(int, Year, -1)
 L_RW_PROP_AS(int, Month, -1)
 L_RW_PROP_AS(int, Day, -1)
 L_RW_PROP_AS(QString, FileName)
+L_RW_PROP_AS(QString, FileRoot)
 L_RW_PROP_AS(QString, Name)
 L_RW_PROP_AS(QString, Path)
 L_RW_PROP_AS(QString, Hash)
 L_RW_PROP_AS(QString, Type)
 public:
-    Q_INVOKABLE bool isVideo() { return m_Type.toLower() == QStringLiteral("video"); }
-    Q_INVOKABLE bool isImage() { return m_Type.toLower() == QStringLiteral("image"); }
+    Q_INVOKABLE bool isSidecar() { return m_FileRoot == QStringLiteral("sidecar"); }
+    Q_INVOKABLE bool isVideo() { return m_Type == QStringLiteral("video"); }
+    Q_INVOKABLE bool isImage() { return m_Type == QStringLiteral("image"); }
 L_END_CLASS
 
 #endif // FPQUERYRESULTITEM_H

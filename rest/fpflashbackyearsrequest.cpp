@@ -58,6 +58,8 @@ void FPFlashbackYearsRequest::handleResult(QList<FPQueryResultItem*> items)
     for (FPQueryResultItem* item : items) {
         if (!item)
             continue;
+        if (item->isSidecar())
+            continue;
 
         const int year = item->TakenAt().date().year();
         QSharedPointer<FPFlashbackYear> flashbackYear;
