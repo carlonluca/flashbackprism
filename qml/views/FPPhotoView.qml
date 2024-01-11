@@ -223,6 +223,7 @@ Item {
                 else
                     stop()
             }
+            onErrorOccurred: stop()
         }
 
         // Error message
@@ -230,7 +231,8 @@ Item {
             visible: videoElement.error !== MediaPlayer.NoError
             sourceMediaElement: videoElement
             iconUtf8: "\uf06a"
-            text: qsTr("Error occurred:", videoElement.errorString)
+            text: qsTr("Playback failed. Multimedia backed returned the following error:\n%1")
+                .arg(videoElement.errorString)
         }
     }
 
