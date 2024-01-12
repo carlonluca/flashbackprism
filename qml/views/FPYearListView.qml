@@ -41,7 +41,6 @@ Item {
     FPTopBar {
         id: topBar
         backVisible: false
-        iconVisible: false
         appNameVisible: true
 
         FPTopBarButton {

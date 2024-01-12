@@ -1,3 +1,27 @@
+/*
+ * This file is part of FlashbackPrism.
+ *
+ * Copyright (c) 2023 Luca Carlon
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Author:  Luca Carlon
+ * Company: -
+ * Date:    2023.12.26
+ */
+
 import QtQuick
 import QtQuick.Controls
 import FlashbackPrism
@@ -5,7 +29,6 @@ import FlashbackPrism
 Rectangle {
     default property alias data: actionRow.data
     property bool backVisible: true
-    property bool iconVisible: false
     property bool appNameVisible: false
 
     color: "black"
@@ -32,19 +55,10 @@ Rectangle {
             visible: backVisible
             ToolTip.text: qsTr("Copy")
         }
-        Image {
-            id: iconButton
-            source: "qrc:/qt/qml/FlashbackPrism/assets/icon.svg"
-            fillMode: Image.PreserveAspectFit
-            width: height
-            height: backButton.height
-            visible: iconVisible
-            anchors.verticalCenter: parent.verticalCenter
-        }
         FPText {
             id: appName
             text: Qt.application.name
-            font.pixelSize: iconButton.height*0.4
+            font.pixelSize: backButton.height*0.4
             anchors.verticalCenter: parent.verticalCenter
             font.bold: true
             visible: appNameVisible
