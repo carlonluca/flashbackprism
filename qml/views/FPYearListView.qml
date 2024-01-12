@@ -59,6 +59,10 @@ Item {
             Menu {
                 id: contextMenu
                 MenuItem {
+                    text: qsTr("Refresh")
+                    onClicked: photoMonitor.refreshModel()
+                }
+                MenuItem {
                     text: qsTr("Logout")
                     onClicked: logout()
                 }
