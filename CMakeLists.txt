@@ -80,6 +80,7 @@ qt_add_qml_module(appFlashbackPrism
     QML_FILES qml/components/FPTopBarButton.qml
     QML_FILES qml/components/FPPopupBase.qml
     QML_FILES qml/components/FPPhotoViewItem.qml
+    QML_FILES qml/components/FPOverlayFontAwesome.qml
     RESOURCES
         assets/icon_96.png
         assets/icon.svg

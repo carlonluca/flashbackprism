@@ -19,31 +19,27 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.12.25
+ * Date:    2023.01.13
  */
 
 import QtQuick
 import QtQuick.Effects
 import FlashbackPrism
+import "qrc:/lqtutils/fontawesome" as FA
 
 Item {
-    property alias text: yearElement.text
+    property alias iconUtf8: iconElement.iconUtf8
+    property alias iconColor: iconElement.iconColor
 
-    width: yearElement.width
-    height: yearElement.height
-
-    Text {
-        id: yearElement
-        anchors.top: parent.top
-        anchors.right: parent.right
-        color: "white"
-        font.bold: true
-        font.pointSize: 16
+    FA.LQTFontAwesomeFreeSolid {
+        id: iconElement
+        anchors.fill: parent
+        iconColor: "white"
         visible: false
     }
     MultiEffect {
-        source: yearElement
-        anchors.fill: yearElement
+        source: iconElement
+        anchors.fill: iconElement
         shadowColor: "black"
         shadowEnabled: true
         shadowScale: 1

@@ -55,14 +55,8 @@ Item {
             width: gridView.cellWidth
             height: width
             source: qmlUtils.thumbnailUrl(modelData, 1)
-            FPPhotoOverlayText {
-                id: dateElement
-                text: qmlUtils.formatDateForPhoto(modelData.TakenAt)
-                anchors.top: parent.top
-                anchors.right: parent.right
-                anchors.margins: Style.defaultMargin
-            }
-            FA.LQTFontAwesomeFreeSolid {
+            FPOverlayFontAwesome {
+                iconColor: "white"
                 iconUtf8: {
                     if (modelData.isImage())
                         return "\uf03e"
@@ -76,7 +70,6 @@ Item {
                 anchors.margins: Style.defaultMargin
                 height: 16
                 width: height
-                iconColor: "white"
             }
             MouseArea {
                 anchors.fill: parent
