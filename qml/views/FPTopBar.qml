@@ -29,7 +29,7 @@ import FlashbackPrism
 Rectangle {
     default property alias data: actionRow.data
     property bool backVisible: true
-    property bool appNameVisible: false
+    property string pageTitle: ""
 
     color: "black"
     implicitHeight: backButton.height + 2*Style.defaultMargin
@@ -56,12 +56,12 @@ Rectangle {
             ToolTip.text: qsTr("Copy")
         }
         FPText {
-            id: appName
-            text: Qt.application.name
+            id: pageTitleElement
+            text: pageTitle
             font.pixelSize: backButton.height*0.4
             anchors.verticalCenter: parent.verticalCenter
             font.bold: true
-            visible: appNameVisible
+            visible: !!pageTitle
         }
     }
 

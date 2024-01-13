@@ -41,7 +41,7 @@ Item {
     FPTopBar {
         id: topBar
         backVisible: false
-        appNameVisible: true
+        pageTitle: Qt.application.name
 
         FPTopBarButton {
             id: about

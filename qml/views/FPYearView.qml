@@ -33,6 +33,10 @@ Item {
 
     FPTopBar {
         id: topBar
+        pageTitle: {
+            try { return "Year: " + model[0].TakenAt.getFullYear() }
+            catch (e) {}
+        }
     }
 
     GridView {
@@ -70,7 +74,7 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.margins: Style.defaultMargin
-                height: dateElement.height
+                height: 16
                 width: height
                 iconColor: "white"
             }
