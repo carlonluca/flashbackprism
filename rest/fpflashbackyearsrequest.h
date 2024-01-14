@@ -38,7 +38,7 @@ L_BEGIN_CLASS(FPFlashbackYear)
 L_RW_PROP_AS(int, year, 0)
 L_RW_PROP_REF_AS(QList<FPQueryResultItem*>, items)
 public:
-    ~FPFlashbackYear() { qDebug() << Q_FUNC_INFO; qDeleteAll(m_items); }
+    ~FPFlashbackYear() { qDeleteAll(m_items); }
 L_END_CLASS
 typedef QSharedPointer<FPFlashbackYear> FPFlashbackYearRef;
 typedef QList<FPFlashbackYearRef> FPFlashbackYearList;
