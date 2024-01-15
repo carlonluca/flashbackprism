@@ -20,6 +20,8 @@ I wrote the application just for me, so I built it for Linux and Android only. I
 I did not upload AppImages or other binaries for Linux, so you'll have to build it to use it. For android, I'll upload an apk for arm64, but you'll probably want to compile it anyway if you need some changes.
 
 * v0.1.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.1.0/flashbackprism-0.1.0-arm64.apk)
+* v0.2.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.2.0/flashbackprism-0.2.0.apk)
+* v0.3.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.3.0/flashbackprism-0.3.0.apk)
 
 ## Defects
 
