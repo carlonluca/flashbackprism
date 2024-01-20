@@ -1,7 +1,5 @@
 # FlashbackPrism
 
-
-
 This is a small client for [PhotoPrism](https://github.com/photoprism/photoprism) written in Qt. Its only purpose is to show the photos taken years ago in the same date as today. This is an interesting way to review the photos from your collection. PhotoPrism seems to lack this feature in a way that is comfortable for me, so I took some time to implement it, waiting for an official implementation.
 
 The application includes a GUI to browse the photos in previous years, open them and share. It also includes code monitoring the PhotoPrism server for changes and sending a notification approximately at 8am if new photos are available. In Linux, the notification only arrives when the app is running. In Android, the application includes a service, so it should work even after the application is closed.
@@ -13,7 +11,13 @@ The application includes a GUI to browse the photos in previous years, open them
 
 ## Supported Systems
 
-I wrote the application just for me, so I built it for Linux and Android only. It is written with the Qt framework, so it should be simple and quick to port it to iOS, Mac OS and Windows, but a few platform specific portions may need to be added.
+I wrote the application just for me, so I built it for Linux and Android only. It is written with the Qt framework, but a few platform specific portions may need to be added.
+
+* **Linux**: everything works, but notifications arrive only when the app is running;
+* **Android**: everything should work;
+* **Windows**: untested but should work. Notifications arrive only when the app is running.
+* **MacOS**: untested but should work. Notifications arrive only when the app is running.
+* **iOS**: untested but should work. Notifications arrive only when the app is running.
 
 ## Installation
 
