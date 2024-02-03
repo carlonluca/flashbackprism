@@ -32,7 +32,7 @@ Rectangle {
     property string pageTitle: ""
 
     color: "black"
-    implicitHeight: backButton.height + 2*Style.defaultMargin
+    implicitHeight: Math.max(backButton.height, actionRow.height) + 2*Style.defaultMargin
     anchors {
         left: parent.left
         right: parent.right
@@ -65,11 +65,12 @@ Rectangle {
         }
     }
 
-    Row {
+    Grid {
         id: actionRow
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.margins: Style.defaultMargin
         spacing: Style.defaultMargin
+        columns: 3
     }
 }

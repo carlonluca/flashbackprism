@@ -30,7 +30,6 @@ Button {
     property alias iconColor: textElement.color
 
     id: control
-    anchors.verticalCenter: parent.verticalCenter
     ToolTip.visible: hovered && !!ToolTip.text
     ToolTip.delay: Style.defaultToolTipDelay
 

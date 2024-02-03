@@ -49,14 +49,12 @@ Item {
         FPTopBarButton {
             id: about
             onClicked: aboutDialog.open()
-            anchors.verticalCenter: parent.verticalCenter
             text: "\u003f"
         }
 
         FPTopBarButton {
             id: menu
             onClicked: contextMenu.popup()
-            anchors.verticalCenter: parent.verticalCenter
             text: "\uf0c9"
 
             Menu {
