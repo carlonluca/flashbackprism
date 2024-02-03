@@ -19,39 +19,48 @@
 /**
  * Author:  Luca Carlon
  * Company: -
- * Date:    2023.12.25
+ * Date:    2023.01.15
  */
 
-#ifndef FPREQUEST_H
-#define FPREQUEST_H
+#ifndef FPREQUESTPHOTOACTION_H
+#define FPREQUESTPHOTOACTION_H
 
 #include <QObject>
-#include <QUrl>
+#include <QNetworkReply>
 
 #include <lqtutils_prop.h>
 
-class QNetworkAccessManager;
+#include "fprequest.h"
 
-L_BEGIN_CLASS(FPRequestResponse)
-L_RW_PROP_AS(int, code, 0)
-L_RW_PROP_AS(QString, message)
+L_BEGIN_CLASS(FPRequestPhotoActionList)
+L_RW_PROP_AS(QStringList, photos)
 L_END_CLASS
-typedef QSharedPointer<FPRequestResponse> FPRequestResponseRef;
 
-class FPRequest : public QObject
+class FPRequestPhotoAction : public FPRequest
 {
     Q_OBJECT
-    L_RW_PROP_AS(bool, working, false)
-    L_RW_PROP_AS(QUrl, url)
-    L_RW_PROP_AS(QString, token)
+    L_RW_PROP_AS(QStringList, photos)
 public:
-    explicit FPRequest(QObject* parent = nullptr);
+    explicit FPRequestPhotoAction(QObject* parent = nullptr);
 
 protected:
-    bool validateSetup();
-
-protected:
-    QNetworkAccessManager* m_man;
+    QJsonObject dataJson();
 };
 
-#endif // FPREQUEST_H
+class FPRequestPhotoArchive : public FPRequestPhotoAction
+{
+    Q_OBJECT
+public:
+    explicit FPRequestPhotoArchive(QObject* parent = nullptr);
+
+    Q_INVOKABLE bool request();
+
+private:
+    void handleResponse(const QByteArray& data);
+
+signals:
+    void errorOccurred(QNetworkReply::NetworkError error);
+    void succeeded();
+};
+
+#endif // FPREQUESTPHOTOACTION_H

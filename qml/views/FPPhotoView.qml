@@ -103,6 +103,13 @@ Item {
                     currentItem.imageElementRotation = (currentItem.imageElementRotation + 90)%360
             }
         }
+
+        FPTopBarButton {
+            text: "\uf1f8"
+            iconColor: Style.colorWarning
+            onClicked: requestArchive.request()
+            ToolTip.text: qsTr("Archive photo")
+        }
     }
 
     SwipeView {
@@ -180,6 +187,34 @@ Item {
                     }
                 }
             }
+        }
+    }
+
+    FPRequestPhotoArchive {
+        id: requestArchive
+        url: settingsNotifier.photoprismUrl
+        token: settingsNotifier.token
+        photos: currentResultItem ? [
+            currentResultItem.UID
+        ] : []
+        onErrorOccurred: {
+            okDialog.title = qsTr("Failure")
+            okDialog.text = qsTr("An error occured trying to archive the image")
+            okDialog.open()
+        }
+        onSucceeded: {
+            deletedDialog.title = qsTr("Success")
+            deletedDialog.text = qsTr("The photo was successfully removed")
+            deletedDialog.open()
+        }
+    }
+
+    FPPopupMessage {
+        title: qsTr("Waiting for server response...")
+        visible: requestArchive.working
+
+        BusyIndicator {
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 
@@ -273,6 +308,19 @@ Item {
     // File saved
     FPPopupOk {
         id: okDialog
+    }
+
+    FPPopupOk {
+        id: deletedDialog
+        onClosed: {
+            mainStackView.pop(mainStackView.find(function(item, index) {
+                if (item.objectName === "yearListView") {
+                    item.pendingRefreshRequest = true
+                    return true
+                }
+                return false
+            }))
+        }
     }
 
     Timer {

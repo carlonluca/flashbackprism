@@ -47,6 +47,8 @@ public:
     explicit FPPhotoMonitor(QObject* parent = nullptr);
     ~FPPhotoMonitor();
 
+    Q_INVOKABLE void deletePhoto(const QString& uid);
+
 public slots:
     void start();
     void stop();

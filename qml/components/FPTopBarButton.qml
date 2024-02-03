@@ -27,10 +27,21 @@ import QtQuick.Controls
 import FlashbackPrism
 
 Button {
-    font.family: fontAwesomeFreeSolid.family
-    font.styleName: fontAwesomeFreeSolid.styleName
-    font.weight: fontAwesomeFreeSolid.weight
+    property alias iconColor: textElement.color
+
+    id: control
     anchors.verticalCenter: parent.verticalCenter
     ToolTip.visible: hovered && !!ToolTip.text
     ToolTip.delay: Style.defaultToolTipDelay
+
+    contentItem: Text {
+        id: textElement
+        font.family: fontAwesomeFreeSolid.family
+        font.styleName: fontAwesomeFreeSolid.styleName
+        font.weight: fontAwesomeFreeSolid.weight
+        text: control.text
+        color: "white"
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+    }
 }

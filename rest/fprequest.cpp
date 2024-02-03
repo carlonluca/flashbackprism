@@ -31,3 +31,18 @@ FPRequest::FPRequest(QObject* parent)
     : QObject{parent}
     , m_man(new QNetworkAccessManager(this))
 {}
+
+bool FPRequest::validateSetup()
+{
+    if (url().isEmpty()) {
+        qWarning() << "Missing URL";
+        return false;
+    }
+
+    if (token().isNull()) {
+        qWarning() << "Missing token";
+        return false;
+    }
+
+    return true;
+}

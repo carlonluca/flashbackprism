@@ -38,6 +38,23 @@ FPPhotoMonitor::FPPhotoMonitor(QObject *parent)
 
 FPPhotoMonitor::~FPPhotoMonitor() {}
 
+void FPPhotoMonitor::deletePhoto(const QString &uid)
+{
+    auto model = m_flashbackYearsBackend;
+    for (auto year : model) {
+        if (!year)
+            continue;
+        for (auto item : year->items()) {
+            if (!item)
+                continue;
+            if (item->UID() == uid) {
+                year->items().removeAll(item);
+                resetModel(model);
+            }
+        }
+    }
+}
+
 void FPPhotoMonitor::start()
 {
     m_refreshModel.start();

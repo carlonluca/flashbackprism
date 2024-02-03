@@ -30,7 +30,10 @@ import QtQuick.Layouts
 import FlashbackPrism
 
 Item {
+    property bool pendingRefreshRequest: false
+
     id: yearListView
+    objectName: "yearListView"
     StackView.onActivated: mainWindow.statusBarColor = topBar.color
 
     Component.onCompleted: {
@@ -81,6 +84,10 @@ Item {
                 break
             case StackView.Active:
                 photoMonitor.start()
+                if (pendingRefreshRequest) {
+                    pendingRefreshRequest = false
+                    photoMonitor.refreshModel()
+                }
                 break
             }
         }

@@ -61,15 +61,8 @@ bool FPPhotosRequest::request(std::optional<int> count,
     if (day)
         query.addQueryItem(QSL("day"), QString::number(*day));
 
-    if (url().isEmpty()) {
-        qWarning() << "Missing URL";
+    if (!validateSetup())
         return false;
-    }
-
-    if (token().isNull()) {
-        qWarning() << "Missing token";
-        return false;
-    }
 
     QUrl _url = url();
     _url.setPath(QSL("/api/v1/photos"));

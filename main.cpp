@@ -43,6 +43,7 @@
 #include "lqtutils_fa.h"
 #include "rest/fploginrequest.h"
 #include "rest/fpphotosrequest.h"
+#include "rest/fprequestphotoaction.h"
 #include "data/fppersistentsetup.h"
 #include "ui/fpphotoprovider.h"
 
@@ -136,6 +137,7 @@ int main(int argc, char** argv)
     qmlRegisterType<FPPhotoMonitor>("FlashbackPrism", 1, 0, "FPPhotoMonitor");
     qmlRegisterType<FPPhotoViewStore>("FlashbackPrism", 1, 0, "FPPhotoViewStore");
     qmlRegisterType<FPQueryResultItem>("FlashbackPrism", 1, 0, "FPQueryResultItem");
+    qmlRegisterType<FPRequestPhotoArchive>("FlashbackPrism", 1, 0, "FPRequestPhotoArchive");
     qmlRegisterUncreatableMetaObject(QNetworkReply::staticMetaObject, "FlashbackPrism", 1, 0, "NetworkError", "");
 
     auto photoMonitor = new FPPhotoMonitor(qApp);
