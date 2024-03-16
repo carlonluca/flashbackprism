@@ -53,7 +53,6 @@ void FPLoginRequest::login(const QUrl& url, const QString& uname, const QString&
 
     lqo::Serializer ser;
     QJsonObject loginInput = ser.serialize<FPLoginCredentials>(&credentials);
-    Q_ASSERT(!loginInput.isEmpty());
 
     QByteArray inputData = QJsonDocument(loginInput).toJson(QJsonDocument::Compact);
     QNetworkRequest req(_url);
