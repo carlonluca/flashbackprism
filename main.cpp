@@ -161,6 +161,15 @@ int main(int argc, char** argv)
     engine.loadFromModule("FlashbackPrism", "Main");
 
 #ifdef Q_OS_ANDROID
+    auto future = QtAndroidPrivate::requestPermission("android.permission.POST_NOTIFICATIONS");
+    future.then(qApp, [] (QtAndroidPrivate::PermissionResult result) {
+        if (result != QtAndroidPrivate::PermissionResult::Authorized) {
+            qWarning() << "Local notifications not authorized";
+            return;
+        }
+        qInfo() << "Local notifications authorized";
+    });
+
     start_service();
 #endif
 
