@@ -27,6 +27,7 @@ I did not upload AppImages or other binaries for Linux, so you'll have to build 
 * v0.2.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.2.0/flashbackprism-0.2.0.apk)
 * v0.3.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.3.0/flashbackprism-0.3.0.apk)
 * v0.4.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.4.0/flashbackprism-0.4.0.apk)
+* v0.5.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.5.0/flashbackprism-0.5.0.apk)
 
 ## Defects
 
