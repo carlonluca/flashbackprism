@@ -78,7 +78,7 @@ void FPNotificationProcessor::sendNotificationIfNeeded()
     qDebug() << "Send notification";
 #ifdef Q_OS_ANDROID
     lqt::AndroidSystemNotification notification;
-    notification.set_icon(QImage(":/qt/qml/FlashbackPrism/assets/icon_96.png"));
+    notification.set_icon(QImage(":/qt/qml/FlashbackPrism/assets/icon_notification.png"));
     notification.set_activityClass(QSL("org.qtproject.qt.android.bindings.QtActivity"));
 #else
     lqt::SystemNotification notification;

@@ -85,6 +85,8 @@ qt_add_qml_module(appFlashbackPrism
     RESOURCES
         assets/icon_96.png
         assets/icon.svg
+        assets/icon_notification.png
+        assets/logo.svg
 )
 
 # Android
