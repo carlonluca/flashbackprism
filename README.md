@@ -6,7 +6,7 @@ The application includes a GUI to browse the photos in previous years, open them
 
 <p align="center">
   <img src="docs/shot.webp" width="30%" />
-  <img src="docs/notifications.png" width="30%" />
+  <img src="docs/screenshots.png" width="65%" />
 </p>
 
 ## Supported Systems
@@ -21,13 +21,9 @@ I wrote the application just for me, so I built it for Linux and Android only. I
 
 ## Installation
 
-I did not upload AppImages or other binaries for Linux, so you'll have to build it to use it. For android, I'll upload an apk for arm64, but you'll probably want to compile it anyway if you need some changes.
+Only Android arm64 binaries are provided for download [here](https://bugfreeblog.duckdns.org/2024/01/revisit-todays-photos-from-n-years-ago-with-photoprism.html).
 
-* v0.1.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.1.0/flashbackprism-0.1.0-arm64.apk)
-* v0.2.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.2.0/flashbackprism-0.2.0.apk)
-* v0.3.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.3.0/flashbackprism-0.3.0.apk)
-* v0.4.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.4.0/flashbackprism-0.4.0.apk)
-* v0.5.0 - [Android arm64](https://github.com/carlonluca/flashbackprism/releases/download/v0.5.0/flashbackprism-0.5.0.apk)
+You'll have to build from the sources for the other platforms.
 
 ## Defects
 
