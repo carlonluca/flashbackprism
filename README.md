@@ -36,6 +36,6 @@ The tool is built around my need and is **not tested**, so I expect many bugs to
 - [x] Improve the orientation detection
 - [x] Handle videos
 - [ ] Handle heic format (Qt has a patch for this, so probably waiting is sufficient)
-- [ ] HTTPS is untested. It may work, but I never tested it in any way.
+- [x] HTTPS is untested. It may work, but I never tested it in any way.
 
 [...]
