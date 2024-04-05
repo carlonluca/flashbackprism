@@ -25,7 +25,7 @@ project(FlashbackPrism VERSION 0.6.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick StateMachine Svg QuickControls2)
+find_package(Qt6 REQUIRED COMPONENTS Quick StateMachine Svg QuickControls2 Multimedia)
 find_package(Qt6 OPTIONAL_COMPONENTS DBus)
 
 set(ENABLE_FONT_AWESOME ON)
@@ -112,6 +112,7 @@ target_link_libraries(appFlashbackPrism PRIVATE
     Qt6::CorePrivate
     Qt6::Svg
     Qt6::QuickControls2
+    Qt6::Multimedia
     lqtutilsplugin
     lqobjectserializer
 )
