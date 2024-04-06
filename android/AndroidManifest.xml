@@ -21,7 +21,7 @@
   Company: -
   Date:    2023.01.02
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="luke.flashbackprism" android:installLocation="auto" android:versionCode="600" android:versionName="0.6.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="luke.flashbackprism" android:installLocation="auto" android:versionCode="700" android:versionName="0.7.0">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
