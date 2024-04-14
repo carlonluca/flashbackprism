@@ -82,11 +82,13 @@ qt_add_qml_module(appFlashbackPrism
     QML_FILES qml/components/FPPopupBase.qml
     QML_FILES qml/components/FPPhotoViewItem.qml
     QML_FILES qml/components/FPOverlayFontAwesome.qml
+    QML_FILES qml/components/FPGridView.qml
     RESOURCES
         assets/icon_96.png
         assets/icon.svg
         assets/icon_notification.png
         assets/logo.svg
+
 )
 
 # Android

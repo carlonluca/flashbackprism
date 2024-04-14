@@ -39,7 +39,7 @@ Item {
         }
     }
 
-    GridView {
+    FPGridView {
         id: gridView
         clip: true
         anchors {

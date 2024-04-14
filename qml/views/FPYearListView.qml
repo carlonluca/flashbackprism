@@ -99,7 +99,7 @@ Item {
         }
     }
 
-    GridView {
+    FPGridView {
         id: gridView
         anchors {
             top: topBar.bottom
