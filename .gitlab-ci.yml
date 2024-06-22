@@ -7,7 +7,7 @@ stages:
 BuildLinux:
   stage: build_linux
   image:
-    name: "carlonluca/qt-dev:6.7.1"
+    name: "carlonluca/qt-dev:6.7.2"
     entrypoint: [""]
   script:
     - mkdir build
