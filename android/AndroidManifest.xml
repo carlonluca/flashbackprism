@@ -24,6 +24,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="luke.flashbackprism" android:installLocation="auto" android:versionCode="706" android:versionName="0.7.6">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" android:minSdkVersion="34"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -42,7 +43,7 @@
             <meta-data android:name="android.app.arguments" android:value="-- %%INSERT_APP_ARGUMENTS%% --"/>
             <meta-data android:name="android.app.extract_android_style" android:value="minimal"/>
         </activity>
-        <service android:name="luke.flashbackprism.FlashbackPrismMonitor" android:process=":flashbackPrismService">
+        <service android:name="luke.flashbackprism.FlashbackPrismMonitor" android:process=":flashbackPrismService" android:exported="true" android:foregroundServiceType="dataSync">
             <!-- Deploy Qt libs as part of package -->
             <meta-data android:name="android.app.bundle_local_qt_libs" android:value="-- %%BUNDLE_LOCAL_QT_LIBS%% --"/>
             <!-- Deploy Qt libs as part of package -->

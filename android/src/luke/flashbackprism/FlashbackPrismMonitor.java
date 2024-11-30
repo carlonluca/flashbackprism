@@ -30,6 +30,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.os.Build;
 import org.qtproject.qt.android.bindings.QtService;
 import org.qtproject.qt.android.bindings.QtActivity;
@@ -41,6 +42,7 @@ public class FlashbackPrismMonitor extends QtService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         createNotificationChannel();
+        final int SERVICE_ID = 1;
         final Intent openIntent = new Intent(this, QtActivity.class);
         openIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, openIntent, PendingIntent.FLAG_IMMUTABLE);
@@ -49,7 +51,10 @@ public class FlashbackPrismMonitor extends QtService {
             .setSmallIcon(R.drawable.icon_notification_24dp)
             .setContentIntent(pendingIntent)
             .build();
-        startForeground(1, notification);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            startForeground(SERVICE_ID, notification);
+        else
+            startForeground(SERVICE_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
         return START_STICKY;
     }
 
