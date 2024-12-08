@@ -2,6 +2,7 @@
 <resources>
     <style name="AppTheme" parent="android:Theme.Holo">
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowBackground">@color/materialBackground</item>
         <item name="android:colorBackground">@color/materialBackground</item>
@@ -9,5 +10,6 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
 </resources>

@@ -42,7 +42,6 @@ ApplicationWindow {
     height: 720
     visible: true
     title: "FlashbackPrism"
-    //flags: lqtQmlUtils.isMobile() ? Qt.MaximizeUsingFullscreenGeometryHint : Qt.Window
 
     Material.theme: Material.Dark
     Material.accent: Material.Purple
@@ -68,15 +67,15 @@ ApplicationWindow {
             Screen.orientation
             return Math.max(lqtQmlUtils.safeAreaTopInset(), visibleArea.y)
         }
-        anchors.leftMargin: {
-            Screen.orientation
-            return Math.max(lqtQmlUtils.safeAreaLeftInset(), visibleArea.x)
-        }
-        anchors.rightMargin: {
-            Screen.orientation
-            return Math.max(lqtQmlUtils.safeAreaRightInset(),
-                            parent.width - visibleArea.x - visibleArea.width)
-        }
+        //anchors.leftMargin: {
+        //    Screen.orientation
+        //    return Math.max(lqtQmlUtils.safeAreaLeftInset(), visibleArea.x)
+        //}
+        //anchors.rightMargin: {
+        //    Screen.orientation
+        //    return Math.max(lqtQmlUtils.safeAreaRightInset(),
+        //                    parent.width - visibleArea.x - visibleArea.width)
+        //}
         anchors.bottomMargin: {
             Screen.orientation
             return Math.max(lqtQmlUtils.safeAreaBottomInset(),
