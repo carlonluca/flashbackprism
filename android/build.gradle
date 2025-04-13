@@ -35,7 +35,7 @@ android {
      * Changing them manually might break the compilation!
      *******************************************************/
 
-    compileSdkVersion 34
+    compileSdkVersion 35
     buildToolsVersion androidBuildToolsVersion
     ndkVersion androidNdkVersion
     namespace "luke.flashbackprism"
@@ -77,7 +77,7 @@ android {
     defaultConfig {
         resConfig "en"
         minSdkVersion qtMinSdkVersion
-        targetSdkVersion 34
+        targetSdkVersion 35
         ndk.abiFilters = qtTargetAbiList.split(",")
     }
 }
