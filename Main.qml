@@ -46,12 +46,6 @@ ApplicationWindow {
     Material.theme: Material.Dark
     Material.accent: Material.Purple
 
-    Component.onCompleted: {
-        lqtQmlUtils.setBarColorLight(false, true)
-        lqtQmlUtils.setStatusBarColor(Qt.rgba(0, 0, 0, 0))
-        lqtQmlUtils.setNavBarColor(Qt.rgba(0, 0, 0, 0))
-    }
-
     Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
