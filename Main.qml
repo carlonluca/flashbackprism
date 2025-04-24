@@ -27,7 +27,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import "qml/views"
 
-ApplicationWindow {
+Rectangle {
     property color statusBarColor: Material.background
     readonly property rect visibleArea: {
         Screen.orientation
@@ -38,13 +38,10 @@ ApplicationWindow {
     }
 
     id: mainWindow
-    width: 1280
-    height: 720
     visible: true
-    title: "FlashbackPrism"
-
-    Material.theme: Material.Dark
-    Material.accent: Material.Purple
+    color: Material.background
+    width: lqtQmlUtils.isMobile() ? Screen.width : 720
+    height: lqtQmlUtils.isMobile() ? Screen.height : 1280
 
     Rectangle {
         anchors.top: parent.top

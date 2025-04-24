@@ -29,6 +29,7 @@
 #include <QFileInfo>
 #include <QQuickStyle>
 #include <QNetworkReply>
+#include <QQuickView>
 #ifdef Q_OS_ANDROID
 #include <QtCore/private/qandroidextras_p.h>
 #include <QJniObject>
@@ -107,24 +108,28 @@ int main(int argc, char** argv)
     }
 #endif
 
+    qputenv("QT_QUICK_CONTROLS_STYLE", QByteArray("Material"));
+    qputenv("QT_QUICK_CONTROLS_MATERIAL_THEME", QByteArray("Dark"));
+    qputenv("QT_QUICK_CONTROLS_MATERIAL_ACCENT", QByteArray("Purple"));
+
     QGuiApplication app(argc, argv);
     app.setOrganizationName(QSL("Luca Carlon"));
     app.setOrganizationDomain(QSL("org.duckdns.bugfreeblog"));
     app.setApplicationName(QSL("FlashbackPrism"));
     app.setApplicationVersion(APP_VERSION);
 
+    lqt::QmlUtils qmlUtils;
+    qmlUtils.setBarColorLight(false, true);
+    qmlUtils.setNavBarColor(QColor(0, 0, 0, 0));
+    qmlUtils.setStatusBarColor(QColor(0, 0, 0, 0));
+
     QQuickStyle::setStyle("Material");
 
     qInfo() << "App version:" << app.applicationVersion();
     qInfo() << "App config:" << QSettings().fileName();
 
-    QQmlApplicationEngine engine;
-    QObject::connect(
-        &engine,
-        &QQmlApplicationEngine::objectCreationFailed,
-        &app,
-        [] { QCoreApplication::exit(-1); },
-        Qt::QueuedConnection);
+    QQuickView view;
+    QQmlEngine& engine = *view.engine();
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::quit,
@@ -158,7 +163,11 @@ int main(int argc, char** argv)
                                              new FPQmlUtils(qApp));
     engine.rootContext()->setContextProperty("lqtQmlUtils",
                                              new lqt::QmlUtils(qApp));
-    engine.loadFromModule("FlashbackPrism", "Main");
+    view.loadFromModule("FlashbackPrism", "Main");
+    if (qmlUtils.isMobile())
+        view.showFullScreen();
+    else
+        view.show();
 
 #ifdef Q_OS_ANDROID
     auto future = QtAndroidPrivate::requestPermission("android.permission.POST_NOTIFICATIONS");
