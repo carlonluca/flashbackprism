@@ -84,6 +84,9 @@ Item {
             width: parent.width
             placeholderText: "https://my.photoprism.server"
             text: settingsNotifier.photoprismUrl
+            inputMethodHints: Qt.ImhNoPredictiveText |
+                              Qt.ImhNoAutoUppercase |
+                              Qt.ImhNoPredictiveText
         }
 
         Label {
@@ -94,6 +97,9 @@ Item {
         TextField {
             id: unameInput
             width: parent.width
+            inputMethodHints: Qt.ImhNoPredictiveText |
+                              Qt.ImhNoAutoUppercase |
+                              Qt.ImhNoPredictiveText
         }
 
         Label {
@@ -106,6 +112,9 @@ Item {
             width: parent.width
             echoMode: TextInput.Password
             passwordCharacter: "*"
+            inputMethodHints: Qt.ImhNoPredictiveText |
+                              Qt.ImhNoAutoUppercase |
+                              Qt.ImhNoPredictiveText
         }
 
         Item {

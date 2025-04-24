@@ -123,8 +123,6 @@ int main(int argc, char** argv)
     qmlUtils.setNavBarColor(QColor(0, 0, 0, 0));
     qmlUtils.setStatusBarColor(QColor(0, 0, 0, 0));
 
-    QQuickStyle::setStyle("Material");
-
     qInfo() << "App version:" << app.applicationVersion();
     qInfo() << "App config:" << QSettings().fileName();
 
