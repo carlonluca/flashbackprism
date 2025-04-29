@@ -30,11 +30,9 @@ FPPopupBase {
     property alias text: messageElement.text
 
     standardButtons: Dialog.Ok
-    width: Style.contentAreaInLargeScreens(parent.width)
 
     FPText {
         id: messageElement
-        width: parent.width
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         lineHeight: 1.5
         lineHeightMode: Text.ProportionalHeight

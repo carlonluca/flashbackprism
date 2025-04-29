@@ -29,7 +29,10 @@ import FlashbackPrism
 
 Item {
     id: loginView
-    StackView.onActivated: mainWindow.statusBarColor = Material.background
+    StackView.onActivated: {
+        mainWindow.statusBarColor = Material.background
+        mainWindow.navBarColor = Material.background
+    }
 
     FPLoginRequest {
         id: loginRequest

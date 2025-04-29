@@ -34,7 +34,10 @@ Item {
 
     id: yearListView
     objectName: "yearListView"
-    StackView.onActivated: mainWindow.statusBarColor = topBar.color
+    StackView.onActivated: {
+        mainWindow.statusBarColor = topBar.color
+        mainWindow.navBarColor = Material.background
+    }
 
     Component.onCompleted: {
         photoMonitor.start()

@@ -118,16 +118,10 @@ int main(int argc, char** argv)
     app.setApplicationName(QSL("FlashbackPrism"));
     app.setApplicationVersion(APP_VERSION);
 
-    lqt::QmlUtils qmlUtils;
-    qmlUtils.setBarColorLight(false, true);
-    qmlUtils.setNavBarColor(QColor(0, 0, 0, 0));
-    qmlUtils.setStatusBarColor(QColor(0, 0, 0, 0));
-
     qInfo() << "App version:" << app.applicationVersion();
     qInfo() << "App config:" << QSettings().fileName();
 
-    QQuickView view;
-    QQmlEngine& engine = *view.engine();
+    QQmlApplicationEngine engine;
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::quit,
@@ -161,11 +155,7 @@ int main(int argc, char** argv)
                                              new FPQmlUtils(qApp));
     engine.rootContext()->setContextProperty("lqtQmlUtils",
                                              new lqt::QmlUtils(qApp));
-    view.loadFromModule("FlashbackPrism", "Main");
-    if (qmlUtils.isMobile())
-        view.showFullScreen();
-    else
-        view.show();
+    engine.loadFromModule("FlashbackPrism", "Main");
 
 #ifdef Q_OS_ANDROID
     auto future = QtAndroidPrivate::requestPermission("android.permission.POST_NOTIFICATIONS");

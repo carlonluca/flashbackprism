@@ -23,6 +23,7 @@
  */
 
 import QtQuick
+import QtQuick.Controls
 import FlashbackPrism
 import "qrc:/lqtutils/fontawesome" as FA
 
@@ -30,6 +31,10 @@ Item {
     property var model: []
 
     id: yearView
+    StackView.onActivated: {
+        mainWindow.statusBarColor = topBar.color
+        mainWindow.navBarColor = Material.background
+    }
 
     FPTopBar {
         id: topBar

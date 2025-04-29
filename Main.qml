@@ -27,8 +27,9 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import "qml/views"
 
-Rectangle {
+Window {
     property color statusBarColor: Material.background
+    property color navBarColor: Material.background
     readonly property rect visibleArea: {
         Screen.orientation
         const visibleArea_ = lqtQmlUtils.visibleDisplayFrame()
@@ -40,8 +41,9 @@ Rectangle {
     id: mainWindow
     visible: true
     color: Material.background
-    width: lqtQmlUtils.isMobile() ? Screen.width : 720
-    height: lqtQmlUtils.isMobile() ? Screen.height : 1280
+    width: 800; height: 800
+    visibility: Window.FullScreen
+    flags: Qt.ExpandedClientAreaHint | Qt.NoTitleBarBackgroundHint
 
     Rectangle {
         anchors.top: parent.top
@@ -83,12 +85,20 @@ Rectangle {
 
         function handleBackKey(event) {
             if (mainStackView.depth === 1) {
-                Qt.quit()
+                event.accepted = false
                 return
             }
             mainStackView.pop()
             event.accepted = true
         }
+    }
+
+    Rectangle {
+        anchors.top: mainStackView.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        color: navBarColor
     }
 
     Component { id: loginComponent; FPLogin {} }

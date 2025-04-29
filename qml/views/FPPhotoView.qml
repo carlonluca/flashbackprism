@@ -44,6 +44,10 @@ Item {
         false
 
     id: photoView
+    StackView.onActivated: {
+        mainWindow.statusBarColor = topBar.color
+        mainWindow.navBarColor = topBar.color
+    }
 
     FPTopBar {
         id: topBar
