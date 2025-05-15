@@ -42,8 +42,6 @@ Window {
     visible: true
     color: Material.background
     width: 800; height: 800
-    visibility: Window.FullScreen
-    flags: Qt.ExpandedClientAreaHint | Qt.NoTitleBarBackgroundHint
 
     Rectangle {
         anchors.top: parent.top
