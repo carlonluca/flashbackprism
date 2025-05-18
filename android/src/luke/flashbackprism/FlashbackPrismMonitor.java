@@ -24,6 +24,7 @@
 
 package luke.flashbackprism;
 
+import android.util.Log;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -41,20 +42,25 @@ public class FlashbackPrismMonitor extends QtService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        createNotificationChannel();
-        final int SERVICE_ID = 1;
-        final Intent openIntent = new Intent(this, QtActivity.class);
-        openIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, openIntent, PendingIntent.FLAG_IMMUTABLE);
-        final Notification notification = new Notification.Builder(this, CHANNEL_ID)
-            .setContentText("FlashbackPrism service is active")
-            .setSmallIcon(R.drawable.icon_notification_24dp)
-            .setContentIntent(pendingIntent)
-            .build();
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
-            startForeground(SERVICE_ID, notification);
-        else
-            startForeground(SERVICE_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
+        try {
+            createNotificationChannel();
+            final int SERVICE_ID = 1;
+            final Intent openIntent = new Intent(this, QtActivity.class);
+            openIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, openIntent, PendingIntent.FLAG_IMMUTABLE);
+            final Notification notification = new Notification.Builder(this, CHANNEL_ID)
+                .setContentText("FlashbackPrism service is active")
+                .setSmallIcon(R.drawable.icon_notification_24dp)
+                .setContentIntent(pendingIntent)
+                .build();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+                startForeground(SERVICE_ID, notification);
+            else
+                startForeground(SERVICE_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
+        }
+        catch (Exception e) {
+            Log.w("FlashbackPrism", "Failed to start service", e);
+        }
         return START_STICKY;
     }
 
