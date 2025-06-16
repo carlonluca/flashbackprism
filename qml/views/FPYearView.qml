@@ -57,6 +57,7 @@ Item {
         cellWidth: width/3
         cellHeight: cellWidth
         delegate: Image {
+            id: gridViewImage
             width: gridView.cellWidth
             height: width
             source: qmlUtils.thumbnailUrl(modelData, 1)
@@ -75,6 +76,29 @@ Item {
                 anchors.margins: Style.defaultMargin
                 height: 16
                 width: height
+            }
+            FPOverlayFontAwesome {
+                iconUtf8: "\uf071"
+                iconColor: Style.colorWarning
+                anchors.centerIn: parent
+                width: 0.1*parent.width
+                height: width
+                visible: gridViewImage.status === Image.Error
+            }
+            FPOverlayFontAwesome {
+                iconUtf8: "\uf110"
+                iconColor: Style.colorText
+                anchors.centerIn: parent
+                width: 0.1*parent.width
+                height: width
+                visible: gridViewImage.status === Image.Loading
+                RotationAnimator on rotation {
+                    from: 0
+                    to: 360
+                    duration: 2000
+                    loops: Animation.Infinite
+                    running: parent.visible
+                }
             }
             MouseArea {
                 anchors.fill: parent
