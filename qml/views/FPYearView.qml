@@ -56,53 +56,18 @@ Item {
         model: parent.model
         cellWidth: width/3
         cellHeight: cellWidth
-        delegate: Image {
-            id: gridViewImage
+        delegate: FPPreviewElement {
             width: gridView.cellWidth
             height: width
             source: qmlUtils.thumbnailUrl(modelData, 1)
-            FPOverlayFontAwesome {
-                iconColor: "white"
-                iconUtf8: {
-                    if (modelData.isImage())
-                        return "\uf03e"
-                    if (modelData.isVideo())
-                        return "\uf008"
-                    console.warn("Unknown media type:", modelData.Type)
-                    return "\u003f"
-                }
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.margins: Style.defaultMargin
-                height: 16
-                width: height
-            }
-            FPOverlayFontAwesome {
-                iconUtf8: "\uf071"
-                iconColor: Style.colorWarning
-                anchors.centerIn: parent
-                width: 0.1*parent.width
-                height: width
-                visible: gridViewImage.status === Image.Error
-            }
-            FPOverlayFontAwesome {
-                iconUtf8: "\uf110"
-                iconColor: Style.colorText
-                anchors.centerIn: parent
-                width: 0.1*parent.width
-                height: width
-                visible: gridViewImage.status === Image.Loading
-                RotationAnimator on rotation {
-                    from: 0
-                    to: 360
-                    duration: 2000
-                    loops: Animation.Infinite
-                    running: parent.visible
-                }
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: mainStackView.push(photoViewComponent, {
+            iconMediaTypeVisible: true
+            mediaType: modelData.isImage()
+                       ? "image"
+                       : modelData.isVideo()
+                       ? "video"
+                       : "unknown"
+            onClicked: {
+                mainStackView.push(photoViewComponent, {
                     "photoModel": yearView.model,
                     "currentIndex": index
                 })
