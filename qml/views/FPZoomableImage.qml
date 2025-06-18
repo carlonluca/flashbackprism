@@ -86,6 +86,8 @@ Item {
                 height: photoFlick.contentHeight
                 anchors.centerIn: parent
 
+                onProgressChanged: console.log("Progress: " + progress)
+
                 onR1Changed: refreshSize()
                 onR2Changed: refreshSize()
 

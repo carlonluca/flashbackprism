@@ -78,6 +78,8 @@ FPPhotoResponse::FPPhotoResponse(const QString& hash, const QSize& requestedSize
             return;
         }
     });
+    connect(m_downloader, &lqt::Downloader::downloadProgress,
+            this, &FPPhotoResponse::imageDownloadProgress);
     m_downloader->download();
 }
 
@@ -108,6 +110,8 @@ QQuickImageResponse* FPPhotoProvider::requestImageResponse(const QString& id, co
     auto imageResponse = new FPPhotoResponse(id, requestedSize);
     connect(imageResponse, &FPPhotoResponse::imageDownloaded,
             this, &FPPhotoProvider::imageDownloaded);
+    connect(imageResponse, &FPPhotoResponse::imageDownloadProgress,
+            this, &FPPhotoProvider::imageDownloadProgress);
     return imageResponse;
 }
 
@@ -209,6 +213,12 @@ void FPPhotoViewStore::onImageReceived(const QString& hash, const QImage& image,
 
     set_lastPhoto(image);
     set_lastPhotoData(data);
+    set_progress(1);
+}
+
+void FPPhotoViewStore::onImageDownloadProgress(quint64 downloaded, quint64 total)
+{
+    set_progress(total < 1E-6 ? 0 : (qreal)downloaded/total);
 }
 
 QString FPPhotoViewStore::saveToTempFile()

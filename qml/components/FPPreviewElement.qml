@@ -57,6 +57,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.centerIn: parent
         visible: imageElement.status === Image.Loading
+        spacing: Style.defaultMargin
 
         FPOverlayFontAwesome {
             id: preview
@@ -64,6 +65,7 @@ Item {
             iconColor: Style.colorText
             width: 0.1*parent.width
             height: width
+            anchors.horizontalCenter: parent.horizontalCenter
             RotationAnimator on rotation {
                 from: 0
                 to: 360
@@ -73,11 +75,17 @@ Item {
             }
         }
 
+        FPText {
+            width: parent.width
+            horizontalAlignment: Text.AlignHCenter
+            text: "Loading..."
+        }
+
         ProgressBar {
             width: parent.width
             from: 0
-            to: 100
-            value: imageElement.progress*100
+            to: 1
+            value: imageElement.progress
         }
     }
 

@@ -237,6 +237,7 @@ Item {
             visible: imageElement.imageStatus === Image.Error
             iconUtf8: "\uf06a"
             text: qsTr("Failed to download image from the server")
+            animate: false
         }
 
         // Waiting
@@ -245,6 +246,9 @@ Item {
             sourceMediaElement: imageElement
             visible: imageElement.imageStatus === Image.Loading
             text: qsTr("Loading image. Please wait...")
+            progressVisible: true
+            progress: currentPhotoStore?.progress ?? 0
+            animate: true
         }
     }
 
@@ -281,7 +285,11 @@ Item {
         property Item sourceMediaElement: null
         property alias iconUtf8: iconElement.iconUtf8
         property alias text: messageElement.text
+        property alias progress: progressBar.value
+        property alias progressVisible: progressBar.visible
+        property bool animate: false
 
+        id: imageStatusView
         spacing: Style.defaultMargin
         width: parent.width
         anchors {
@@ -295,6 +303,18 @@ Item {
             iconColor: Style.colorWarning
             width: sourceMediaElement.width/8
             height: width
+            Behavior on rotation {
+                NumberAnimation {
+                    duration: 500
+                    easing.type: Easing.InOutQuad
+                }
+            }
+            Timer {
+                interval: 2000
+                running: imageStatusView.visible && imageStatusView.animate
+                repeat: true
+                onTriggered: iconElement.rotation += 180
+            }
         }
         Item {
             width: parent.width
@@ -306,6 +326,18 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+        Item {
+            width: parent.width
+            height: Style.defaultMargin
+        }
+        ProgressBar {
+            id: progressBar
+            width: messageElement.contentWidth
+            from: 0
+            to: 1
+            anchors.horizontalCenter: parent.horizontalCenter
+            onValueChanged: console.log("Value:", value)
         }
     }
 

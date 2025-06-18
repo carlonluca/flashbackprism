@@ -45,6 +45,7 @@ public:
 
 signals:
     void imageDownloaded(const QString& hash, const QImage& image, const QByteArray& data);
+    void imageDownloadProgress(quint64 downloaded, quint64 total);
 
 private:
     lqt::Downloader* m_downloader;
@@ -62,6 +63,7 @@ public:
 
 signals:
     void imageDownloaded(const QString& hash, const QImage& image, const QByteArray& data);
+    void imageDownloadProgress(quint64 downloaded, quint64 total);
 };
 
 class FPPhotoViewStore : public QObject
@@ -71,13 +73,17 @@ class FPPhotoViewStore : public QObject
     L_RW_PROP_AS(FPPhotoProvider*, provider, nullptr)
     L_RW_PROP_AS(QImage, lastPhoto)
     L_RW_PROP_AS(QByteArray, lastPhotoData)
+    L_RW_PROP_AS(qreal, progress, 0)
 public:
     FPPhotoViewStore(QObject* parent = nullptr) : QObject(parent) {
         connect(this, &FPPhotoViewStore::providerChanged, this, [this] {
             if (m_provider) {
                 this->disconnect();
+                set_progress(0);
                 connect(m_provider, &FPPhotoProvider::imageDownloaded,
                         this, &FPPhotoViewStore::onImageReceived);
+                connect(m_provider, &FPPhotoProvider::imageDownloadProgress,
+                        this, &FPPhotoViewStore::onImageDownloadProgress);
             }
         });
     }
@@ -94,6 +100,7 @@ public:
 
 public slots:
     void onImageReceived(const QString& hash, const QImage& image, const QByteArray& data);
+    void onImageDownloadProgress(quint64 downloaded, quint64 total);
 
 private:
     QString saveToTempFile();
