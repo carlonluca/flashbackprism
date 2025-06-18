@@ -115,19 +115,17 @@ Item {
         cellWidth: width/3
         cellHeight: cellWidth
         clip: true
-        delegate: Image {
+        delegate: FPPreviewElement {
             width: gridView.width/3
+            height: width
             source: qmlUtils.thumbnailUrl(modelData.items[0], 1)
-            fillMode: Image.PreserveAspectFit
+            mediaType: ""
+            onClicked: mainStackView.push(dayViewComponent, { "model": modelData.items })
             FPPhotoOverlayText {
                 text: modelData.year
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: Style.defaultMargin
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: mainStackView.push(dayViewComponent, { "model": modelData.items })
             }
         }
     }

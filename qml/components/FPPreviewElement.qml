@@ -14,6 +14,7 @@ Item {
     Image {
         id: imageElement
         anchors.fill: parent
+        fillMode: Image.PreserveAspectFit
         opacity: status === Image.Ready ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
     }
@@ -29,8 +30,7 @@ Item {
             case "video":
                 return "\uf008"
             default:
-                console.warn("Unknown media type:", modelData.Type)
-                return "\u003f"
+                return ""
             }
         }
         anchors.top: parent.top
@@ -38,6 +38,7 @@ Item {
         anchors.margins: Style.defaultMargin
         height: 16
         width: height
+        visible: !!iconUtf8
     }
 
     // Warning icon
