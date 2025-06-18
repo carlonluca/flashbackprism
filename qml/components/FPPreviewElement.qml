@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import FlashbackPrism
 
 Item {
@@ -13,6 +14,8 @@ Item {
     Image {
         id: imageElement
         anchors.fill: parent
+        opacity: status === Image.Ready ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
     }
 
     // Media type icon
@@ -48,20 +51,32 @@ Item {
     }
 
     // Loading icon
-    FPOverlayFontAwesome {
-        id: preview
-        iconUtf8: "\uf110"
-        iconColor: Style.colorText
+    Column {
+        width: 0.5*parent.width
+        anchors.horizontalCenter: parent.horizontalCenter
         anchors.centerIn: parent
-        width: 0.1*parent.width
-        height: width
         visible: imageElement.status === Image.Loading
-        RotationAnimator on rotation {
+
+        FPOverlayFontAwesome {
+            id: preview
+            iconUtf8: "\uf110"
+            iconColor: Style.colorText
+            width: 0.1*parent.width
+            height: width
+            RotationAnimator on rotation {
+                from: 0
+                to: 360
+                duration: 2000
+                loops: Animation.Infinite
+                running: preview.visible
+            }
+        }
+
+        ProgressBar {
+            width: parent.width
             from: 0
-            to: 360
-            duration: 2000
-            loops: Animation.Infinite
-            running: preview.visible
+            to: 100
+            value: imageElement.progress*100
         }
     }
 
