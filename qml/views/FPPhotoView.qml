@@ -337,7 +337,6 @@ Item {
             from: 0
             to: 1
             anchors.horizontalCenter: parent.horizontalCenter
-            onValueChanged: console.log("Value:", value)
         }
     }
 

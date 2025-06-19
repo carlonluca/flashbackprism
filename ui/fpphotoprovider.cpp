@@ -56,6 +56,8 @@ inline QImage load_data_with_proper_orientation(QByteArray& data)
 FPPhotoResponse::FPPhotoResponse(const QString& hash, const QSize& requestedSize) :
     QQuickImageResponse()
 {
+    emit imageDownloadProgress(hash, 0, 0);
+
     m_downloader = new lqt::Downloader(FPQmlUtils::photoUrl(hash), &m_data);
     connect(m_downloader, &lqt::Downloader::stateChanged, this, [this, hash] {
         switch (m_downloader->state()) {
@@ -78,8 +80,9 @@ FPPhotoResponse::FPPhotoResponse(const QString& hash, const QSize& requestedSize
             return;
         }
     });
-    connect(m_downloader, &lqt::Downloader::downloadProgress,
-            this, &FPPhotoResponse::imageDownloadProgress);
+    connect(m_downloader, &lqt::Downloader::downloadProgress, this, [this, hash] (quint64 downloaded, quint64 total) {
+        emit imageDownloadProgress(hash, downloaded, total);
+    });
     m_downloader->download();
 }
 
@@ -216,8 +219,11 @@ void FPPhotoViewStore::onImageReceived(const QString& hash, const QImage& image,
     set_progress(1);
 }
 
-void FPPhotoViewStore::onImageDownloadProgress(quint64 downloaded, quint64 total)
+void FPPhotoViewStore::onImageDownloadProgress(const QString& hash, quint64 downloaded, quint64 total)
 {
+    if (!m_item || m_item->Hash() != hash)
+        return;
+
     set_progress(total < 1E-6 ? 0 : (qreal)downloaded/total);
 }
 

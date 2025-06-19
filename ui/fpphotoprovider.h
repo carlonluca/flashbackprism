@@ -45,7 +45,7 @@ public:
 
 signals:
     void imageDownloaded(const QString& hash, const QImage& image, const QByteArray& data);
-    void imageDownloadProgress(quint64 downloaded, quint64 total);
+    void imageDownloadProgress(const QString& hash, quint64 downloaded, quint64 total);
 
 private:
     lqt::Downloader* m_downloader;
@@ -63,7 +63,7 @@ public:
 
 signals:
     void imageDownloaded(const QString& hash, const QImage& image, const QByteArray& data);
-    void imageDownloadProgress(quint64 downloaded, quint64 total);
+    void imageDownloadProgress(const QString& hash, quint64 downloaded, quint64 total);
 };
 
 class FPPhotoViewStore : public QObject
@@ -100,7 +100,7 @@ public:
 
 public slots:
     void onImageReceived(const QString& hash, const QImage& image, const QByteArray& data);
-    void onImageDownloadProgress(quint64 downloaded, quint64 total);
+    void onImageDownloadProgress(const QString& hash, quint64 downloaded, quint64 total);
 
 private:
     QString saveToTempFile();
