@@ -229,26 +229,30 @@ Item {
             source: "image://photo/" + photoItem.Hash
             fillMode: Image.PreserveAspectFit
             autoTransform: true
+            opacity: imageStatus === Image.Ready ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 300 } }
         }
 
         // Error message
         ImageStatusView {
             sourceMediaElement: imageElement
-            visible: imageElement.imageStatus === Image.Error
+            opacity: imageElement.imageStatus === Image.Error ? 1 : 0
             iconUtf8: "\uf06a"
             text: qsTr("Failed to download image from the server")
             animate: false
+            Behavior on opacity { NumberAnimation { duration: 300 } }
         }
 
         // Waiting
         ImageStatusView {
             iconUtf8: "\uf251"
             sourceMediaElement: imageElement
-            visible: imageElement.imageStatus === Image.Loading
+            opacity: imageElement.imageStatus === Image.Loading ? 1 : 0
             text: qsTr("Loading image. Please wait...")
             progressVisible: true
             progress: currentPhotoStore?.progress ?? 0
             animate: true
+            Behavior on opacity { NumberAnimation { duration: 300 } }
         }
     }
 
@@ -262,22 +266,24 @@ Item {
             anchors.fill: parent
             source: qmlUtils.photoUrl(modelData)
             fillMode: VideoOutput.PreserveAspectFit
-            visible: error === MediaPlayer.NoError
+            opacity: error === MediaPlayer.NoError ? 1 : 0
             onShouldBePlayingChanged: {
                 if (shouldBePlaying)
                     play()
                 else
                     stop()
             }
+            Behavior on opacity { NumberAnimation { duration: 300 } }
         }
 
         // Error message
         ImageStatusView {
-            visible: videoElement.error !== MediaPlayer.NoError
+            opacity: videoElement.error !== MediaPlayer.NoError ? 1 : 0
             sourceMediaElement: videoElement
             iconUtf8: "\uf06a"
             text: qsTr("Playback failed. Multimedia backed returned the following error:\n%1")
                 .arg(videoElement.errorString)
+            Behavior on opacity { NumberAnimation { duration: 300 } }
         }
     }
 
