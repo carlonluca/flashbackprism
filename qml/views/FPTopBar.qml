@@ -26,17 +26,25 @@ import QtQuick
 import QtQuick.Controls
 import FlashbackPrism
 
-Rectangle {
+Item {
+    readonly property alias color: background.color
+
     default property alias data: actionRow.data
     property bool backVisible: true
     property string pageTitle: ""
 
-    color: "black"
     implicitHeight: Math.max(backButton.height, actionRow.height) + 2*Style.defaultMargin
     anchors {
         left: parent.left
         right: parent.right
         top: parent.top
+    }
+
+    Rectangle {
+        id: background
+        opacity: 0.3
+        color: "black"
+        anchors.fill: parent
     }
 
     Row {

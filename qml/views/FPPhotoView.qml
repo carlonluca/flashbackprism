@@ -53,6 +53,7 @@ Item {
         id: topBar
         height: topBarVisible ? implicitHeight : 0
         clip: true
+        z: 1
 
         Behavior on height { NumberAnimation { duration: 200; easing.type: Easing.OutQuint } }
 
@@ -122,7 +123,7 @@ Item {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
-            top: topBar.bottom
+            top: parent.top
         }
         Repeater {
             id: swipeViewRepeater
@@ -176,7 +177,7 @@ Item {
 
                     FPPhotoOverlayText {
                         text: qmlUtils.formatDateTimeForPhoto(photoItem.TakenAt)
-                        anchors.top: parent.top
+                        anchors.top: parent.bottom
                         anchors.right: parent.right
                         anchors.margins: Style.defaultMargin
                     }
