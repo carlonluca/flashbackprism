@@ -77,7 +77,7 @@ Item {
         FPTopBarButton {
             text: "\uf08e"
             onClicked: currentPhotoStore?.open()
-            visible: currentResultItem?.isImage() ?? false
+            visible: (currentResultItem?.isImage() ?? false) && !lqtQmlUtils.isMobile()
             ToolTip.text: qsTr("Open with system app")
         }
 
@@ -96,7 +96,7 @@ Item {
                 okDialog.text = qsTr("Failed to download photo")
                 okDialog.open()
             })
-            visible: currentResultItem?.isImage() ?? false
+            visible: (currentResultItem?.isImage() ?? false) && !lqtQmlUtils.isMobile()
             ToolTip.text: qsTr("Download")
         }
 
