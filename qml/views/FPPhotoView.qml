@@ -177,7 +177,7 @@ Item {
 
                     FPPhotoOverlayText {
                         text: qmlUtils.formatDateTimeForPhoto(photoItem.TakenAt)
-                        anchors.top: parent.bottom
+                        anchors.bottom: parent.bottom
                         anchors.right: parent.right
                         anchors.margins: Style.defaultMargin
                     }
